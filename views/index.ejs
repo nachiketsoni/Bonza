@@ -172,7 +172,7 @@
       var txt =  []
       document.querySelectorAll(".item").forEach((all,i)=>{
         txt.push(show[i].textContent)
-
+        console.log(show);
         all.addEventListener('mouseover',(e)=>{
           scnd[i].style.opacity = 1;
           show[i].textContent = 'Show More'

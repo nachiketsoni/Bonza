@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: gilro;
   cursor: default;
+  user-select: none;
 }
 @font-face {
   font-family: 'gilro';
@@ -144,7 +145,6 @@ html,body{
   position: relative;
 }
 
-
 #second .item .img{
   height: 50vh;
   width: 50vh;
@@ -158,35 +158,49 @@ html,body{
   /* padding: 0 .2vmax; */
   align-items: center;
   justify-content:space-between;
-  font-size: 1.2vmax;
+  font-size: 20px;
   padding-left: 1vmax;
 }
 #second .item h2 #heart {
-  height: 4vmax;
-  width: 4vmax;
+  height:80px;
+  width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  /* padding-right: 1.5vmax; */
 }
 #second .item h2 #heart i,#second .item h2 #heart lottie-player{
-cursor: pointer;
+  cursor: pointer;
 }
 
 #second .item h4{
-  font-size: 1vmax;
+  font-size:18px;
   padding-left: 1vmax;
   font-weight: 400;
   cursor: pointer;
 }
+/* @media screen and (max-width: 786px) {
+  #second .item h2{
+    font-size: 2vmax;
+    padding-left: 1.5vmax;
+  }
+  #second .item h4{
+    font-size: 1.5vmax;
+    padding-left: 1.5vmax;
+  }
+  #second .item h2 #heart {
+     padding-right: 1.5vmax;
+     height: 6vmax;
+     width: 6vmax;
+  }
+} */
 #second .item .scnd{
   width: 50vh;
   height: 50vh;
   opacity: 0;
   position: absolute;
   cursor: pointer;
-
+  
   transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
   
 }
