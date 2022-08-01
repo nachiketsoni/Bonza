@@ -179,21 +179,7 @@ html,body{
   font-weight: 400;
   cursor: pointer;
 }
-/* @media screen and (max-width: 786px) {
-  #second .item h2{
-    font-size: 2vmax;
-    padding-left: 1.5vmax;
-  }
-  #second .item h4{
-    font-size: 1.5vmax;
-    padding-left: 1.5vmax;
-  }
-  #second .item h2 #heart {
-     padding-right: 1.5vmax;
-     height: 6vmax;
-     width: 6vmax;
-  }
-} */
+
 #second .item .scnd{
   width: 50vh;
   height: 50vh;
@@ -263,4 +249,85 @@ html,body{
 }
 #third #aadhabanda img{
   height:100%;
+}
+#konhaiham{
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  height: 70vh;
+  width: 100%;
+  background-color: #EEEEEE;
+
+}
+#konhaiham >h1{
+  width:36vw;
+  /* white-space: nowrap; */
+  font-size: 2.7vmax;
+  font-weight: 1000;
+  margin-right: 3vw;
+}
+#konhaiham h1 div{
+  margin-top : 1vw;
+  font-size: 1.9vmax;
+
+  font-weight: 600;
+}
+#konhaiham h5{
+  width: 37%;
+  font-size: 1.5vmax;
+  font-weight: 400;
+}
+#konhaiham h5 div{
+  margin-top: 2vmax;
+}
+#konhaiham h5 a {
+  text-decoration: none;
+  color: #000;  
+  display: flex;
+  align-items: center;
+  position: absolute;
+}
+#konhaiham h5 a span{
+  position: relative;
+}
+#konhaiham h5 a h1{
+  /* background-color: antiquewhite; */
+  font-size: 1.4vmax;
+}
+#konhaiham h5 a #icon{
+  width: 7vmax;
+  height: 7vmax;
+  transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+  /* position: absolute;/ */
+  /* background-color: aqua; */
+}
+#konhaiham #thevideo{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5vmax;
+  background-color: rgba(0, 0, 0, 0.852)
+}
+#konhaiham #icon{
+  cursor: pointer;
+}
+#konhaiham #thevideo i{
+  font-size: 6vh;
+  color: #fff;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  z-index: 501;
+  transform: translate(-50%,0);
+  cursor: pointer;
+}
+#konhaiham #thevideo iframe{
+  width: 70vmax;
+  height: 40vmax;
 }

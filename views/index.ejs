@@ -149,7 +149,16 @@
       </div>
       <div id="aadhabanda" class="left"><img  src="https://tokyoarkade.com/wp-content/uploads/2020/09/Fo1Fc5832C08_Fo1Fc5832C08.svg" alt=""></div>
     </div>
-    <div id="konhaiham"></div>
+    <div id="konhaiham">
+      <h1>Who We Are? <br><div> An organic clothing brand that combines the world of anime & gaming with a retro style & minimalist.</div> </h1><h5>Part of our collection is made with 100% stronger, softer & smoother organic ring spun cotton. <br> <div> The other collection is made handcrafted with a precision cut and hand sewn. </div>
+        <a id="playvid"><h1>Play Video</h1> <span>
+          <lottie-player id="icon" src="https://assets2.lottiefiles.com/packages/lf20_9abbz8gz.json"  background="transparent"  speed="1"   hover   ></lottie-player>
+        </span> </a>
+
+      </h5>
+      <div id="thevideo"> <i id="close" class="ri-close-circle-fill"></i>
+        <iframe src="https://www.youtube.com/embed/RQTgJRwMdKQ" title="Ariana Grande - God is a woman (Lyric Video)" frameborder="0" allow=" autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
   </div>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <script>
@@ -172,7 +181,7 @@
       var txt =  []
       document.querySelectorAll(".item").forEach((all,i)=>{
         txt.push(show[i].textContent)
-        console.log(show);
+     
         all.addEventListener('mouseover',(e)=>{
           scnd[i].style.opacity = 1;
           show[i].textContent = 'Show More'
@@ -182,6 +191,13 @@
           show[i].textContent =txt[i]
         })
       })
+      document.querySelector("#icon").addEventListener("click",()=>{
+        document.querySelector("#thevideo").style.display='flex'
+      })
+      document.querySelector("#close").addEventListener("click",()=>{
+        document.querySelector("#thevideo").style.display='none'
+      })
+
   </script>
 </body>
 </html>
