@@ -73,22 +73,121 @@ html,body{
   background-color: red;
   overflow: hidden;
 }
-.menu{
-  width: 50px;
-  height: 50px;
+.nav{
+  width: 100%;
+  height: 80px;
   position: fixed;
-  filter: invert(1);
+  /* filter: invert(1); */
   z-index: 499;
-  top: 30px;
-  left: 30px;
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background-color: rgb(255, 255, 255);
+  padding: 0 2vmax;
+  justify-content: space-between;
+  background-color: rgb(0, 0, 0);
 }
- .menu lottie-player{
-   position: absolute;
+.nav .left a{
+  font-size: 1vmax;
+}
+.nav .left{
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+.nav a{
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+}
+.nav .right{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2.5vmax;
+}
+.nav .right a i{
+    font-size: 1.2rem;
+}
+.nav .right a .profile{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.nav .right a .profile img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.sidebarmain{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  display: none;
+  left: 0;
+}
+.out{
+  background-color: #0000008e;
+  width:100%;
+  height: 100%;
+}
+.sidebar{
+  position: absolute;
+  right: 0;  
+  z-index: 501;
+  transform: translateX(100%);
+  /* z-index: 501; */
+  background-color: #000;
+  width: 30vmax;
+  height: 100vh;
+}
+
+.sidebar .box{
+  width: 100%;
+  height: 13vmax;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  background-color: #030303;
+}
+.sidebar .box img{
+  width:  8vmax;
+  height: 8vmax;
+  border-radius: 20px;
+  border: .6vmax solid black;
+  object-fit: cover;
+  object-position: 50% 50%;
+
+}
+.sidebar .box h4{
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  font-size: 20px;
+  color: #fff;
+}
+.sidebar .catg{
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  height: 39vmax;
+  width: 100%;
+}
+.sidebar .catg .sec{
+  display: flex;
+  align-items: center;
+  padding: 2vmax;
+  width: 100%;
+  height: 4vmax;
+}
+.catg a:hover .sec{
+  background-color: #262626;
 }
 #first .cntr{
   display: flex;
@@ -107,6 +206,7 @@ html,body{
   line-height: 4vmax;
     margin-right: 1vw;
   }
+
 }
   
 
@@ -137,6 +237,7 @@ html,body{
 }
 #first .cntr img{
   height:100vh;
+  margin-top: 10vmax;
   position: relative;
 }
 #second {
@@ -146,12 +247,12 @@ html,body{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5vmax;
+  gap: 20px 4vmax ;
   padding: 5vmax 0;
   /* overflow: hidden; */
   overflow-x:hidden ;
   flex-wrap: wrap;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   /* overflow: hidden; */
 }
 #second .dil{
@@ -161,26 +262,44 @@ html,body{
   width: 50vh;
   position: relative;
 }
+@media screen and (max-width: 500px) {
+  #second .item{
+    width: 90vw;
+  }
+  #second .item .img{
+    height: 90vw;
+    width: 90vw;
+  }
+  #second .item .dets{
+    width: 90vw;
+   
+  }
+
+  
+}
 
 #second .item .img{
   height: 50vh;
-  width: 50vh;
+  width: 100%;
+  
   display: flex;
   position: relative;
   cursor: pointer;
 }
-
+#second .item .dets{
+  width: 100%;
+  padding:0  1vmax;
+}
 #second .item h2{
   display: flex;
   /* padding: 0 .2vmax; */
   align-items: center;
   justify-content:space-between;
   font-size: 20px;
-  padding-left: 1vmax;
 }
 #second .item h2 #heart {
-  height:80px;
-  width: 80px;
+  height:3.1rem;
+  width: 3.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,18 +311,27 @@ html,body{
 
 #second .item h4{
   font-size:18px;
-  padding-left: 1vmax;
+  /* padding-left: 1vmax; */
   font-weight: 400;
   cursor: pointer;
 }
 
+#second .item .img img{
+  width: 100%;
+  height: 100%;
+  
+  cursor: pointer;
+  object-fit: cover;
+  transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+  
+}
 #second .item .scnd{
-  width: 50vh;
-  height: 50vh;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   position: absolute;
   cursor: pointer;
-  
+    object-fit: cover;
   transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
   
 }
@@ -238,19 +366,19 @@ html,body{
   color: white;
   padding: 0 10vmin;
 }
-#third .right h1{
+.yexy h1{
   font-size: 3vmax;
   font-weight: 700;
 }
-#third .right h2{
+.yexy h2{
   font-size: 1.5vmax;
   font-weight: 700;
 }
-#third .right h4{
+.yexy h4{
   font-size: 1vmax;
   font-weight: 400;
 }
-#third .right button{
+.buynow{
   background-color: black;
   color: white;
   font-size: 1.2vmax;
@@ -347,4 +475,57 @@ html,body{
 #konhaiham #thevideo iframe{
   width: 70vmax;
   height: 40vmax;
+}
+#blog{
+  height: 35vmax;
+  position: relative;
+  background-color: #C90000;
+  overflow: hidden;
+}
+#blog img{
+  position: absolute;
+  width: 20%;
+  left: 30%;
+  top: 15%;
+}
+@media (max-width: 550px){
+  #blog img{
+    width:10vmax;
+    top: 50%;
+    transform: translateY(-50%);
+    /* left: 35%; */
+  }
+  
+}
+#blog .yexy{
+  position: absolute;
+  color: #fff;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30%;
+  right: 15%;
+}
+
+#links{
+  height: 30vmax;
+  width: 100vw;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   
+}
+.link{
+  display: flex;
+  align-items: center;
+  gap: 5vw;
+}
+.link a{
+  text-decoration: none;
+  color: #fff;
+}
+.link a lottie-player{
+  width: 10vmax;
+  height: 10vmax;
+  cursor: pointer;
 }

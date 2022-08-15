@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../stylesheets/product.css" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="nav">
+        <div class="left">
+          <a href="">Home</a><a href="">Store</a><a href="">Blog</a
+          ><a href="">Why to Oversize?</a><a href="">Support</a>
+        </div>
+        <div class="right">
+          <a href=""><i class="ri-heart-line"></i></a>
+          <a href=""><i class="ri-shopping-cart-line"></i></a>
+          <a>
+            <div onclick="sidebaropen()" class="profile">
+              <img
+                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                alt=""
+              />
+            </div>
+          </a>
+        </div>
+        <div class="sidebarmain">
+          <div onclick="sidebarclose()" class="out"></div>
+          <div class="sidebar">
+            <div class="box">
+              <img
+                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                alt=""
+              />
+              <h4>Modelo</h4>
+            </div>
+            <div class="catg">
+              <a href=""><div class="sec">New Arrivals</div> </a>
+              <a href=""><div class="sec">T-Shirts</div></a>
+              <a href=""><div class="sec">Sweatshirt</div> </a>
+              <a href=""><div class="sec">Hoodies</div> </a>
+              <a href=""><div class="sec">Customized T-Shirts</div> </a>
+              <a href=""><div class="sec">Size</div></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function sidebaropen() {
+        let tl = gsap.timeline();
+        tl.to(".sidebarmain", {
+          display: "flex",
+        }).to(".sidebar", {
+          duration: 0.2,
+          ease: Linear.easeInOut,
+          x: 0,
+        });
+      }
+      function sidebarclose() {
+        let tl = gsap.timeline();
+        tl.to(".sidebar", {
+          duration: 0.2,
+          ease: Linear.easeInOut,
+          x: "100%",
+        }).to(".sidebarmain", {
+          duration: 0.01,
+          display: "none",
+        });
+      }
+    </script>
+  </body>
+</html>

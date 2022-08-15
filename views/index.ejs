@@ -13,8 +13,47 @@
   </head>
   <body>
     <div id="main">
-      <div class="menu">
-        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_fspfhtvq.json"  background="transparent"  speed="1"  style="width: 120px; height: 120px;"></lottie-player>
+      <div class="nav">
+        <div class="left">
+          <a href="">Home</a><a href="">Store</a><a href="">Blog</a
+          ><a href="">Why to Oversize?</a><a href="">Support</a>
+        </div>
+        <div class="right">
+          <a href=""><i class="ri-heart-line"></i></a>
+          <a href=""><i class="ri-shopping-cart-line"></i></a>
+          <a>
+            <div onclick="sidebaropen()" class="profile">
+              <img
+                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                alt=""
+              />
+            </div>
+          </a>
+        </div>
+        <div class="sidebarmain">
+          <div onclick="sidebarclose()" class="out"></div>
+          <div class="sidebar">
+            <a href="">
+
+            <div class="box">
+              <img
+                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                alt=""
+              />
+              <h4>Modelo</h4>
+            </div>
+          </a>
+            <div class="catg">
+              <a href=""><div class="sec">New Arrivals</div> </a>
+              <a href=""><div class="sec">T-Shirts</div></a>
+              <a href=""><div class="sec">Bottoms</div></a>
+              <a href=""><div class="sec">Sweatshirt</div> </a>
+              <a href=""><div class="sec">Hoodies</div> </a>
+              <a href=""><div class="sec">Customized T-Shirts</div> </a>
+              <a href=""><div class="sec">Size</div></a>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="first">
         <div class="cntr">
@@ -40,11 +79,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$49.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -59,11 +100,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$48.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -78,11 +121,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$47.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -97,11 +142,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$46.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -116,11 +163,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$45.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -135,11 +184,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$44.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
       </div>
       <div id="third">
@@ -157,7 +208,7 @@
               Timeless and modern designs,this is our target,searching that
               illustration than never back off,simple and modern modern designs
             </h4>
-            <button>Buy Now</button>
+            <button class="buynow">Buy Now</button>
           </div>
         </div>
       </div>
@@ -175,11 +226,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$49.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -194,11 +247,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$48.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -213,11 +268,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$47.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -232,11 +289,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$46.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -251,11 +310,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$45.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
         <div class="item">
           <div class="img">
@@ -270,11 +331,13 @@
               alt=""
             />
           </div>
-          <h2>
-            Secret Character
-            <div id="heart"><i class="ri-heart-3-line"></i></div>
-          </h2>
-          <h4 class="show">$44.99</h4>
+          <div class="dets">
+            <h2>
+              Secret Character
+              <div id="heart"><i class="ri-heart-3-line"></i></div>
+            </h2>
+            <h4 class="show">$49.99</h4>
+          </div>
         </div>
       </div>
       <div id="third">
@@ -286,7 +349,7 @@
               Timeless and modern designs,this is our target,searching that
               illustration than never back off,simple and modern modern designs
             </h4>
-            <button>Buy Now</button>
+            <button class="buynow">Buy Now</button>
           </div>
         </div>
         <div id="aadhabanda" class="left">
@@ -325,7 +388,38 @@
           </a>
         </h5>
       </div>
+      <div id="blog">
+        <img
+          src="https://tokyoarkade.com/wp-content/uploads/2020/05/2251992.svg"
+          alt=""
+        />
+        <div class="yexy">
+          <h1>News For You</h1>
+          <h2>From Japan</h2>
+          <h4>
+            Excellent content on all things design industry,here you'll find out
+            about our latest news about Japan,insights about fashion, design and
+            gaming.
+          </h4>
+          <button class="buynow">Buy Now</button>
+        </div>
+      </div>
+      <div id="links">
+        <div class="link">
+          
+          <a href=""><lottie-player src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
+          <a href=""><lottie-player src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
+          <a href=""><lottie-player src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
+          <a href=""><lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
+        </div>
+      </div>
     </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
+      integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
       let flag = 0;
@@ -367,11 +461,31 @@
           ></iframe>
         </div>`;
       });
-      function gayab(){
-        const r = document.querySelector("#thevideo")
+      function gayab() {
+        const r = document.querySelector("#thevideo");
         r.remove();
       }
-    
+      function sidebaropen() {
+        let tl = gsap.timeline();
+        tl.to(".sidebarmain", {
+          display: "flex",
+        }).to(".sidebar", {
+          duration: 0.2,
+          ease: Linear.easeInOut,
+          x: 0,
+        });
+      }
+      function sidebarclose() {
+        let tl = gsap.timeline();
+        tl.to(".sidebar", {
+          duration: 0.2,
+          ease: Linear.easeInOut,
+          x: "100%",
+        }).to(".sidebarmain", {
+          duration: 0.01,
+          display: "none",
+        });
+      }
     </script>
   </body>
 </html>
