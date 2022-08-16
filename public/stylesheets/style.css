@@ -208,12 +208,7 @@ html,body{
   width: 30vmax;
   height: 100vh;
 }
-.leftbar{
-  position: absolute;
-  left: 0;  
-  z-index: 501;
-  transform: translateX(-100%);
-}
+
 
 .sidebar .box{
   width: 100%;
@@ -272,6 +267,11 @@ html,body{
   .sidebar .catg .sec{
   padding: 3vmax;
 
+  }
+  .sidebar{
+    left: 0;  
+    z-index: 501;
+    transform: translateX(-100%);
   }
   .profile{
     display: none;

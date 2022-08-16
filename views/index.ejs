@@ -548,16 +548,17 @@
       })();
       var sbar =  0
       function sidebaropen() {
+        console.log("click");
         if(sbar === 0 ) {
-       
-        let tl = gsap.timeline();
-        tl.to(
-          ".sidebarmain",
+          
+          let tl = gsap.timeline();
+          tl.to(
+            ".sidebarmain",
           {
             display: "flex",
           },
           "a"
-        ).to(
+          ).to(
           ".sidebar",
           {
             duration: 0.2,
@@ -565,7 +566,8 @@
             x: 0,
           },
           "a"
-        );
+          );
+          console.log("chala");
 
         let tl2 = gsap.timeline();
         tl2
@@ -614,6 +616,7 @@
           display: "none",
         });
 
+        document.querySelector(".sidebar").setAttribute("class", "sidebar");
         }
         else{
           document.querySelector(".sidebar").setAttribute("class", "sidebar");
@@ -627,6 +630,7 @@
           duration: 0.01,
           display: "none",
         });
+        document.querySelector(".sidebar").setAttribute("class", "sidebar leftbar");
 
         }
         let tl2 = gsap.timeline();
@@ -650,6 +654,7 @@
           ease:Linear.easeInOut
 
         })
+        sbar = 0;
 
       }
  
