@@ -274,7 +274,9 @@ a{
   background-color: #262626;
 }
 @media (max-width: 600px) {
-  
+  .nav{
+    height: 8vmax;
+  }
   .nav .left {
     display: none;
   }
@@ -304,6 +306,7 @@ a{
   .hamburger{
     display: block;
     margin-left: 1.5vw;
+    transform: scale(.8);
   }
   #rightHamburger{
     display: none;
