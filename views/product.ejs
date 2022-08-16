@@ -5,75 +5,227 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link defer  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link defer rel="stylesheet" href="../stylesheets/product.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../stylesheets/product.css" />
   </head>
   <body>
     <div class="main">
-      <div class="nav">
-        <div class="left">
-          <a href="">Home</a><a href="">Store</a><a href="">Blog</a
-          ><a href="">Why to Oversize?</a><a href="">Support</a>
-        </div>
-        <div class="right">
-          <a href=""><i class="ri-heart-line"></i></a>
-          <a href=""><i class="ri-shopping-cart-line"></i></a>
-          <a>
-            <div onclick="sidebaropen()" class="profile">
-              <img
-                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                alt=""
-              />
-            </div>
-          </a>
-        </div>
-        <div class="sidebarmain">
-          <div onclick="sidebarclose()" class="out"></div>
-          <div class="sidebar">
-            <div class="box">
-              <img
-                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                alt=""
-              />
-              <h4>Modelo</h4>
-            </div>
-            <div class="catg">
-              <a href=""><div class="sec">New Arrivals</div> </a>
+          <div id="nav">
+                    <div class="left">
+                      <a href="">Home</a>
+                      <a href="">Store</a>
+                      <a href="">Blog</a>
+                      <a href="">Why to Oversize?</a>
+                      <a href="">Support</a>
+                    </div>
+                   
+                    <div class="logo">
+                      <img src="../images/BonzaLogo.png" alt="" />
+                    </div>
+                    <div class="right">
+                      <a href=""><i class="ri-heart-3-line"></i></a>
+                      <a href=""><i class="ri-shopping-cart-line"></i></a>
+                      <a>
+                        <div onclick="sidebaropen()"  class="hamburger">
+                          <div class="hamburgerlines">
+                            <span class="lines line1"> </span>
+                            <span class="lines line2"> </span>
+                            <span class="lines line3"> </span>
+                          </div>
+                        </div>
+                        <div onclick="sidebaropen()" class="profile">
+                          
+                          <img
+                            src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                            alt=""
+                          />
+                        </div>
+                      </a>
+                    </div>
+                    <div class="sidebarmain">
+                      <div onclick="sidebarclose()" class="out"></div>
+                      <div class="sidebar">
+                        <a href="">
+                          <div class="box">
+                            <img
+                              src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                              alt=""
+                            />
+                            <h4>Modelo</h4>
+                          </div>
+                        </a>
+                        <div class="catg">
+                          <a href=""><div class="sec">New Arrivals</div> </a>
+                          <a href=""><div class="sec">T-Shirts</div></a>
+                          <a href=""><div class="sec">Bottoms</div></a>
+                          <a href=""><div class="sec">Sweatshirt</div> </a>
+                          <a href=""><div class="sec">Hoodies</div> </a>
+                          <a href=""><div class="sec">Customized T-Shirts</div> </a>
+                          <a href=""><div class="sec">Size</div></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+      <div class="img container">
+          <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1552793494-111afe03d0ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" class="d-block w-100" alt="...">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+      </div>
+    </div>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
+      integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+                
+      
+        
+     
+
+      (function onMobile(){
+        if(window.innerWidth < 500){
+          document.querySelector(".catg").innerHTML=`<a href=""><div class="sec">New Arrivals</div> </a>
+              <a href=""><div class="sec">Store</div> </a>
               <a href=""><div class="sec">T-Shirts</div></a>
+              <a href=""><div class="sec">Bottoms</div></a>
               <a href=""><div class="sec">Sweatshirt</div> </a>
               <a href=""><div class="sec">Hoodies</div> </a>
               <a href=""><div class="sec">Customized T-Shirts</div> </a>
               <a href=""><div class="sec">Size</div></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
+              <a href=""><div class="sec">Blog</div> </a>
+              <a href=""><div class="sec">Why to Oversize?</div> </a>
+              <a href=""><div class="sec">Support</div> </a>`
+        }
+        else{
+          document.querySelector(".catg").innerHTML=`<a href=""><div class="sec">New Arrivals</div> </a>
+              <a href=""><div class="sec">T-Shirts</div></a>
+              <a href=""><div class="sec">Bottoms</div></a>
+              <a href=""><div class="sec">Sweatshirt</div> </a>
+              <a href=""><div class="sec">Hoodies</div> </a>
+              <a href=""><div class="sec">Customized T-Shirts</div> </a>
+              <a href=""><div class="sec">Size</div></a>`
+        }
+      })();
+      var sbar =  0
       function sidebaropen() {
+        if(sbar === 0) {
+       
         let tl = gsap.timeline();
-        tl.to(".sidebarmain", {
-          display: "flex",
-        }).to(".sidebar", {
-          duration: 0.2,
-          ease: Linear.easeInOut,
-          x: 0,
-        });
+        tl.to(
+          ".sidebarmain",
+          {
+            display: "flex",
+          },
+          "a"
+        ).to(
+          ".sidebar",
+          {
+            duration: 0.2,
+            ease: Linear.easeInOut,
+            x: 0,
+          },
+          "a"
+        );
+
+        let tl2 = gsap.timeline();
+        tl2
+        .to(".hamburgerlines .line2",{
+          width:'0%',
+          duration:0.2,
+          ease:Linear.easeInOut
+        })
+        .to(".hamburgerlines .line1",{
+          rotate:'45deg',
+          duration:0.2,
+
+          ease:Linear.easeInOut
+
+        },"a")
+        .to(".hamburgerlines .line3",{
+          rotate:'-45deg',
+          duration:0.2,
+
+          ease:Linear.easeInOut
+
+        },"a")
+        sbar = 1;
+      }
+      else{
+        sidebarclose()
+
+
+        sbar = 0;
+
+      }
       }
       function sidebarclose() {
+        
         let tl = gsap.timeline();
         tl.to(".sidebar", {
-          duration: 0.2,
+          duration: 0.09,
           ease: Linear.easeInOut,
           x: "100%",
         }).to(".sidebarmain", {
           duration: 0.01,
           display: "none",
         });
+        let tl2 = gsap.timeline();
+        tl2
+        .to(".hamburgerlines .line1",{
+          rotate:'0deg',
+          duration:0.2,
+          ease:Linear.easeInOut
+
+        },"a")
+        .to(".hamburgerlines .line3",{
+          rotate:'0deg',
+          duration:0.2,
+          ease:Linear.easeInOut
+
+        },"a")
+        .to(".hamburgerlines .line2",{
+          width:'100%',
+          duration:0.2,
+
+          ease:Linear.easeInOut
+
+        })
+
       }
+
+   
     </script>
   </body>
 </html>

@@ -15,14 +15,31 @@
     <div id="main">
       <div class="nav">
         <div class="left">
-          <a href="">Home</a><a href="">Store</a><a href="">Blog</a
-          ><a href="">Why to Oversize?</a><a href="">Support</a>
+          <a href="">Home</a>
+          <a href="">Store</a>
+          <a href="">Blog</a>
+          <a href="">Why to Oversize?</a>
+          <a href="">Support</a>
+        </div>
+       
+        <div class="logo">
+          <!-- <img src="../images/BonzaLogo.png" alt="" /> -->
+          <img src="../images/bonza.png" alt="" />
+
         </div>
         <div class="right">
-          <a href=""><i class="ri-heart-line"></i></a>
+          <a href=""><i class="ri-heart-3-line"></i></a>
           <a href=""><i class="ri-shopping-cart-line"></i></a>
           <a>
+            <div onclick="sidebaropen()"  class="hamburger">
+              <div class="hamburgerlines">
+                <span class="lines line1"> </span>
+                <span class="lines line2"> </span>
+                <span class="lines line3"> </span>
+              </div>
+            </div>
             <div onclick="sidebaropen()" class="profile">
+              
               <img
                 src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
                 alt=""
@@ -34,15 +51,14 @@
           <div onclick="sidebarclose()" class="out"></div>
           <div class="sidebar">
             <a href="">
-
-            <div class="box">
-              <img
-                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                alt=""
-              />
-              <h4>Modelo</h4>
-            </div>
-          </a>
+              <div class="box">
+                <img
+                  src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                  alt=""
+                />
+                <h4>Modelo</h4>
+              </div>
+            </a>
             <div class="catg">
               <a href=""><div class="sec">New Arrivals</div> </a>
               <a href=""><div class="sec">T-Shirts</div></a>
@@ -406,11 +422,42 @@
       </div>
       <div id="links">
         <div class="link">
-          
-          <a href=""><lottie-player src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
-          <a href=""><lottie-player src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
-          <a href=""><lottie-player src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
-          <a href=""><lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"  background="transparent"  speed="1"   autoplay loop  ></lottie-player></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
         </div>
       </div>
     </div>
@@ -452,40 +499,132 @@
       document.querySelector("#icon").addEventListener("click", () => {
         document.querySelector("#konhaiham").innerHTML += `<div id="thevideo">
           <i id="close" onclick="gayab()" class="ri-close-circle-fill"></i>
-          <iframe
-            src="https://www.youtube.com/embed/RQTgJRwMdKQ"
-            title="Ariana Grande - God is a woman (Lyric Video)"
-            frameborder="0"
-            allow=" autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+          
+          <iframe id="video" src="https://www.youtube.com/embed/RQTgJRwMdKQ?enablejsapi=1&html5=1&rel=0&amp;autoplay=1""  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0" allowfullscreen></iframe>
         </div>`;
       });
       function gayab() {
         const r = document.querySelector("#thevideo");
         r.remove();
       }
+
+  
+      
+        
+     
+
+      (function onMobile(){
+        if(window.innerWidth < 500){
+          document.querySelector(".catg").innerHTML=`<a href=""><div class="sec">New Arrivals</div> </a>
+              <a href=""><div class="sec">Store</div> </a>
+              <a href=""><div class="sec">T-Shirts</div></a>
+              <a href=""><div class="sec">Bottoms</div></a>
+              <a href=""><div class="sec">Sweatshirt</div> </a>
+              <a href=""><div class="sec">Hoodies</div> </a>
+              <a href=""><div class="sec">Customized T-Shirts</div> </a>
+              <a href=""><div class="sec">Size</div></a>
+              <a href=""><div class="sec">Blog</div> </a>
+              <a href=""><div class="sec">Why to Oversize?</div> </a>
+              <a href=""><div class="sec">Support</div> </a>`
+        }
+        else{
+          document.querySelector(".catg").innerHTML=`<a href=""><div class="sec">New Arrivals</div> </a>
+              <a href=""><div class="sec">T-Shirts</div></a>
+              <a href=""><div class="sec">Bottoms</div></a>
+              <a href=""><div class="sec">Sweatshirt</div> </a>
+              <a href=""><div class="sec">Hoodies</div> </a>
+              <a href=""><div class="sec">Customized T-Shirts</div> </a>
+              <a href=""><div class="sec">Size</div></a>`
+        }
+      })();
+      var sbar =  0
       function sidebaropen() {
+        if(sbar === 0) {
+       
         let tl = gsap.timeline();
-        tl.to(".sidebarmain", {
-          display: "flex",
-        }).to(".sidebar", {
-          duration: 0.2,
-          ease: Linear.easeInOut,
-          x: 0,
-        });
+        tl.to(
+          ".sidebarmain",
+          {
+            display: "flex",
+          },
+          "a"
+        ).to(
+          ".sidebar",
+          {
+            duration: 0.2,
+            ease: Linear.easeInOut,
+            x: 0,
+          },
+          "a"
+        );
+
+        let tl2 = gsap.timeline();
+        tl2
+        .to(".hamburgerlines .line2",{
+          width:'0%',
+          duration:0.2,
+          ease:Linear.easeInOut
+        })
+        .to(".hamburgerlines .line1",{
+          rotate:'45deg',
+          duration:0.2,
+
+          ease:Linear.easeInOut
+
+        },"a")
+        .to(".hamburgerlines .line3",{
+          rotate:'-45deg',
+          duration:0.2,
+
+          ease:Linear.easeInOut
+
+        },"a")
+        sbar = 1;
+      }
+      else{
+        sidebarclose()
+
+
+        sbar = 0;
+
+      }
       }
       function sidebarclose() {
+        
         let tl = gsap.timeline();
         tl.to(".sidebar", {
-          duration: 0.2,
+          duration: 0.09,
           ease: Linear.easeInOut,
           x: "100%",
         }).to(".sidebarmain", {
           duration: 0.01,
           display: "none",
         });
+        let tl2 = gsap.timeline();
+        tl2
+        .to(".hamburgerlines .line1",{
+          rotate:'0deg',
+          duration:0.2,
+          ease:Linear.easeInOut
+
+        },"a")
+        .to(".hamburgerlines .line3",{
+          rotate:'0deg',
+          duration:0.2,
+          ease:Linear.easeInOut
+
+        },"a")
+        .to(".hamburgerlines .line2",{
+          width:'100%',
+          duration:0.2,
+
+          ease:Linear.easeInOut
+
+        })
+
       }
-    </script>
+ 
+   
+   </script>
   </body>
 </html>
