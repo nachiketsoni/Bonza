@@ -208,6 +208,12 @@ html,body{
   width: 30vmax;
   height: 100vh;
 }
+.leftbar{
+  position: absolute;
+  left: 0;  
+  z-index: 501;
+  transform: translateX(-100%);
+}
 
 .sidebar .box{
   width: 100%;
@@ -251,14 +257,14 @@ html,body{
 .catg a:hover .sec{
   background-color: #262626;
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .nav .left {
     display: none;
   }
   .nav .logo img{
   height: 90%;
 
-    left: 20%;
+    left: 30%;
   }
   .sidebar .catg{
     margin-top: 5vh;
@@ -272,6 +278,12 @@ html,body{
   }
   .hamburger{
     display: block;
+  }
+  #rightHamburger{
+    display: none;
+  }
+  #rightHamburger{
+    display: initial;
   }
 }
 #first .cntr{

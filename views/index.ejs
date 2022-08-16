@@ -14,6 +14,13 @@
   <body>
     <div id="main">
       <div class="nav">
+        <div onclick="sidebaropen()" id="leftHamburger"  class="hamburger">
+          <div class="hamburgerlines">
+            <span class="lines line1"> </span>
+            <span class="lines line2"> </span>
+            <span class="lines line3"> </span>
+          </div>
+        </div>
         <div class="left">
           <a href="">Home</a>
           <a href="">Store</a>
@@ -28,10 +35,11 @@
 
         </div>
         <div class="right">
+          <a href=""><i class="ri-search-2-line"></i></a>
           <a href=""><i class="ri-heart-3-line"></i></a>
           <a href=""><i class="ri-shopping-cart-line"></i></a>
           <a>
-            <div onclick="sidebaropen()"  class="hamburger">
+            <div onclick="sidebaropen()" id="rightHamburger" class="hamburger">
               <div class="hamburgerlines">
                 <span class="lines line1"> </span>
                 <span class="lines line2"> </span>
@@ -66,7 +74,6 @@
               <a href=""><div class="sec">Sweatshirt</div> </a>
               <a href=""><div class="sec">Hoodies</div> </a>
               <a href=""><div class="sec">Customisation</div> </a>
-              <a href=""><div class="sec">Size</div></a>
             </div>
           </div>
         </div>
@@ -522,24 +529,26 @@
               <a href=""><div class="sec">Sweatshirt</div> </a>
               <a href=""><div class="sec">Hoodies</div> </a>
               <a href=""><div class="sec">Customisation</div> </a>
-              <a href=""><div class="sec">Size</div></a>
               <a href=""><div class="sec">Blog</div> </a>
               <a href=""><div class="sec">Why to Oversize?</div> </a>
-              <a href=""><div class="sec">Help & Support</div> </a>`
+              <a href=""><div class="sec">Help & Support</div> </a>
+              <a href=""><div class="sec">Suggestions</div></a>`
         }
         else{
-          document.querySelector(".catg").innerHTML=`<a href=""><div class="sec">New Arrivals</div> </a>
+          document.querySelector(".catg").innerHTML=`
+              <a href=""><div class="sec">New Arrivals</div> </a>
               <a href=""><div class="sec">T-Shirts</div></a>
               <a href=""><div class="sec">Bottoms</div></a>
               <a href=""><div class="sec">Sweatshirt</div> </a>
               <a href=""><div class="sec">Hoodies</div> </a>
               <a href=""><div class="sec">Customisation</div> </a>
-              <a href=""><div class="sec">Size</div></a>`
+              <a href=""><div class="sec">Suggestions</div></a>
+              `
         }
       })();
       var sbar =  0
       function sidebaropen() {
-        if(sbar === 0) {
+        if(sbar === 0 ) {
        
         let tl = gsap.timeline();
         tl.to(
@@ -581,6 +590,7 @@
         },"a")
         sbar = 1;
       }
+     
       else{
         sidebarclose()
 
@@ -590,8 +600,25 @@
       }
       }
       function sidebarclose() {
-        
-        let tl = gsap.timeline();
+  
+        if( window.innerWidth < 500){
+          document.querySelector(".sidebar").setAttribute("class", "sidebar leftbar");
+
+          let tl = gsap.timeline();
+        tl.to(".sidebar", {
+          duration: 0.09,
+          ease: Linear.easeInOut,
+          x: "-100%",
+        }).to(".sidebarmain", {
+          duration: 0.01,
+          display: "none",
+        });
+
+        }
+        else{
+          document.querySelector(".sidebar").setAttribute("class", "sidebar");
+
+          let tl = gsap.timeline();
         tl.to(".sidebar", {
           duration: 0.09,
           ease: Linear.easeInOut,
@@ -600,6 +627,8 @@
           duration: 0.01,
           display: "none",
         });
+
+        }
         let tl2 = gsap.timeline();
         tl2
         .to(".hamburgerlines .line1",{
