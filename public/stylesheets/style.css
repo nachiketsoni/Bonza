@@ -5,6 +5,7 @@
   font-family: gilro;
   cursor: default;
   user-select: none;
+  
 }
 @font-face {
   font-family: 'gilro';
@@ -64,6 +65,10 @@ html,body{
   height: 100%;
   width: 100%;
 
+}
+a{
+  text-decoration: none;
+  color: #000;
 }
 #first {
   position: relative;
@@ -502,6 +507,7 @@ html,body{
   font-size: 1.2vmax;
   border: none;
   font-weight: 600;
+  cursor: pointer;
   margin-top: 2vmax;
   padding: 1.5vmax 2vmax;
 }
@@ -647,3 +653,5 @@ html,body{
   height: 10vmax;
   cursor: pointer;
 }
+
+
