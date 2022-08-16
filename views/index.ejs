@@ -37,7 +37,7 @@
         <div class="right">
           <a href=""><i class="ri-search-2-line"></i></a>
           <a href=""><i class="ri-heart-3-line"></i></a>
-          <a href=""><i class="ri-shopping-cart-line"></i></a>
+          <a href=""><i class="ri-shopping-cart-line"></i><div class="count">5</div></a>
           <a>
             <div onclick="sidebaropen()" id="rightHamburger" class="hamburger">
               <div class="hamburgerlines">
@@ -68,12 +68,7 @@
               </div>
             </a>
             <div class="catg">
-              <a href=""><div class="sec">New Arrivals</div> </a>
-              <a href=""><div class="sec">T-Shirts</div></a>
-              <a href=""><div class="sec">Bottoms</div></a>
-              <a href=""><div class="sec">Sweatshirt</div> </a>
-              <a href=""><div class="sec">Hoodies</div> </a>
-              <a href=""><div class="sec">Customisation</div> </a>
+            
             </div>
           </div>
         </div>
@@ -532,7 +527,9 @@
               <a href=""><div class="sec">Blog</div> </a>
               <a href=""><div class="sec">Why to Oversize?</div> </a>
               <a href=""><div class="sec">Help & Support</div> </a>
-              <a href=""><div class="sec">Suggestions</div></a>`
+              <a href=""><div class="sec">Suggestions</div></a>
+              <a href=""><div class="sec">About Us</div></a>
+              `
         }
         else{
           document.querySelector(".catg").innerHTML=`
@@ -543,6 +540,8 @@
               <a href=""><div class="sec">Hoodies</div> </a>
               <a href=""><div class="sec">Customisation</div> </a>
               <a href=""><div class="sec">Suggestions</div></a>
+              <a href=""><div class="sec">About Us</div></a>
+
               `
         }
       })();
