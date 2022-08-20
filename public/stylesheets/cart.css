@@ -91,7 +91,7 @@ body {
   height: 100%;
   position: relative;
   display: flex;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 a {
@@ -200,6 +200,7 @@ a {
 .lside {
   width: 55%;
   height: 100%;
+  position: relative;
   display: flex;
   /* justify-content: space-between; */
   align-items: center;
@@ -294,8 +295,24 @@ select{
     outline: none;
     border-radius: 7px;
 }
+#delete{
+    position: absolute;
+    z-index: 4099;
+    top: -7px;
+
+    left: -7px;
+    font-size: 2vmax;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+}
 @media (max-width: 600px){
+    #delete{
+    top: 4px;
     
+    left: 4px;
+    font-size: 2.5vmax;
+}
     .side{
         align-items: flex-start;
         justify-content: flex-start;

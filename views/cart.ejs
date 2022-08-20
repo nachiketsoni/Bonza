@@ -37,6 +37,7 @@
           </div>
           <div class="item">
             <div class="itm txtanim">
+              <a id="delete" href=""><div ><i class="ri-close-line"></i></div></a>
               <div class="lside">
                 <img src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg" alt="" />
                 <h2 class="pname" >Sweat Shirt</h2>
@@ -287,7 +288,11 @@
 
       if (window.innerWidth < 768) {
         document.querySelectorAll(".itm").forEach((e)=>{
-      e.innerHTML= `<div class="lside">
+      e.innerHTML= `
+      
+      <a id="delete" href=""><div ><i class="ri-close-line"></i></div></a>
+      <div class="lside">
+        
                 <img src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg" alt="" />
                 </div>
   
