@@ -293,6 +293,12 @@ a {
   font-size: 5.5vmax;
   color: #dadada;
 }
+select{
+    font-size: 1vmax;
+    padding: .5vmax;
+    outline: none;
+    border-radius: 7px;
+}
 @media (max-width: 600px){
     
     .side{
