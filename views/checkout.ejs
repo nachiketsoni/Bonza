@@ -24,14 +24,14 @@
       </div>
       <div class="center">
         <h1 class="txtanim">
-          Hi Lolo , Where would you like your
+          Hi Lolo , Where would you like your <br>
           <span class="txtanim">order to sent ?</span>
         </h1>
         <form action="" method="post">
-          <select class="txtanim" name="" id="">
-            <option value="">Meet me at door</option>
-            <option value="">Meet outside</option>
-            <option value="">Leave at door</option>
+          <select class="txtanim">
+            <option value="">Address 1 </option>
+            <option value="">Address 2 </option>
+            <option value="">Address 3 </option>
           </select>
           <br />
           <input
@@ -102,7 +102,6 @@
           <form action="/Thankyou" method="GEt">
           <button id="rzp-button1">
             <h3>Place Order</h3>
-            <img id="img" src="../images/motorcycle.png" alt="" />
           </button>
           </form>
         </div>
@@ -119,27 +118,7 @@
         y: 100,
         opacity: 0,
       });
-      document
-        .querySelector(".total button")
-        .addEventListener("mouseenter", function (e) {
-          var tl = gsap.timeline();
-          tl
-   
-            .to("#img", { opacity: 1, left: "50%" });
-          document.querySelector(".total button h3").style.opacity = "0";
-        });
-      document
-        .querySelector(".total button")
-        .addEventListener("mouseleave", function (e) {
-          var tl = gsap
-            .timeline()
-            .to("#img", { left: "101%"})
-            .to("#img", { opacity: 0, duration: 0.000000005 })
-            .to(".total button h3", { opacity: 1 })
-            .to("#img", { left: "-3%", duration: 0.00005 });
-
-        });
-
+     
         function openCheckout() {
         var finalAmt = document.getElementById("finalAmt").textContent;
         var currentuser = document.getElementById("currentuser").textContent;
