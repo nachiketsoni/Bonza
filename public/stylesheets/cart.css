@@ -282,6 +282,7 @@ a {
   color: white;
   margin-top: 3vmax;
   margin-bottom: 2vmax;
+  
   cursor: pointer;
 }
 .mtcart {
@@ -293,6 +294,7 @@ a {
   color: #dadada;
 }
 @media (max-width: 600px){
+    
     .side{
         align-items: flex-start;
         justify-content: flex-start;
@@ -306,7 +308,7 @@ a {
         /* background-color: aqua; */
         margin-left: 1vmax;
         width: 100%;
-
+        
         font-size: 2vmax;
     }
     select{
@@ -314,6 +316,7 @@ a {
         padding: .5vmax;
     }
     .side{
+        margin-left: 1vmax;
         width: 85%;
         /* background-color: #3f3f3f; */
         flex-direction: column;
@@ -326,7 +329,7 @@ a {
         /* flex-direction: column; */
         justify-content: space-between;
         width: 100%;
-        margin-top: .5vmax;
+        margin-top: 1.5vmax;
         /* background-color: #3f3f3f; */
     }
     .ctrg .side{
@@ -336,6 +339,7 @@ a {
         padding: 0 1vmax;
         justify-content: space-between;
     font-size: 1.5vmax;
+
     }
     .sec a i{
         font-size:2vmax;
@@ -348,6 +352,13 @@ a {
     }
 }
 @media (max-width: 1000px) {
+    #t{
+        margin-left: 1.8vmax;
+    }
+    .itm{
+        background-color: #e7e7e75c;
+        padding: 1.5vmax 0 ;
+    }
   #main {
     display: block;
     padding: 0;
@@ -358,7 +369,10 @@ a {
   .left {
     width: 100%;
     height: auto;
-    padding: 2vmax 0 0 1.5vmax;
+    padding: 0;
+  }
+  .left >h1{
+    margin-left: 1.8vmax;
   }
   .left >a{
     font-size: 1.5vmax;
@@ -368,6 +382,8 @@ a {
     max-width: 15vmax ;
     padding: 1.5vmax;
     border-radius: 100px;
+    margin-left: 1vmax;
+    margin-top: 1vmax;
   }
   .right {
     position: relative;
