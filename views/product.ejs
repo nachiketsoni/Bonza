@@ -125,7 +125,7 @@
               <h5>Add to Cart</h5>
             </div>
             <div class="size">
-              <a href=""><i class="ri-heart-fill"></i></a> |  <a href=""><i class="ri-whatsapp-fill"></i></a><a href=""><i class="ri-instagram-fill"></i></a><a href=""><i class="ri-facebook-fill"></i></a>
+              <a href=""><i class="ri-heart-fill"></i></a> |  <a href="https://web.whatsapp.com/"><i class="ri-whatsapp-fill"></i></a><a href="https://www.instagram.com/"><i class="ri-instagram-fill"></i></a><a href="https://www.facebook.com/"><i class="ri-facebook-fill"></i></a>
           </div>
           </div>
         </div>
@@ -152,15 +152,15 @@
       const slidebtn = document.querySelectorAll(".slidebtn");
       let current = 0;
       const count = img.length;
-
       setInterval(() => {
         current++;
+        console.log(current);
 
         if (current >= count) {
           gsap.to(imgs, { x: 0 });
           current = 0;
         } else {
-          gsap.to(imgs, { x: "-=100%" });
+          gsap.to(imgs, { x:`-${100 * (current)}%` });
         }
       }, 2000);
 
@@ -172,7 +172,7 @@
             gsap.to(imgs, { x: 0 });
             current = 0;
           } else {
-            gsap.to(imgs, { x: "-=100%" });
+            gsap.to(imgs, { x: `-${100 * (current)}%`  });
           }
         } else {
           current = current - 1;
@@ -181,7 +181,7 @@
             gsap.to(imgs, { x: `-${100 * (count - 1)}%` });
             current = count;
           } else {
-            gsap.to(imgs, { x: "+=100%" });
+            gsap.to(imgs, { x: `${100 * (current)}%`  });
           }
         }
       }
