@@ -11,6 +11,9 @@ router.get('/product', function(req, res, next) {
 router.get('/cart', function(req, res, next) {
   res.render('cart');
 })
+router.get('/store', function(req, res, next) {
+  res.render('store');
+})
 router.get('/checkout', function(req, res, next) {
   res.render('checkout');
 })

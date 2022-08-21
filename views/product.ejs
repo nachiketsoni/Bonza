@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Bonza</title>
+    <link rel="shortcut icon" href="../images/BonzaLogo.png" type="image/x-icon">
     <link
       defer
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -29,13 +31,13 @@
           </div>
         </div>
         <div class="left">
-          <a href="">Home</a>
-          <a href="">Store</a>
+          <a href="/">Home</a>
+          <a href="/store">Store</a>
           <a href="">Blog</a>
           <a href="">Why to Oversize?</a>
           <a href="">Support</a>
         </div>
-       <a href="">
+       <a href="/">
 
          <div class="logo">
            <img src="../images/BonzaLogo.png" alt="" />
@@ -130,8 +132,179 @@
           </div>
         </div>
       </div>
-    </div>
+      <div class="second">
+        <div class="desc">
+          <div class="head"><h4 class="active" onclick="openBody(this , 0)">Video </h4><h4 onclick="openBody(this, 1)" >Description</h4> <h4 onclick="openBody(this, 2)">Size Chart</h4> </div>
+          <div onscroll="scrolly()" class="body">
+              <div class="section"  id="vid"><iframe width="90%" height="90%" src="https://www.youtube.com/embed/GhQxrCrVSyw" title="Stephen Sanchez - Until I Found You (Lyrics)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+              <div class="section" id="bakchodi">
+                <ul>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+   
+                </ul>
+              </div>
+              <div class="section"  id="sizeChart">
+                <h2>Size Chart</h2>
+                <div class="cover">
 
+                    <div class="cat">
+                      <h3>Size Guide</h3>
+                      <h4>Chest Size</h4>
+                      <h4>Waist Size</h4>
+                      <h4>Hips Size</h4>
+                    </div>
+                    <div class="s">
+                      <h3>S</h3>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                    </div>
+                    <div class="s">
+                      <h3>M</h3>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                    </div>
+                    <div class="s">
+                      <h3>L</h3>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                    </div>
+                    <div class="s">
+                      <h3>XL</h3>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                      <h4>34</h4>
+                    </div>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+      <h1 id="rel">Related product</h1>
+      <div id="third">
+        <a  href="/product/">
+
+          <div class="item">
+            <div class="img">
+              <img
+                class="scnd"
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
+                alt=""
+              />
+  
+              <img
+                src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg"
+                alt=""
+              />
+            </div>
+            <div class="dets">
+              <h2>
+                Secret Character
+                <div id="heart"><i class="ri-heart-3-line"></i></div>
+              </h2>
+              <h4 class="show">$49.99</h4>
+            </div>
+          </div>
+        </a>
+        <a href="/product/">
+
+          <div class="item">
+            <div class="img">
+              <img
+                class="scnd"
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
+                alt=""
+              />
+  
+              <img
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
+                alt=""
+              />
+            </div>
+            <div class="dets">
+              <h2>
+                Secret Character
+                <div id="heart"><i class="ri-heart-3-line"></i></div>
+              </h2>
+              <h4 class="show">$49.99</h4>
+            </div>
+          </div>
+        </a>
+        <a href="/product/">
+
+          <div class="item">
+            <div class="img">
+              <img
+                class="scnd"
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
+                alt=""
+              />
+  
+              <img
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Game-Over-850x850.jpg"
+                alt=""
+              />
+            </div>
+            <div class="dets">
+              <h2>
+                Secret Character
+                <div id="heart"><i class="ri-heart-3-line"></i></div>
+              </h2>
+              <h4 class="show">$49.99</h4>
+            </div>
+          </div>
+        </a>
+        
+      </div>
+      <div id="links">
+        <div class="link">
+          <a href=""
+            ><lottie-player
+              src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+          <a href=""
+            ><lottie-player
+              src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"
+              background="transparent"
+              speed="1.5"
+              autoplay
+              loop
+            ></lottie-player
+          ></a>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -146,6 +319,33 @@
     ></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
+      function openBody(elem, e){
+        var pos = e*document.querySelector(".body").offsetWidth
+        // console.log(e*document.querySelector(".body").offsetWidth, e);
+        document.querySelector(".body").scrollLeft = pos;
+      }
+
+
+
+      function scrolly(){
+        const body = document.querySelector(".body");
+        if(body.scrollLeft >= -10 && body.scrollLeft < body.offsetWidth){
+          document.querySelector(".head > h4:nth-child(1)").classList.add("active");
+          document.querySelector(".head > h4:nth-child(2)").classList.remove("active");
+          document.querySelector(".head > h4:nth-child(3)").classList.remove("active");
+        }
+        else if(body.scrollLeft > body.offsetWidth-10 && body.scrollLeft < body.offsetWidth*2){
+          document.querySelector(".head > h4:nth-child(2)").classList.add("active");
+          document.querySelector(".head > h4:nth-child(1)").classList.remove("active");
+          document.querySelector(".head > h4:nth-child(3)").classList.remove("active");
+        }
+        else if(body.scrollLeft >= body.offsetWidth*2 -10 && body.scrollLeft < body.offsetWidth*3){
+          document.querySelector(".head > h4:nth-child(3)").classList.add("active");
+          document.querySelector(".head > h4:nth-child(1)").classList.remove("active");
+          document.querySelector(".head > h4:nth-child(2)").classList.remove("active");
+        }
+      }
+   
       const imgwrapper = document.querySelector(".imgwrapper");
       const img = document.querySelectorAll(".imgwrapper .imgs img");
       const imgs = document.querySelector(".imgwrapper .imgs");
@@ -154,7 +354,6 @@
       const count = img.length;
       setInterval(() => {
         current++;
-        console.log(current);
 
         if (current >= count) {
           gsap.to(imgs, { x: 0 });
@@ -186,6 +385,34 @@
         }
       }
 
+
+      let flag = 0;
+      document.querySelectorAll("#heart").forEach((all) => {
+        all.addEventListener("click", () => {
+          if (flag === 0) {
+            all.innerHTML = `<lottie-player  src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"  background="transparent"  speed="1" autoplay></lottie-player>`;
+            flag = 1;
+          } else {
+            all.innerHTML = `<i class="ri-heart-3-line dil"></i>`;
+            flag = 0;
+          }
+        });
+      });
+      var scnd = document.querySelectorAll(".scnd");
+      var show = document.querySelectorAll(".show");
+      var txt = [];
+      document.querySelectorAll(".item").forEach((all, i) => {
+        txt.push(show[i].textContent);
+
+        all.addEventListener("mouseover", (e) => {
+          scnd[i].style.opacity = 1;
+          show[i].textContent = "Show More";
+        });
+        all.addEventListener("mouseout", (e) => {
+          scnd[i].style.opacity = 0;
+          show[i].textContent = txt[i];
+        });
+      });
       (function onMobile() {
         if (window.innerWidth < 500) {
           document.querySelector(
@@ -219,7 +446,6 @@
       })();
       var sbar = 0;
       function sidebaropen() {
-        console.log("click");
         if (sbar === 0) {
           let tl = gsap.timeline();
           tl.to(
@@ -237,7 +463,6 @@
             },
             "a"
           );
-          console.log("chala");
 
           let tl2 = gsap.timeline();
           tl2
