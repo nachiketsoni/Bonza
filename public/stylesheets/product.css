@@ -542,7 +542,7 @@ a{
   align-items: center;
   justify-content: center;
   gap: 20px 4vmax ;
-  padding: 5vmax 0;
+  padding: 3vmax 0;
   /* overflow: hidden; */
   overflow-x:hidden ;
   flex-wrap: wrap;

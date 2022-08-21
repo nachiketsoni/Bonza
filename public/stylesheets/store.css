@@ -302,6 +302,21 @@ a{
             display: initial;
           }
         }
+
+        .catgs{
+          margin-top: 70px;
+          width: 100%;
+          height: 5vmax;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          /* background-color: #c90000; */
+          padding: 0 3vmax;
+          font-size: 1.5vmax;
+}
+.catgs a:hover{
+          color: rgb(255, 0, 0);
+}     
 #second {
           position: relative;
           /* height: 110vh; */
@@ -310,7 +325,6 @@ a{
           align-items: center;
           justify-content: center;
           gap: 20px 4vmax ;
-          padding: 5vmax 0;
           /* overflow: hidden; */
           overflow-x:hidden ;
           flex-wrap: wrap;
