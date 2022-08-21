@@ -181,7 +181,7 @@
             gsap.to(imgs, { x: `-${100 * (count - 1)}%` });
             current = count;
           } else {
-            gsap.to(imgs, { x: `${100 * (current)}%`  });
+            gsap.to(imgs, { x: `-${100 * (current-1)}%`  });
           }
         }
       }
