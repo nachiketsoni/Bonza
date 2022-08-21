@@ -255,12 +255,7 @@ body {
   background-color: #262626;
 }
 @media (max-width: 600px) {
-  .slidebtn{
-    display: none;
-  }
-  .slidebtn i{
-    display: none;
-  }
+ 
   #nav{
     height: 8vmax;
   }
