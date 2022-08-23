@@ -106,7 +106,6 @@ a{
           position: relative;
 }
 .left > a {
-    margin: 2vmax;
     font-size: .9vmax;
     background-color: #000000;
     color: #fff;
@@ -115,6 +114,7 @@ a{
     justify-content: center;
     max-width: 10vmax ;
     padding: .7vmax;
+    margin: 30px;
     border-radius: 100px;
 }
 .left > a i {
@@ -330,6 +330,7 @@ select option{
 
 
 @media (max-width:1000px) {
+    
     #main{
         flex-direction: column;
         overflow: auto;
@@ -348,6 +349,17 @@ select option{
         right: 50%;
         transform: translate(50%,-50%);
     }
+    .left >a{
+        font-size: 1.5vmax;
+        background-color: #000000;
+        color: #fff;
+        justify-content: center;
+        max-width: 15vmax ;
+        padding: 1.5vmax;
+        border-radius: 100px;
+        margin-left: 1vmax;
+        margin-top: 1vmax;
+      }
     .l{
         width: calc(100% + 15%);
     }
@@ -367,6 +379,8 @@ select option{
     }
     .center form input{
         height: 8vmax;
+        font-size: 1.9vmax;
+
         /* background-color: #b00404; */
     }
     .center form input::placeholder{

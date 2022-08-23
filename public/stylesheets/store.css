@@ -261,6 +261,7 @@ a{
           background-color: #262626;
         }
         @media (max-width: 600px) {
+          
           .nav{
             height: 8vmax;
           }
@@ -311,8 +312,8 @@ a{
           align-items: center;
           justify-content: space-between;
           /* background-color: #c90000; */
-          padding: 0 3vmax;
-          font-size: 1.5vmax;
+          padding: 0 4vmax;
+          font-size: 1.3vmax;
 }
 .catgs a:hover{
           color: rgb(255, 0, 0);
@@ -338,22 +339,6 @@ a{
           width: 50vh;
           position: relative;
         }
-        @media screen and (max-width: 500px) {
-          #second .item{
-            width: 90vw;
-          }
-          #second .item .img{
-            height: 90vw;
-            width: 90vw;
-          }
-          #second .item .dets{
-            width: 90vw;
-           
-          }
-        
-          
-        }
-        
         #second .item .img{
           height: 50vh;
           width: 100%;
@@ -362,6 +347,7 @@ a{
           position: relative;
           cursor: pointer;
         }
+        
         #second .item .dets{
           width: 100%;
           padding:0  1vmax;
@@ -407,7 +393,31 @@ a{
           opacity: 0;
           position: absolute;
           cursor: pointer;
-            object-fit: cover;
+          object-fit: cover;
           transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
           
         }
+          @media screen and (max-width: 600px) {
+            
+            #second .item{
+              width: 40vw;
+            }
+  
+            #second .item .img{
+              height:40vw;
+              width: 40vw;
+            }
+            #second .item .dets{
+              width: 40vw;
+             
+            }
+            #second .item h4{
+              font-size:10px;
+              margin-top: -15px;
+          
+            }
+            #second .item h2{
+              font-size: 10px;
+            }
+            
+          }
