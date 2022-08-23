@@ -328,7 +328,7 @@ a{
           justify-content: center;
           gap: 20px 4vmax ;
           /* overflow: hidden; */
-          overflow-x:hidden ;
+          overflow:hidden ;
           flex-wrap: wrap;
           background-color: rgb(255, 255, 255);
           /* overflow: hidden; */
