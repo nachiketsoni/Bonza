@@ -1,0 +1,63 @@
+* {
+          padding: 0%;
+          margin: 0%;
+          box-sizing: border-box;
+          font-family: gilro;
+          cursor: default;
+          text-decoration: none !important;
+          user-select: none;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-LIGHT.OTF);
+          font-weight: 100;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-THIN.OTF);
+          font-weight: 200;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-REGULAR.OTF);
+          font-weight: 300;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-MEDIUM.OTF);
+          font-weight: 400;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-SEMIBOLD.OTF);
+          font-weight: 500;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-BOLD.OTF);
+          font-weight: 600;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-EXTRABOLD.OTF);
+          font-weight: 700;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-HEAVY.OTF);
+          font-weight: 800;
+        }
+        @font-face {
+          font-family: "gilro";
+          src: url(../../fonts/gilroy/GILROY-BLACK.OTF);
+          font-weight: 900;
+        }
+        
+        html,
+        body {
+          height: 100%;
+          width: 100%;
+        }
+        *::-webkit-scrollbar {
+          display: none;
+        }

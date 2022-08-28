@@ -1,0 +1,25 @@
+
+#links{
+          height: 30vmax;
+          width: 100vw;
+          background-color: #000000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+           
+        }
+        .link{
+          display: flex;
+          align-items: center;
+          gap: 5vw;
+        }
+        .link a{
+          text-decoration: none;
+          color: #fff;
+        }
+        .link a lottie-player{
+          width: 10vmax;
+          height: 10vmax;
+          cursor: pointer;
+        }
+        

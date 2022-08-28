@@ -1,9 +1,29 @@
-var express = require('express');
-var router = express.Router();
+const mongoose = require('mongoose');
+const plm = require('passport-local-mongoose');
+const findOrCreate = require('mongoose-findorcreate')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+mongoose.connect('mongodb://localhost/bonza');
 
-module.exports = router;
+const userSchema = new mongoose.Schema({
+  username: String,
+  name: String,
+  number: {type:String,default:'N.A.'},
+  address:[{
+    type:String,
+    ref:'address'
+  }],
+  cart:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'product'
+  }],
+  wishlist:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'product'
+  }]
+
+  });
+
+userSchema.plugin(plm);
+userSchema.plugin(findOrCreate);
+
+module.exports = mongoose.model('User', userSchema);

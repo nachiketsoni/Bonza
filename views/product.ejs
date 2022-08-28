@@ -1,89 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-  
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bonza</title>
-    <link rel="shortcut icon" href="../images/BonzaLogo.png" type="image/x-icon">
-    <link
-      defer
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link defer rel="stylesheet" href="../stylesheets/product.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-  </head>
+<% include ../views/Partial/header.ejs %> 
+<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/links.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+  <link defer rel="stylesheet" href="../stylesheets/product.css" />
+  <link
+    defer
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  />
   <body>
     <div class="main">
-      <div id="nav">
-        <div onclick="sidebaropen()" id="leftHamburger"  class="hamburger">
-          <div class="hamburgerlines">
-            <span class="lines line1"> </span>
-            <span class="lines line2"> </span>
-            <span class="lines line3"> </span>
-          </div>
-        </div>
-        <div class="left">
-          <a href="/">Home</a>
-          <a href="/store">Store</a>
-          <a href="">Blog</a>
-          <a href="">Why to Oversize?</a>
-          <a href="">Support</a>
-        </div>
-       <a href="/">
-
-         <div class="logo">
-           <img src="../images/BonzaLogo.png" alt="" />
-           <!-- <img src="../images/bonza.png" alt="" /> -->
- 
-         </div>
-       </a>
-        <div class="right">
-          <a href=""><i class="ri-search-2-line"></i></a>
-          <a href=""><i class="ri-heart-3-line"></i></a>
-          <a href="/cart"><i class="ri-shopping-cart-line"></i><div class="count">5</div></a>
-          <a>
-            <div onclick="sidebaropen()" id="rightHamburger" class="hamburger">
-              <div class="hamburgerlines">
-                <span class="lines line1"> </span>
-                <span class="lines line2"> </span>
-                <span class="lines line3"> </span>
-              </div>
-            </div>
-            <div onclick="sidebaropen()" class="profile">
-              
-              <img
-                src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                alt=""
-              />
-            </div>
-          </a>
-        </div>
-        <div class="sidebarmain">
-          <div onclick="sidebarclose()" class="out"></div>
-          <div class="sidebar">
-            <a href="">
-              <div class="box">
-                <img
-                  src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                  alt=""
-                />
-                <h4>Modelo</h4>
-              </div>
-            </a>
-            <div class="catg">
-            
-            </div>
-          </div>
-        </div>
-      </div>
+  <% include ../views/Partial/nav.ejs %> 
+      
       <div class="first">
         <div class="center">
           <div class="imgwrapper">
@@ -127,26 +57,27 @@
               <h5>Add to Cart</h5>
             </div>
             <div class="size">
-              <a href=""><i class="ri-heart-fill"></i></a> |  <a href="https://web.whatsapp.com/"><i class="ri-whatsapp-fill"></i></a><a href="https://www.instagram.com/"><i class="ri-instagram-fill"></i></a><a href="https://www.facebook.com/"><i class="ri-facebook-fill"></i></a>
+              <a href=""><i class="ri-heart-fill"></i></a>   <a href="https://web.whatsapp.com/"><i class="ri-whatsapp-fill"></i></a><a href="https://www.instagram.com/"><i class="ri-instagram-fill"></i></a><a href="https://www.facebook.com/"><i class="ri-facebook-fill"></i></a>
           </div>
           </div>
         </div>
       </div>
       <div class="second">
         <div class="desc">
-          <div class="head"><h4 class="active" onclick="openBody(this , 0)">Video </h4><h4 onclick="openBody(this, 1)" >Description</h4> <h4 onclick="openBody(this, 2)">Size Chart</h4> </div>
+          <div class="head"><h4 class="active" onclick="openBody(this, 0)" >Description</h4><h4  onclick="openBody(this , 1)">Size Chart</h4>  </div>
           <div onscroll="scrolly()" class="body">
-              <div class="section"  id="vid"><iframe width="90%" height="90%" src="https://www.youtube.com/embed/GhQxrCrVSyw" title="Stephen Sanchez - Until I Found You (Lyrics)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-              <div class="section" id="bakchodi">
-                <ul>
-                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
-                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
-                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
-                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
-                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
-   
-                </ul>
-              </div>
+            <div class="section" id="bakchodi">
+              <ul>
+                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
+                
+              </ul>
+              <div id="vid"><iframe width="90%" height="90%" src="https://www.youtube.com/embed/GhQxrCrVSyw" title="Stephen Sanchez - Until I Found You (Lyrics)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+            </div>
+            
               <div class="section"  id="sizeChart">
                 <h2>Size Chart</h2>
                 <div class="cover">
@@ -285,62 +216,68 @@
             </div>
           </div>
         </a>
+        <a href="/product/">
+
+          <div class="item">
+            <div class="img">
+              <img
+                class="scnd"
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
+                alt=""
+              />
+  
+              <img
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
+                alt=""
+              />
+            </div>
+            <div class="dets">
+              <h2>
+                Secret Character
+                <div id="heart"><i class="ri-heart-3-line"></i></div>
+              </h2>
+              <h4 class="show">$49.99</h4>
+            </div>
+          </div>
+        </a>
+        <a href="/product/">
+
+          <div class="item">
+            <div class="img">
+              <img
+                class="scnd"
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
+                alt=""
+              />
+  
+              <img
+                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Game-Over-850x850.jpg"
+                alt=""
+              />
+            </div>
+            <div class="dets">
+              <h2>
+                Secret Character
+                <div id="heart"><i class="ri-heart-3-line"></i></div>
+              </h2>
+              <h4 class="show">$49.99</h4>
+            </div>
+          </div>
+        </a>
+        
       </div>
-      <div id="links">
-        <div class="link">
-          <a href=""
-            ><lottie-player
-              src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"
-              background="transparent"
-              speed="1.5"
-              autoplay
-              loop
-            ></lottie-player
-          ></a>
-          <a href=""
-            ><lottie-player
-              src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"
-              background="transparent"
-              speed="1.5"
-              autoplay
-              loop
-            ></lottie-player
-          ></a>
-          <a href=""
-            ><lottie-player
-              src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"
-              background="transparent"
-              speed="1.5"
-              autoplay
-              loop
-            ></lottie-player
-          ></a>
-          <a href=""
-            ><lottie-player
-              src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"
-              background="transparent"
-              speed="1.5"
-              autoplay
-              loop
-            ></lottie-player
-          ></a>
-        </div>
-      </div>
+      
+  <% include ../views/Partial/links.ejs %> 
+
     </div>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
-      integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="../javascripts/nav.js"></script>
+ 
     <script>
       function openBody(elem, e){
         var pos = e*document.querySelector(".body").offsetWidth
@@ -436,152 +373,6 @@
           show[i].textContent = txt[i];
         });
       });
-      (function onMobile() {
-        if (window.innerWidth < 600) {
-          document.querySelector(
-            ".catg"
-          ).innerHTML = `<a href=""><div class="sec">New Arrivals</div> </a>
-              <a href=""><div class="sec">Store</div> </a>
-              <a href=""><div class="sec">T-Shirts</div></a>
-              <a href=""><div class="sec">Bottoms</div></a>
-              <a href=""><div class="sec">Sweatshirt</div> </a>
-              <a href=""><div class="sec">Hoodies</div> </a>
-              <a href=""><div class="sec">Customisation</div> </a>
-              <a href=""><div class="sec">Blog</div> </a>
-              <a href=""><div class="sec">Why to Oversize?</div> </a>
-              <a href=""><div class="sec">Help & Support</div> </a>
-              <a href=""><div class="sec">Suggestions</div></a>
-              <a href=""><div class="sec">About Us</div></a>
-              `;
-        } else {
-          document.querySelector(".catg").innerHTML = `
-              <a href=""><div class="sec">New Arrivals</div> </a>
-              <a href=""><div class="sec">T-Shirts</div></a>
-              <a href=""><div class="sec">Bottoms</div></a>
-              <a href=""><div class="sec">Sweatshirt</div> </a>
-              <a href=""><div class="sec">Hoodies</div> </a>
-              <a href=""><div class="sec">Customisation</div> </a>
-              <a href=""><div class="sec">Suggestions</div></a>
-              <a href=""><div class="sec">About Us</div></a>
-
-              `;
-        }
-      })();
-      var sbar = 0;
-      function sidebaropen() {
-        if (sbar === 0) {
-          let tl = gsap.timeline();
-          tl.to(
-            ".sidebarmain",
-            {
-              display: "flex",
-            },
-            "a"
-          ).to(
-            ".sidebar",
-            {
-              duration: 0.2,
-              ease: Linear.easeInOut,
-              x: 0,
-            },
-            "a"
-          );
-
-          let tl2 = gsap.timeline();
-          tl2
-            .to(".hamburgerlines .line2", {
-              width: "0%",
-              duration: 0.2,
-              ease: Linear.easeInOut,
-            })
-            .to(
-              ".hamburgerlines .line1",
-              {
-                rotate: "45deg",
-                duration: 0.2,
-
-                ease: Linear.easeInOut,
-              },
-              "a"
-            )
-            .to(
-              ".hamburgerlines .line3",
-              {
-                rotate: "-45deg",
-                duration: 0.2,
-
-                ease: Linear.easeInOut,
-              },
-              "a"
-            );
-          sbar = 1;
-        } else {
-          sidebarclose();
-
-          sbar = 0;
-        }
-      }
-      function sidebarclose() {
-        if (window.innerWidth < 600) {
-          document
-            .querySelector(".sidebar")
-            .setAttribute("class", "sidebar leftbar");
-
-          let tl = gsap.timeline();
-          tl.to(".sidebar", {
-            duration: 0.09,
-            ease: Linear.easeInOut,
-            x: "-100%",
-          }).to(".sidebarmain", {
-            duration: 0.01,
-            display: "none",
-          });
-
-          document.querySelector(".sidebar").setAttribute("class", "sidebar");
-        } else {
-          document.querySelector(".sidebar").setAttribute("class", "sidebar");
-
-          let tl = gsap.timeline();
-          tl.to(".sidebar", {
-            duration: 0.09,
-            ease: Linear.easeInOut,
-            x: "100%",
-          }).to(".sidebarmain", {
-            duration: 0.01,
-            display: "none",
-          });
-          document
-            .querySelector(".sidebar")
-            .setAttribute("class", "sidebar leftbar");
-        }
-        let tl2 = gsap.timeline();
-        tl2
-          .to(
-            ".hamburgerlines .line1",
-            {
-              rotate: "0deg",
-              duration: 0.2,
-              ease: Linear.easeInOut,
-            },
-            "a"
-          )
-          .to(
-            ".hamburgerlines .line3",
-            {
-              rotate: "0deg",
-              duration: 0.2,
-              ease: Linear.easeInOut,
-            },
-            "a"
-          )
-          .to(".hamburgerlines .line2", {
-            width: "100%",
-            duration: 0.2,
-
-            ease: Linear.easeInOut,
-          });
-        sbar = 0;
-      }
+    
     </script>
-  </body>
-</html>
+<% include ../views/Partial/footer.ejs %> 

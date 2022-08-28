@@ -15,6 +15,24 @@
     align-items: center;
     padding: 20px;
   }
+  #G-btn{
+    padding: 10px;
+    width: 100%;
+    font-family: gilroy;
+    height: 40px;
+    background-color: #677EFF;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-top: 2vmax;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  #G-btn img{
+    height: 150%;
+    margin-right: 20px;
+  }
   
   section .container {
     position: relative;
@@ -58,6 +76,7 @@
     background: #fff;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     padding: 40px;
     transition: 0.5s;
