@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 
-mongoose.connect(
-  "mongodb+srv://nxchikxt:lolopolo@cluster0.wrqsqqz.mongodb.net/test"
-);
+mongoose.connect("mongodb://localhost/bonza");
 
 const userSchema = new mongoose.Schema({
   username: String,
