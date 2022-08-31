@@ -167,6 +167,10 @@ router.get("/profile",isLoggedIn,async (req, res, next) => {
 router.get("/addToWish/:id",isLoggedIn,async (req, res, next) => {
   const user = await userModel.findOne(req.user.username)
   
+  const product = await prdctModel.findOne({_id:req.params.id})
+  user.wishlist.push(product)
+  await user.save()
+  
   res.send(user);
 });
 
