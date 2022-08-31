@@ -6,7 +6,7 @@ const userModel = require("./users");
 const prdctModel = require("./product");
 const multer = require('multer')
 const path =  require('path')
-passport.use(new localStrategy(userModel.authenticate()));
+passport.use(new localStrategy({usernameField: 'email'}, userModel.authenticate()));
 require("./googleAuth");
 
 
@@ -27,7 +27,7 @@ passport.use(new GoogleStrategy({
       console.log(profile);
       userModel.findOrCreate(
         {
-          username: profile.email,
+          email: profile.email,
           name: profile.displayName,
         },
         function (err, user) {
@@ -48,31 +48,31 @@ router.get("/google/authenticated",passport.authenticate("google", {
 
 
 /* GET home page. */
-router.get("/login", checkLoggedIn, function (req, res, next) {
+router.get("/login", checkLoggedIn,  (req, res, next) => {
   res.render("login");
 });
-router.post("/login",passport.authenticate("local", {
+router.post("/login", checkLoggedIn,passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
-  function (req, res, next) {}
+   (req, res, next)=> {}
 );
 
 
 
-router.post("/register", function (req, res) {
+router.post("/register",  (req, res)=> {
   var newUser = new userModel({
-    username: req.body.username,
+    email: req.body.email,
     name: req.body.name,
     number: req.body.number,
   });
   userModel.register(newUser, req.body.password).then(function (u) {
-    passport.authenticate("local")(req, res, function () {
+    passport.authenticate("local")(req, res,  ()=> {
       res.redirect("/");
     });
   });
 });
-router.get("/logout", function (req, res) {
+router.get("/logout",  (req, res)=> {
   req.logout(function (err) {
     if (err) {
       return next(err);
@@ -80,7 +80,7 @@ router.get("/logout", function (req, res) {
     res.redirect("/");
   });
 });
-router.get("/", function (req, res, next) {
+router.get("/",  (req, res, next)=> {
   res.render("index", { title: "Express" });
 });
 function isLoggedIn(req, res, next) {
@@ -92,14 +92,15 @@ function isLoggedIn(req, res, next) {
 }
 function checkLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
-    res.redirect("/");
+    res.redirect("/profile");
   } else {
     return next();
   }
 }
 
-router.get("/product", function (req, res, next) {
-  res.render("product");
+router.get("/product/:id", async (req, res, next) =>{
+  const product = await prdctModel.findOne({_id:req.params.id})
+  res.render("product",{product});
 });
 const storage = multer.diskStorage({
   destination:(req,file,cb) =>{
@@ -122,7 +123,7 @@ function fileFilter (req, file, cb) {
   }
 }
 
-router.post("/productUpload",upload.array('prdctImg', 4),async (req, res, next)=> {
+router.post("/productUpload",upload.array('prdctImg', 10),async (req, res, next)=> {
     
     const newProduct = await prdctModel.create({
   prdctCtrg:req.body.prdctCtrg,
@@ -140,19 +141,33 @@ router.post("/productUpload",upload.array('prdctImg', 4),async (req, res, next)=
 
 
 
-router.get("/cart",isLoggedIn,async function (req, res, next) {
+router.get("/cart",isLoggedIn,async (req, res, next) => {
   const user = await userModel.findOne(req.user)
   res.render("cart"); 
 });
-router.get("/store",async function (req, res, next) {
+router.get("/store",async (req, res, next) => {
   const allProduct = await prdctModel.find()
   res.render("store", {allProduct});
 });
-router.get("/admin", function (req, res, next) {
+router.get("/admin", (req, res, next) => {
   res.render("admin");
 });
-router.get("/checkout",isLoggedIn, function (req, res, next) {
+router.get("/checkout",isLoggedIn, (req, res, next) => {
   res.render("checkout");
+});
+router.get("/loggedinUser",isLoggedIn,async (req, res, next) => {
+  const user = await userModel.findOne(req.user)
+  res.send(user);
+});
+router.get("/profile",isLoggedIn,async (req, res, next) => {
+  const user = await userModel.findOne(req.user)
+  
+  res.render("profile",{user});
+});
+router.get("/addToWish/:id",isLoggedIn,async (req, res, next) => {
+  const user = await userModel.findOne(req.user.username)
+  
+  res.send(user);
 });
 
 module.exports = router;

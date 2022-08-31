@@ -2,8 +2,14 @@
 <link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
 <link rel="stylesheet" href="../stylesheets/Partial/links.css" />
 <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
-  <link defer rel="stylesheet" href="../stylesheets/product.css" />
-  <link
+<link defer rel="stylesheet" href="../stylesheets/product.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+<link rel="import" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/images/loading.gif">
+<link rel="import" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/images/close.png">
+<link rel="import" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/images/next.png">
+<link rel="import" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/images/prev.png">
+<link
     defer
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -21,22 +27,14 @@
               <i class="ri-arrow-left-s-line"></i>
             </div>
             <div class="imgs">
-              <img
-                src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg"
-                alt=""
-              />
-              <img
-                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
-                alt=""
-              />
-              <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Game-Over-850x850.jpg"
-              alt=""
-              />
-              <img
-                src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
-                alt=""
-              />
+              <%product.prdctImg.forEach((e)=>{%>
+                <a href="../images/viaMulter/<%=e.filename%>" data-lightbox="mygallery">
+                <img
+                  src="../images/viaMulter/<%=e.filename%>"
+                  alt="" />
+                </a>
+              <%})%>
+              
             </div>
             <div onclick="slide(`right`)" class="slidebtn">
               <i class="ri-arrow-right-s-line"></i>
@@ -44,9 +42,9 @@
           </div>
 
           <div class="dets">
-            <h1>Dragon Ball Z</h1>
-            <h4>₹300.56</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam repudiandae itaque iusto sequi modi nulla sit. Odio ipsa culpa, accusamus illo error. dolore quo numquam deserunt, maiores doloremque perferendis minima?</p>
+            <h1><%=product.prdctName%></h1>
+            <h4>₹<%=product.prdctPrice%></h4>
+            <p><%=product.prdctDesc%></p>
             <div class="size">
               <h5>Size</h5> <select><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option></select>
             </div>
@@ -67,6 +65,7 @@
           <div class="head"><h4 class="active" onclick="openBody(this, 0)" >Description</h4><h4  onclick="openBody(this , 1)">Size Chart</h4>  </div>
           <div onscroll="scrolly()" class="body">
             <div class="section" id="bakchodi">
+              <!-- <iframe width="1031" height="580" src="https://www.youtube.com/embed/d5dtX8XWCfw" title="Who Is The REAL Kalki Avatar? Full Explanation By Hinduism Expert Dr. Vineet | The Ranveer Show 224" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
               <ul>
                 <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
                 <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
@@ -75,7 +74,7 @@
                 <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, iste.</li>
                 
               </ul>
-              <div id="vid"><iframe width="90%" height="90%" src="https://www.youtube.com/embed/GhQxrCrVSyw" title="Stephen Sanchez - Until I Found You (Lyrics)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+              <div id="vid"><iframe  src="https://www.youtube.com/embed/<%=product.prdctVideo%>" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
             </div>
             
               <div class="section"  id="sizeChart">
@@ -277,7 +276,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="../javascripts/nav.js"></script>
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js" integrity="sha512-6gudNVbNM/cVsLUMOb8g2b/RBqtQJ3aDfRFgU+5paeaCTtbYY/Dg00MzZq7r6RvJGI2KKtPBhjkHGTL/iOe21A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
     <script>
       function openBody(elem, e){
         var pos = e*document.querySelector(".body").offsetWidth
@@ -312,16 +312,16 @@
       const slidebtn = document.querySelectorAll(".slidebtn");
       let current = 0;
       const count = img.length;
-      setInterval(() => {
-        current++;
+      // setInterval(() => {
+      //   current++;
 
-        if (current >= count) {
-          gsap.to(imgs, { x: 0 });
-          current = 0;
-        } else {
-          gsap.to(imgs, { x:`-${100 * (current)}%` });
-        }
-      }, 2000);
+      //   if (current >= count) {
+      //     gsap.to(imgs, { x: 0 });
+      //     current = 0;
+      //   } else {
+      //     gsap.to(imgs, { x:`-${100 * (current)}%` });
+      //   }
+      // }, 2000);
 
       function slide(direc) {
         if (direc == "right") {

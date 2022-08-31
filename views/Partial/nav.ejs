@@ -10,7 +10,6 @@
             <a href="/">Home</a>
             <a href="/store">Store</a>
             <a href="/blog">Blog</a>
-            <a href="/whytoOversize">Why to Oversize?</a>
             <a href="/support">Support</a>
           </div>
          <a href="">
@@ -25,7 +24,7 @@
             <a href=""><i class="ri-search-2-line"></i></a>
             <a href=""><i class="ri-heart-3-line"></i></a>
             <a href="/cart"><i class="ri-shopping-cart-line"></i><div class="count">5</div></a>
-            <a>
+            <a  >
               <div onclick="sidebaropen()" id="rightHamburger" class="hamburger">
                 <div class="hamburgerlines">
                   <span class="lines line1"> </span>
@@ -35,8 +34,8 @@
               </div>
               <div onclick="sidebaropen()" class="profile">
                 
-                <img
-                  src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                <img class="pfp"
+                  src="../../images/def.jpg"
                   alt=""
                 />
               </div>
@@ -47,11 +46,11 @@
             <div class="sidebar">
               <a href="/login">
                 <div class="box">
-                  <img
-                    src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+                  <img class="pfp"
+                    src="../images/def.jpg"
                     alt=""
                   />
-                  <h4>login/signUp</h4>
+                  <h4 id="username" >login/signUp</h4>
                 </div>
               </a>
               <div class="catg">
@@ -60,3 +59,19 @@
             </div>
           </div>
         </div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script  >
+          axios.get("/loggedinUser").then((data)=>{
+            console.log(data.data.name)
+            if(data.data.pfp){
+              document.querySelectorAll(".pfp").forEach((e)=>e.setAttribute("src", `../images/${data.data.pfp}`))
+              document.querySelector("#username").textContent=data.data.name
+            }
+            else{
+              document.querySelectorAll(".pfp").forEach((e)=>e.setAttribute("src", `../images/def.jpg`))
+              document.querySelector("#username").textContent='Login/Sign-Up'
+            }
+          })
+       
+        </script>

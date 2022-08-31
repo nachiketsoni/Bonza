@@ -12,7 +12,6 @@
                 <a href=""><div class="sec">Help & Support</div> </a>
                 <a href=""><div class="sec">Suggestions</div></a>
                 <a href=""><div class="sec">About Us</div></a>
-                <a href="/logout"><div class="sec">Log Out</div></a>
                 `
           }
           else{
@@ -25,7 +24,7 @@
                 <a href=""><div class="sec">Customisation</div> </a>
                 <a href=""><div class="sec">Suggestions</div></a>
                 <a href=""><div class="sec">About Us</div></a>
-                <a href="/logout"><div class="sec">Log Out</div></a>
+                
                 `
           }
         })();

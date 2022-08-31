@@ -184,6 +184,7 @@
                             <option value="Bottoms">Bottoms</option>
                             <option value="Hoodie">Hoodie</option>
                             <option value="Oversized">Oversized</option>
+                            <option value="Oversized">Sweatshirt</option>
                         </select>
                         <label for="floatingSelect">Category</label>
                     </div>
@@ -231,7 +232,7 @@
         var prdctImg = document.querySelector(".prdctImg")
         // function submitHandler(){prdctImg.files.length === 4 ? submit.setAttribute("disabled","false") :submit.setAttribute("disabled","") }
         prdctForm.addEventListener("submit",(e)=>{
-            if(prdctImg.files.length === 4) {
+            if(prdctImg.files.length < 10) {
 
             } 
             

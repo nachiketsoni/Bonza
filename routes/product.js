@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   prdctPrice:String, 
   prdctVideo:String, 
   prdctImg:Array,
-  
+  prdctReview:[{type:mongoose.Schema.Types.ObjectId,ref:"Review"}]
 
   });
 

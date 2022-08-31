@@ -8,6 +8,36 @@
           user-select: none;
         }
         @font-face {
+          font-family: 'aeon';
+          src: url(../../fonts/AEONIK-REGULAR.OTF);
+          font-weight: 500;
+}
+@font-face {
+          font-family: 'aeon';
+          src: url(../../fonts/AEONIK-MEDIUM.OTF);
+          font-weight: 600;
+}
+@font-face {
+          font-family: 'aeon';
+          src: url(../../fonts/AEONIK-LIGHT.OTF);
+          font-weight: 400;
+}
+@font-face {
+          font-family: 'aeon';
+          src: url(../../fonts/AEONIK-BOLD.OTF);
+          font-weight: 700;
+}
+@font-face {
+          font-family: 'aeon';
+          src: url(../../fonts/AEONIK-BLACK.OTF);
+          font-weight: 900;
+}
+@font-face {
+          font-family: 'aeon';
+          src: url(../../fonts/AEONIK-THIN.OTF);
+          font-weight: 100;
+}
+        @font-face {
           font-family: "gilro";
           src: url(../../fonts/gilroy/GILROY-LIGHT.OTF);
           font-weight: 100;

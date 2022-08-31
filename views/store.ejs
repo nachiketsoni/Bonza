@@ -71,7 +71,7 @@
               
               <div class="item">
                 <div class="img">
-                  <div id="heart"><i class="ri-heart-3-line"></i></div>
+                  <div  onclick="wishlist('<%= e._id %>')" id="heart"><i class="ri-heart-3-line"></i></div>
                   <a href="/product/<%= e._id %> ">
                     <img
                       class="scnd"
@@ -181,7 +181,12 @@
       };
     </script>
     <script src="../javascripts/nav.js"></script>
-    
+      <script>
+        const wishlist = async (id) =>{
+          let data =  await axios.get(`/addToWish/${id}`)
+              console.log(data);
+        }
+      </script>
     <script>
       let flag = 0;
       document.querySelectorAll("#heart").forEach((all) => {
