@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
   prdctCtrg:String,
   prdctName:String, 
-  prdctDesc:String, 
+  prdctDesc:String,
+  prdctFeatures:String,
   prdctPrice:String, 
   prdctVideo:String, 
   prdctImg:Array,

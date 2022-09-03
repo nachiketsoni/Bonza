@@ -1,0 +1,138 @@
+* {
+          margin: 0%;
+          padding: 0%;
+          box-sizing: border-box;
+          font-family: kobe;
+      }
+      
+      html,
+      body {
+          width: 100%;
+          height: 100%;
+          background-color: #000;
+      }
+      
+      #mainLM {
+          width: 100%;
+          /* height: 100%; */
+          padding: 0 3.5vw;
+          background-color: #000;
+      }
+      
+      .page1lm {
+          width: 100%;
+          color: #fff;
+          height: 100%;
+          background-color: #000;
+      }
+      
+      .navlm {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+}
+.navlm h1{
+          font-size: 10vmin;
+
+          font-family: voyage;                  
+                font-weight: 100;
+      }
+      
+      .c1 {
+          width: 36vw;
+          margin-top: 2vw;
+      }
+      
+      .c1 h1 {
+          font-size: 7vmin;
+          font-family: voyage;                  
+                font-weight: 100;
+      }
+      
+      .contentlm {
+          width: 70vmin;
+      
+      }
+      
+      .contentlm p {
+          font-size: 2.8vmin;
+          font-weight: 100;
+      }
+      
+      #c11 {
+          position: relative;
+          height: 35vmin;
+          width: 100%;
+          margin-bottom: 5vmax;
+}
+
+.left{
+          position: absolute;
+          right: 0%;
+
+}
+      /* page 2 css */
+      .c2 {
+          width: 100%;
+          margin-top: 5vw;
+          display: flex;
+          justify-content: space-between;
+      }
+      
+      #teamPage {
+          margin-top: 1vmax;
+          background-color: #000;
+      }
+      
+      .leflm {
+          width: 45vw;
+      }
+      
+      .leflm h1 {
+          font-size: 7vmin;
+          font-family: voyage;                  
+          font-weight: 100;
+      
+      }
+      
+      .leflm h2 {
+          font-size: 3.4vmin;
+          font-weight: 100;
+      
+      }
+      
+      .leflm .contentlm {
+         
+          width: 100%;
+      
+      }
+      
+      .rightlm {
+          width: 10vw;
+          position: relative;
+          right: 15vw;
+      }
+      
+      .rightlm img {
+          background-color: yellow;
+          width: 10vw;
+          height: 15vw;
+      }
+      #lastimg img {
+          width: 5vw;
+          height: 10vh;
+      }
+      
+      .footerimage {
+          margin-top: 2vmax;
+          width: 100%;
+          height: 45vw;
+          background-color: #fff;
+      }
+      
+      .footerimage img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      
+      }

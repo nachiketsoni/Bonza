@@ -1,223 +1,233 @@
-<% include ../views/Partial/header.ejs %> 
+<% include ../views/Partial/header.ejs %>
 
-  <link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
-  <link rel="stylesheet" href="../stylesheets/Partial/links.css" />
-  <link rel="stylesheet" href="../stylesheets/store.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/links.css" />
+<link rel="stylesheet" href="../stylesheets/store.css" />
 <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
 
-  <body>
-    <div id="search">
-      <div class="container">
-        <div class="search-wrapper">
-          <div id="searchBox">
-            <!-- <form action=""><input class="bubble" type="text" name="search" id="searcInput"></form> -->
-            <div class="bubble"><p class="S" style="color: #4c83f0">S</p></div>
-            <div class="bubble" style="left: 50px">
-              <p style="color: #d1333b">E</p>
-            </div>
-            <div class="bubble" style="left: 100px">
-              <p style="color: #eeb80b">A</p>
-            </div>
-            <div class="bubble" style="left: 150px">
-              <p style="color: #4c83f0">R</p>
-            </div>
-            <div class="bubble" style="left: 200px">
-              <p style="color: #1caf60">C</p>
-            </div>
-            <div class="bubble" style="left: 250px">
-              <p style="color: #d1333b">H</p>
-            </div>
-            <div class="bubble" style="left: 300px"><p>🔎</p></div>
+<body>
+  <div id="search">
+    <div class="container">
+      <div class="search-wrapper">
+        <div id="searchBox">
+          <!-- <form action=""><input class="bubble" type="text" name="search" id="searcInput"></form> -->
+          <div class="bubble"><p class="S" style="color: #4c83f0">S</p></div>
+          <div class="bubble" style="left: 50px">
+            <p style="color: #d1333b">E</p>
           </div>
+          <div class="bubble" style="left: 100px">
+            <p style="color: #eeb80b">A</p>
+          </div>
+          <div class="bubble" style="left: 150px">
+            <p style="color: #4c83f0">R</p>
+          </div>
+          <div class="bubble" style="left: 200px">
+            <p style="color: #1caf60">C</p>
+          </div>
+          <div class="bubble" style="left: 250px">
+            <p style="color: #d1333b">H</p>
+          </div>
+          <div class="bubble" style="left: 300px"><p>🔎</p></div>
         </div>
       </div>
-
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
     </div>
-<% include ../views/Partial/nav.ejs %> 
-    
-    <div id="main">
-      <div class="catgs">
-        <div class="lef">
-          <a href="">All</a> / <a href="">Hoodie</a> / <a href="">Bottoms</a> /
-          <a href="">T-Shirt</a> / <a href="">Sweatshirt</a>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+            result="goo"
+          />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
+  </div>
+  <% include ../views/Partial/nav.ejs %>
+
+  <div id="main">
+    <div class="catgs">
+      <div class="lef">
+        <a href="">All</a> / <a href="">Hoodie</a> / <a href="">Bottoms</a> /
+        <a href="">T-Shirt</a> / <a href="">Sweatshirt</a>
+      </div>
+      <div class="rig">
+        <a href="">Filter</a> /
+        <a onclick="search()">Search <i class="ri-search-2-line"></i></a>
+      </div>
+    </div>
+
+    <div id="second">
+      <% allProduct.forEach((e)=>{ %>
+
+      <div class="item">
+        <div class="img">
+          <% try{%>
+
+            <% if(!user.wishlist.includes(e._id)){ %>
+            <div id="heart" onclick="wishlist(this,'<%= e._id %>')" id="heart">
+              <i class="ri-heart-3-line"></i>
+            </div>
+            <% }else if(user.wishlist.includes(e._id)){%>
+            <div id="heart" onclick="wishlist(this,'<%= e._id %>')" id="heart">
+              <lottie-player
+                src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"
+                background="transparent"
+                speed="1"
+                autoplay
+              ></lottie-player>
+            </div>
+          <% }%>
+          <%}catch{ %>
+          <div onclick="wishlist(this,'<%= e._id %>')" id="heart">
+            <i class="ri-heart-3-line"></i>
+          </div>
+          <% } %>
+
+          <a href="/product/<%= e._id %> ">
+            <img
+              class="scnd"
+              src="../images/viaMulter/<%= e.prdctImg[0].filename %>"
+              alt=""
+            />
+
+            <img
+              src="../images/viaMulter/<%= e.prdctImg[1].filename %>"
+              alt=""
+            />
+          </a>
         </div>
-        <div class="rig">
-          <a href="">Filter</a> /
-          <a onclick="search()">Search <i class="ri-search-2-line"></i></a>
+        <div class="dets">
+          <h2><%= e.prdctName %></h2>
+          <h4 class="show">₹<%= e.prdctPrice%></h4>
         </div>
       </div>
-      
-
-          <div id="second">
-            <% allProduct.forEach((e)=>{ %>
-              
-              <div class="item">
-                <div class="img">
-                  <div  onclick="wishlist('<%= e._id %>')" id="heart"><i class="ri-heart-3-line"></i></div>
-                  <a href="/product/<%= e._id %> ">
-                    <img
-                      class="scnd"
-                      src="../images/viaMulter/<%= e.prdctImg[0].filename %>"
-                      alt=""
-                    />
-      
-                    <img
-                      src="../images/viaMulter/<%= e.prdctImg[1].filename %>"
-                      alt=""
-                    />
-      
-                  </a>
-                  </div>
-                  <div class="dets">
-                    <h2>
-                      <%= e.prdctName %>
-                    </h2>
-                    <h4 class="show">₹<%= e.prdctPrice%></h4>
-                  </div>
-                </div>
-           <% }) %> 
-            
-          
-          </div>
-          
-     
-<% include ../views/Partial/links.ejs %> 
-
+      <% }) %>
     </div>
-    <script>
-      const bubbles = document.querySelectorAll(".bubble");
-      const bubblePosition = [0, 50];
-      const search = document.querySelector(".search-wrapper");
-      const S = document.querySelector(".S");
-      const input = document.createElement("input");
-      var searchFlag = 0;
-      const searchbar = (e) => {
-        if (searchFlag === 0) {
-          e.innerHTML = '<i class="ri-close-line"></i>';
-          document.querySelector("#search").style.display = "block";
-          input.type = "text";
-          input.className = "inputSearch";
-          let counter = 0;
-          let distanceAll = [];
-      
-          function bubbling() {
-            if (counter < bubbles.length) {
-              setTimeout(function () {
-                bubbles[counter].classList.add("animate");
-                let distance = [counter] * 50 + "px";
-                distanceAll[counter] = distance;
-                counter++;
-                bubbling(counter);
-              }, 80);
-            }
+
+    <% include ../views/Partial/links.ejs %>
+  </div>
+  <script>
+    const bubbles = document.querySelectorAll(".bubble");
+    const bubblePosition = [0, 50];
+    const search = document.querySelector(".search-wrapper");
+    const S = document.querySelector(".S");
+    const input = document.createElement("input");
+    var searchFlag = 0;
+    const searchbar = (e) => {
+      if (searchFlag === 0) {
+        e.innerHTML = '<i class="ri-close-line"></i>';
+        document.querySelector("#search").style.display = "block";
+        input.type = "text";
+        input.className = "inputSearch";
+        let counter = 0;
+        let distanceAll = [];
+
+        function bubbling() {
+          if (counter < bubbles.length) {
+            setTimeout(function () {
+              bubbles[counter].classList.add("animate");
+              let distance = [counter] * 50 + "px";
+              distanceAll[counter] = distance;
+              counter++;
+              bubbling(counter);
+            }, 80);
           }
-      
-          bubbling();
-      
-          search.addEventListener("mouseover", function () {
-            // console.log("ciao");
-            bubbles[0].style = "width: 350px;display:initial;  border-radius: 10px;  z-index: 52;";
-            // bubbles[0].classList.remove("animate");
-            input.placeholder = "Search";
-            S.style.color = "#333333";
-            setTimeout(() => {
-              S.innerHTML = "";
-              bubbles[0].appendChild(input);
-              let inputAppended = document.querySelector(".inputSearch");
-              inputAppended.focus();
-              inputAppended.style = "opacity:1;";
-              inputAppended.addEventListener("keypress", (e) => {
-                if (e.keyCode == 13) {
-                  console.log(
-                    "Now I am removing text but you can do whatever you want with text value 😊"
-                  );
-                  inputAppended.value = "";
-                }
-              });
-            }, 1000);
-          });
-      
-          search.addEventListener("mouseout", async function () {
+        }
+
+        bubbling();
+
+        search.addEventListener("mouseover", function () {
+          // console.log("ciao");
+          bubbles[0].style =
+            "width: 350px;display:initial;  border-radius: 10px;  z-index: 52;";
+          // bubbles[0].classList.remove("animate");
+          input.placeholder = "Search";
+          S.style.color = "#333333";
+          setTimeout(() => {
+            S.innerHTML = "";
+            bubbles[0].appendChild(input);
             let inputAppended = document.querySelector(".inputSearch");
-            bubbles[0].style = "";
-            inputAppended.style = "width:0;display:initial;opacity:0; z-index: -1; ";
-            console.log("ciao");
-            console.log(inputAppended);
-            bubbles[0].classList.add("animate");
-            S.style.color = "#4C83F0";
-            input.placeholder = "";
-      
-            await setTimeout(() => {
-              bubbles[0].removeChild(input);
-              S.innerHTML = "S";
-            }, 1000);
-          });
-          
-          searchFlag = 1;
-        } else {
-          e.innerHTML = '<i class="ri-search-2-line"></i>';
-          document.querySelector("#search").style.display = "none";
-          searchFlag = 0;
-
-        }
-      };
-    </script>
-    <script src="../javascripts/nav.js"></script>
-      <script>
-        const wishlist = async (id) =>{
-          let data =  await axios.get(`/addToWish/${id}`)
-              console.log(data);
-        }
-      </script>
-    <script>
-      let flag = 0;
-      document.querySelectorAll("#heart").forEach((all) => {
-        all.addEventListener("click", () => {
-          if (flag === 0) {
-            all.innerHTML = `<lottie-player  src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"  background="transparent"  speed="1" autoplay></lottie-player>`;
-            flag = 1;
-          } else {
-            all.innerHTML = `<i class="ri-heart-3-line dil"></i>`;
-            flag = 0;
-          }
+            inputAppended.focus();
+            inputAppended.style = "opacity:1;";
+            inputAppended.addEventListener("keypress", (e) => {
+              if (e.keyCode == 13) {
+                console.log(
+                  "Now I am removing text but you can do whatever you want with text value 😊"
+                );
+                inputAppended.value = "";
+              }
+            });
+          }, 1000);
         });
+
+        search.addEventListener("mouseout", async function () {
+          let inputAppended = document.querySelector(".inputSearch");
+          bubbles[0].style = "";
+          inputAppended.style =
+            "width:0;display:initial;opacity:0; z-index: -1; ";
+          console.log("ciao");
+          console.log(inputAppended);
+          bubbles[0].classList.add("animate");
+          S.style.color = "#4C83F0";
+          input.placeholder = "";
+
+          await setTimeout(() => {
+            bubbles[0].removeChild(input);
+            S.innerHTML = "S";
+          }, 1000);
+        });
+
+        searchFlag = 1;
+      } else {
+        e.innerHTML = '<i class="ri-search-2-line"></i>';
+        document.querySelector("#search").style.display = "none";
+        searchFlag = 0;
+      }
+    };
+  </script>
+  <script src="../javascripts/nav.js"></script>
+  <script>
+    axios.get("/loggedinUser").then((res) => {
+      console.log(res);
+    });
+    const wishlist = async (thi, id) => {
+      let data = await axios.get(`/addToWish/${id}`);
+      console.log(id, data);
+      if(data.data.status == "added"){
+        console.log(data);
+        thi.innerHTML = `<lottie-player  src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"  background="transparent"  speed="1" autoplay></lottie-player>`;
+
+      }else if (data.data.status == "removed"){
+        console.log(data);
+        thi.innerHTML = `<i class="ri-heart-3-line dil"></i>`;
+      }
+      else{
+        console.log(data);
+      }
+    };
+   
+  </script>
+  <script>
+    var scnd = document.querySelectorAll(".scnd");
+    var show = document.querySelectorAll(".show");
+    var txt = [];
+    document.querySelectorAll(".item").forEach((all, i) => {
+      txt.push(show[i].textContent);
+
+      all.addEventListener("mouseover", (e) => {
+        scnd[i].style.opacity = 1;
+        show[i].textContent = "Show More";
       });
-      var scnd = document.querySelectorAll(".scnd");
-      var show = document.querySelectorAll(".show");
-      var txt = [];
-      document.querySelectorAll(".item").forEach((all, i) => {
-        txt.push(show[i].textContent);
-
-        all.addEventListener("mouseover", (e) => {
-          scnd[i].style.opacity = 1;
-          show[i].textContent = "Show More";
-        });
-        all.addEventListener("mouseout", (e) => {
-          scnd[i].style.opacity = 0;
-          show[i].textContent = txt[i];
-        });
+      all.addEventListener("mouseout", (e) => {
+        scnd[i].style.opacity = 0;
+        show[i].textContent = txt[i];
       });
-
-    
-
-     
-    </script>
- <% include ../views/Partial/footer.ejs %> 
+    });
+  </script>
+  <% include ../views/Partial/footer.ejs %>
+</body>

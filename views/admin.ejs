@@ -208,8 +208,13 @@
                     
                     <div class="form-floating">
                         <textarea name="prdctDesc" class="form-control" placeholder="Leave a comment here"
-                            id="floatingTextarea" style="height: 150px;"></textarea>
+                            id="floatingTextarea" style="height: 100px;"></textarea>
                         <label for="floatingTextarea">Description</label>
+                    </div>
+                    <div class="form-floating mt-3">
+                        <textarea name="prdctFeatures" class="form-control" placeholder="Leave a comment here"
+                            id="floatingTextarea" style="height: 100px;"></textarea>
+                        <label for="floatingTextarea">Features</label>
                     </div>
                     <button type="submit" id="submit" class="btn btn-primary mt-2">Submit</button>
                 </div>
@@ -230,7 +235,6 @@
         let submit = document.querySelector("#submit")
         let prdctForm = document.querySelector("#prdctForm")
         var prdctImg = document.querySelector(".prdctImg")
-        // function submitHandler(){prdctImg.files.length === 4 ? submit.setAttribute("disabled","false") :submit.setAttribute("disabled","") }
         prdctForm.addEventListener("submit",(e)=>{
             if(prdctImg.files.length < 10) {
 

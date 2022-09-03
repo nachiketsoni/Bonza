@@ -4,20 +4,20 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
-const multer = require('multer')
-const path =  require('path')
-passport.use(new localStrategy({usernameField: 'email'}, userModel.authenticate()));
-require("./googleAuth");
-
-
-
-
-
+const multer = require("multer");
+const path = require("path");
+const { log } = require("console");
+passport.use(
+  new localStrategy({ usernameField: "email" }, userModel.authenticate())
+);
 
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const GOOGLE_CLIENT_ID ="440162361558-a6g5bialhgo794bqbouv2fq2jjlvhrqg.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID =
+  "440162361558-a6g5bialhgo794bqbouv2fq2jjlvhrqg.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "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";
-passport.use(new GoogleStrategy({
+passport.use(
+  new GoogleStrategy(
+    {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/google/authenticated",
@@ -37,42 +37,46 @@ passport.use(new GoogleStrategy({
     }
   )
 );
-router.get("/google/auth",passport.authenticate("google", { scope: ["profile", "email"] }));
-router.get("/google/authenticated",passport.authenticate("google", {
+router.get(
+  "/google/auth",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+router.get(
+  "/google/authenticated",
+  passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
   function (req, res) {}
 );
 
-
-
 /* GET home page. */
-router.get("/login", checkLoggedIn,  (req, res, next) => {
+router.get("/login", checkLoggedIn, (req, res, next) => {
   res.render("login");
 });
-router.post("/login", checkLoggedIn,passport.authenticate("local", {
+router.post(
+  "/login",
+  checkLoggedIn,
+  passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
-   (req, res, next)=> {}
+  (req, res, next) => {}
 );
 
-
-
-router.post("/register",  (req, res)=> {
+router.post("/register", (req, res) => {
   var newUser = new userModel({
     email: req.body.email,
     name: req.body.name,
     number: req.body.number,
   });
   userModel.register(newUser, req.body.password).then(function (u) {
-    passport.authenticate("local")(req, res,  ()=> {
+    passport.authenticate("local")(req, res, () => {
       res.redirect("/");
     });
   });
 });
-router.get("/logout",  (req, res)=> {
+router.get("/logout", (req, res) => {
   req.logout(function (err) {
     if (err) {
       return next(err);
@@ -80,7 +84,7 @@ router.get("/logout",  (req, res)=> {
     res.redirect("/");
   });
 });
-router.get("/",  (req, res, next)=> {
+router.get("/", (req, res, next) => {
   res.render("index", { title: "Express" });
 });
 function isLoggedIn(req, res, next) {
@@ -98,80 +102,127 @@ function checkLoggedIn(req, res, next) {
   }
 }
 
-router.get("/product/:id", async (req, res, next) =>{
-  const product = await prdctModel.findOne({_id:req.params.id})
-  res.render("product",{product});
+router.get("/product/:id", async (req, res, next) => {
+  const product = await prdctModel.findOne({ _id: req.params.id });
+  res.render("product", { product });
 });
 const storage = multer.diskStorage({
-  destination:(req,file,cb) =>{
-    cb(null , './public/images/viaMulter');
+  destination: (req, file, cb) => {
+    cb(null, "./public/images/viaMulter");
   },
-  filename:(req,file,cb) =>{
-    cb(null, file.fieldname + Date.now() +  path.extname(file.originalname))
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
   },
-})
+});
 const upload = multer({
-  storage:storage,
-  fileFilter: fileFilter
-})
-function fileFilter (req, file, cb) {
-  if(file.mimetype.split('/')[1] === 'png' || file.mimetype.split('/')[1] === 'jpg' || file.mimetype.split('/')[1] === 'jpeg'){
-    cb(null, true)
-  }
-  else{
-    cb(null, false)
+  storage: storage,
+  fileFilter: fileFilter,
+});
+function fileFilter(req, file, cb) {
+  if (
+    file.mimetype.split("/")[1] === "png" ||
+    file.mimetype.split("/")[1] === "jpg" ||
+    file.mimetype.split("/")[1] === "jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
   }
 }
 
-router.post("/productUpload",upload.array('prdctImg', 10),async (req, res, next)=> {
-    
+router.post(
+  "/productUpload",
+  upload.array("prdctImg", 10),
+  async (req, res, next) => {
     const newProduct = await prdctModel.create({
-  prdctCtrg:req.body.prdctCtrg,
-  prdctName:req.body.prdctName, 
-  prdctDesc:req.body.prdctDesc, 
-  prdctPrice:req.body.prdctPrice, 
-  prdctVideo:req.body.prdctVideo, 
-  prdctImg:req.files,
-  
-    })
+      prdctCtrg: req.body.prdctCtrg,
+      prdctName: req.body.prdctName,
+      prdctFeatures:req.body.prdctFeatures,
+      prdctDesc: req.body.prdctDesc,
+      prdctPrice: req.body.prdctPrice,
+      prdctVideo: req.body.prdctVideo,
+      prdctImg: req.files,
+    });
 
+    res.redirect("/store");
+  }
+);
+
+router.get("/cart", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.user.username).populate("cart");
+  // res.json(user)
+  res.render("cart", {user});
+});
+router.get("/store", async (req, res, next) => {
+  const allProduct = await prdctModel.find();
+  try{
+    const user = await userModel.findOne(req.user.username);
+
+    res.render("store", { allProduct, user });
+  }
+  catch{
     
-    res.redirect('/store')
-});
-
-
-
-router.get("/cart",isLoggedIn,async (req, res, next) => {
-  const user = await userModel.findOne(req.user)
-  res.render("cart"); 
-});
-router.get("/store",async (req, res, next) => {
-  const allProduct = await prdctModel.find()
-  res.render("store", {allProduct});
+    res.render("store", { allProduct});
+  }
 });
 router.get("/admin", (req, res, next) => {
   res.render("admin");
 });
-router.get("/checkout",isLoggedIn, (req, res, next) => {
+router.get("/checkout", isLoggedIn, (req, res, next) => {
   res.render("checkout");
 });
-router.get("/loggedinUser",isLoggedIn,async (req, res, next) => {
-  const user = await userModel.findOne(req.user)
-  res.send(user);
+router.get("/about", isLoggedIn, (req, res, next) => {
+  res.render("about");
 });
-router.get("/profile",isLoggedIn,async (req, res, next) => {
-  const user = await userModel.findOne(req.user)
-  
-  res.render("profile",{user});
+router.get("/loggedinUser", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.user.username);
+  res.json(user);
 });
-router.get("/addToWish/:id",isLoggedIn,async (req, res, next) => {
-  const user = await userModel.findOne(req.user.username)
-  
-  const product = await prdctModel.findOne({_id:req.params.id})
-  user.wishlist.push(product)
-  await user.save()
-  
-  res.send(user);
+router.get("/wishlist", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.user.username).populate("wishlist")
+  res.render("wishlist",{user})
 });
+router.get("/wishlist/remove/:id", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.user.username).populate("wishlist")
+  user.wishlist.splice(user.wishlist.indexOf(req.params.id), 1);
+  await user.save();
+  res.redirect("back")
+});
+router.get("/profile", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.user.username);
+  res.render("profile", { user });
+});
+router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.session.passport.username);
+  const product = await prdctModel.findOne({ _id: req.params.id });
+  console.log(user.wishlist.includes(req.params.id));
+  if (!user.wishlist.includes(req.params.id)) {
+    user.wishlist.push(product);
+    await user.save();
+    res.json({ status: "added", wishlist: user.wishlist });
+  } else {  
+    user.wishlist.splice(user.wishlist.indexOf(req.params.id), 1);
+    await user.save();
+    
+    
+      res.json({ status: "removed", wishlist: user.wishlist });
+    
+  }
+});
+router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne(req.session.passport.username);
+  const product = await prdctModel.findOne({ _id: req.params.id });
+
+  if (!user.cart.includes(req.params.id)) {
+    user.cart.push(product);
+    await user.save();
+    
+  } else {  
+    user.cart.splice(user.cart.indexOf(req.params.id), 1);
+    await user.save();
+  }
+  res.redirect("back")
+});
+
 
 module.exports = router;

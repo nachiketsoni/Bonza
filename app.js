@@ -7,7 +7,8 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const passport = require('passport')
-const expressSession = require('express-session')
+const expressSession = require('express-session');
+const { Cookie } = require('express-session');
 
 const app = express();
 
@@ -18,7 +19,8 @@ app.set('view engine', 'ejs');
 app.use(expressSession({
   resave: false,
   saveUninitialized: false,
-  secret: "saenrsn"
+  secret: "saenrsn",
+  // cookie: {maxAge: 1000 * 60 * 60 * 24 * 7}
 }))
 app.use(passport.initialize());
 app.use(passport.session());

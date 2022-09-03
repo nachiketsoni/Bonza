@@ -102,6 +102,9 @@
   line-height: 1.5vmax;
   font-weight:300;
 }
+.dets form{
+  width: 100%;
+}
 .size{
   display: flex;
   width: 100%;
@@ -132,10 +135,18 @@ select{
   font-weight: 100;
   /* background-color: #C90000 */
 }
-.size:nth-last-child(2){
+#btn{
+  width: 100%;
+  padding: 1vmax 2vmax;
+  font-size: .7vmax;
   justify-content: center;
   background-color: #000;
   color: #fff;  
+}
+#btn h5{
+  font-size: 1.7vh;
+  font-weight: 400;
+  color: #fff;
 }
 .size:nth-last-child(1){
   margin-top: 1vmax;

@@ -1,0 +1,137 @@
+*{
+         
+}
+html,body{
+          height: 100%;
+          width: 100%;
+}
+
+#main{
+          width: 100%;
+          height: 100%;
+          padding-top: 70px;
+}
+#main h1{
+          font-size: 8vmax;
+          font-weight: 100;
+          margin: 0 1.5rem;
+          font-family:kobe;
+}
+#second {
+          position: relative;
+          /* height: 110vh; */
+          margin-bottom: 3vmax;
+          width: 100vw;
+          display: flex;
+          align-items: center;
+          /* justify-content: center; */
+          gap: 20px 4vmax ;
+          /* overflow: hidden; */
+          padding: 3vw;
+          overflow:hidden ;
+          flex-wrap: wrap;
+          background-color: rgb(255, 255, 255);
+          /* overflow: hidden; */
+        }
+        #second .dil{
+          padding: 3vmax;
+        }
+        #second .item{
+          width: 50vh;
+          position: relative;
+        }
+        #second .item .img{
+          height: 50vh;
+          width: 100%;
+          
+          display: flex;
+          position: relative;
+          cursor: pointer;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+        
+        #second .item .dets{
+          width: 100%;
+          padding: 1vmax;
+        }
+        #second .item h2{
+          display: flex;
+          /* padding: 0 .2vmax; */
+          align-items: center;
+          justify-content:space-between;
+          font-size: 20px;
+        }
+        #second .item  #heart {
+          height:3.5rem;
+          width: 3.5rem;
+          position: absolute;
+          right: 1%;
+          top: 1%;
+          z-index: 15;
+          border-radius: 50%;
+          display: flex;
+          background-color: #f9f9f9;
+
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        #second .item #heart i,#second .item #heart lottie-player{
+          cursor: pointer;
+        }
+        
+        #second .item h4{
+          font-size:18px;
+          /* padding-left: 1vmax; */
+          font-weight: 400;
+          cursor: pointer;
+        }
+        
+        #second .item .img img{
+          width: 100%;
+          height: 100%;
+          
+          cursor: pointer;
+          object-fit: cover;
+          transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+          
+        }
+        #second .item .scnd{
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          position: absolute;
+          cursor: pointer;
+          object-fit: cover;
+          transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+          
+        }
+          @media screen and (max-width: 600px) {
+            
+            #second .item{
+              width: 45vw;
+            }
+  
+            #second .item .img{
+              height:45vw;
+              width: 45vw;
+            }
+            #second .item .dets{
+              width: 45vw;
+             
+            }
+            #second .item h4{
+              font-size:12px;
+              /* margin-top: -12px; */
+          
+            }
+            #second .item h2{
+              font-size: 12px;
+            }
+            #second .item #heart{
+              height:3rem;
+              width: 3rem;
+            }
+            
+          }

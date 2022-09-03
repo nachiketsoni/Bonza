@@ -1,0 +1,46 @@
+<% include ../views/Partial/header.ejs %>
+<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+  <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+  <link rel="stylesheet" href="../stylesheets/wishlist.css">
+<div id="main">
+          <% include ../views/Partial/nav.ejs %> 
+          <h1>Wishlist</h1>
+          <hr>
+          <div id="second">
+                    <% user.wishlist.forEach((e,i)=>{ %>
+              
+                    <div class="item">
+                      <div class="img">
+                          <a id="heart" href="/wishlist/remove/<%= e._id %> "  id="heart">
+                            <lottie-player
+                              src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"
+                              background="transparent"
+                              speed="1"
+                              autoplay
+                            ></lottie-player>
+                          </a>
+                   
+                      
+                        <a href="/product/<%= e._id %> ">
+                          <img
+                            class="scnd"
+                            src="../images/viaMulter/"
+                            alt=""
+                          />
+              
+                          <img
+                            src="../images/viaMulter/"
+                            alt=""
+                          />
+                        </a>
+                      </div>
+                      <div class="dets">
+                        <h2><%= e.prdctName %></h2>
+                        <h4 class="show">₹<%= e.prdctPrice%></h4>
+                      </div>
+                    </div>
+                    <% }) %>
+                  </div>
+</div> 
+
+<% include ../views/Partial/footer.ejs %> 
