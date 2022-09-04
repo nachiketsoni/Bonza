@@ -149,14 +149,14 @@ router.post(
 );
 
 router.get("/cart", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.user.username).populate("cart");
+  const user = await userModel.findOne({email:req.user.email}).populate("cart");
   // res.json(user)
   res.render("cart", {user});
 });
 router.get("/store", async (req, res, next) => {
   const allProduct = await prdctModel.find();
   try{
-    const user = await userModel.findOne(req.user.username);
+    const user = await userModel.findOne({email:req.user.email});
 
     res.render("store", { allProduct, user });
   }
@@ -175,25 +175,26 @@ router.get("/about", isLoggedIn, (req, res, next) => {
   res.render("about");
 });
 router.get("/loggedinUser", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.user.username);
+  const user = await userModel.findOne({email:req.user.email});
   res.json(user);
 });
 router.get("/wishlist", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.user.username).populate("wishlist")
+  const user = await userModel.findOne({email:req.user.email}).populate("wishlist")
   res.render("wishlist",{user})
 });
 router.get("/wishlist/remove/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.user.username).populate("wishlist")
+  const user = await userModel.findOne({email:req.user.email}).populate("wishlist")
   user.wishlist.splice(user.wishlist.indexOf(req.params.id), 1);
   await user.save();
   res.redirect("back")
 });
 router.get("/profile", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.user.username);
+  const user = await userModel.findOne({email:req.user.email});
+ 
   res.render("profile", { user });
 });
 router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.session.passport.username);
+  const user = await userModel.findOne({email:req.user.email});
   const product = await prdctModel.findOne({ _id: req.params.id });
   console.log(user.wishlist.includes(req.params.id));
   if (!user.wishlist.includes(req.params.id)) {
@@ -210,7 +211,7 @@ router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne(req.session.passport.username);
+  const user = await userModel.findOne({email:req.user.email});
   const product = await prdctModel.findOne({ _id: req.params.id });
 
   if (!user.cart.includes(req.params.id)) {
