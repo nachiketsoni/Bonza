@@ -1,4 +1,6 @@
-
+*{
+  scroll-behavior: smooth;
+}
 
 #main{
   height: 100%;
@@ -12,10 +14,16 @@
   display: flex;
   align-items: center;
   background-color: red;
-  overflow: hidden;
+  overflow: auto;
+  scroll-snap-type: x mandatory;
 }
   
-
+#first .cntr{
+  width: 100%;
+  overflow: hidden;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
 #first .cntr .lef h5{
   
   font-weight:1000;

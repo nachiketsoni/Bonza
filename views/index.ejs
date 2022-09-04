@@ -16,6 +16,22 @@
           </div>
           <img src="../images/Modelo.png" alt="" />
         </div>
+        <div class="cntr">
+          <div class="lef">
+            <h5>ORGANIC</h5>
+            <h1>Minimal Premium<br /><span>Clothing.</span></h1>
+            <a href=""><button>Shop Now</button></a>
+          </div>
+          <img src="../images/Modelo.png" alt="" />
+        </div>
+        <div class="cntr">
+          <div class="lef">
+            <h5>ORGANIC</h5>
+            <h1>Minimal Premium<br /><span>Clothing.</span></h1>
+            <a href=""><button>Shop Now</button></a>
+          </div>
+          <img src="../images/Modelo.png" alt="" />
+        </div>
       </div>
       <div id="second">
         <a  href="/product/">
@@ -397,7 +413,24 @@
 
     </div>
     <script src="../javascripts/nav.js"></script>
-    
+    <script>
+      const cntr = document.querySelectorAll(".cntr");
+      const first = document.querySelector("#first");
+      let current = 0;
+      const count = cntr.length;
+      setInterval(() => {
+      current++;
+
+      if (current >= count) {
+        first.scrollTo(0,0)
+        current = 0;
+      } else {
+        first.scrollBy(screen.width,0);
+      }
+    }, 4000);
+
+
+    </script>
     <script>
       let flag = 0;
       document.querySelectorAll("#heart").forEach((all) => {

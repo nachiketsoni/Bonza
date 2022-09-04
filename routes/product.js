@@ -10,7 +10,6 @@ const productSchema = new mongoose.Schema({
   prdctVideo:String, 
   prdctImg:Array,
   prdctReview:[{type:mongoose.Schema.Types.ObjectId,ref:"Review"}]
-
   });
 
 module.exports = mongoose.model('Product', productSchema);

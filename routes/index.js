@@ -21,8 +21,8 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
        
-      callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      // callbackURL: "http://localhost:3000/google/authenticated",
+      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
+      callbackURL: "http://localhost:3000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {

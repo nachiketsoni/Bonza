@@ -30,7 +30,6 @@
         })();
         var sbar =  0
         function sidebaropen() {
-          console.log("click");
           if(sbar === 0 ) {
             
             let tl = gsap.timeline();
@@ -49,7 +48,6 @@
             },
             "a"
             );
-            console.log("chala");
   
           let tl2 = gsap.timeline();
           tl2

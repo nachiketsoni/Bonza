@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = mongoose.Schema({
-          comment:{type: mongoose.Schema.Types.ObjectId,ref:"Product"},
+          comment:{type:String},
           commentOwner:{type: mongoose.Schema.Types.ObjectId,ref:"User"},
           
 })
