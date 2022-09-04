@@ -14,7 +14,8 @@
   display: flex;
   align-items: center;
   background-color: red;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
 }
   
