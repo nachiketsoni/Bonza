@@ -38,6 +38,9 @@
             </div>
           </div>
           <div class="item">
+             <% if(user.cart.length>0){%>
+
+             
             <% user.cart.forEach(e => {%>
               
           
@@ -68,6 +71,9 @@
             </div>
             
             <% }); %> 
+            <%}else{%>
+              <h1 id="empty">Cart is Empty</h1>
+            <%} %>
             
           </div>
         </div>

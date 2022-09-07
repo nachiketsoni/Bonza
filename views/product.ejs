@@ -155,13 +155,16 @@
     </div>
     <div id="review">
       <div class="content">
+        <% product.prdctReview.forEach((e)=>{%>
+
+ 
         <div class="comment">
-          <img src="https://www.hollywoodreporter.com/wp-content/uploads/2019/03/avatar-publicity_still-h_2019.jpg?w=1024" alt=""> <div id="commentWrapper"><h6><span> Owner Name Lorem ipsum dolor sit amet.</span> :&nbsp;&nbsp; Comment...... Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia cum, dolorem alias placeat, nemo inventore laboriosam Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum beatae eius minus a eligendi quos cumque aperiam quidem? Quae accusamus repellendus voluptatem deserunt aperiam reprehenderit maxime alias? Laboriosam, eligendi natus! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus maiores neque ea sit, dolore repellat repudiandae sequi a obcaecati quae illo exercitationem consequuntur architecto ipsam libero sed sapiente debitis unde? </h6></div>
+          <img src="../images/<%=e.commentOwner.pfp %>" alt=""> <div id="commentWrapper"><h6> <%=e.commentOwner.name %> :&nbsp;&nbsp;<div id="comm"><%=e.comment %></div></h6><span><i class="ri-delete-bin-4-fill"></i></span></div>
         </div>
         
-      
+        <%}) %> 
       </div>
-       <div id="inp" > <input type="text" placeholder="Share Your Review..." class="reviewInp"> <button><i class="ri-send-plane-fill"></i></button></div>
+       <form action="/comment/<%=product._id%>" method="POST" id="inp" > <input  name="comment" type="text" placeholder="Share Your Review..." class="reviewInp"> <button><i class="ri-send-plane-fill"></i></button></form>
     </div>
     <h1 id="rel">Related product</h1>
     <div id="third">

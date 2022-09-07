@@ -4,25 +4,23 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
+const reviewModel = require("./review") 
 const multer = require("multer");
 const path = require("path");
 const { log } = require("console");
-passport.use(
-  new localStrategy({ usernameField: "email" }, userModel.authenticate())
-);
+passport.use(new localStrategy({ usernameField: "email" }, userModel.authenticate()));
 
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const GOOGLE_CLIENT_ID =
   "440162361558-a6g5bialhgo794bqbouv2fq2jjlvhrqg.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "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";
-passport.use(
-  new GoogleStrategy(
+passport.use(new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
        
-      callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      // callbackURL: "http://localhost:3000/google/authenticated",
+      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
+      callbackURL: "http://localhost:3000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -39,13 +37,9 @@ passport.use(
     }
   )
 );
-router.get(
-  "/google/auth",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+router.get("/google/auth",passport.authenticate("google", { scope: ["profile", "email"] })
 );
-router.get(
-  "/google/authenticated",
-  passport.authenticate("google", {
+router.get("/google/authenticated",passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
@@ -56,10 +50,7 @@ router.get(
 router.get("/login", checkLoggedIn, (req, res, next) => {
   res.render("login");
 });
-router.post(
-  "/login",
-  checkLoggedIn,
-  passport.authenticate("local", {
+router.post("/login",checkLoggedIn,passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
@@ -103,10 +94,28 @@ function checkLoggedIn(req, res, next) {
     return next();
   }
 }
-
 router.get("/product/:id", async (req, res, next) => {
-  const product = await prdctModel.findOne({ _id: req.params.id });
+  const product = await prdctModel.findOne({ _id: req.params.id })
+  .populate({
+    path : 'prdctReview',
+    populate : {
+      path : 'commentOwner'
+    }
+  })
+  console.log(product)
   res.render("product", { product });
+});
+router.post("/comment/:id", async (req, res, next) => {
+  const user = await userModel.findOne({email:req.user.email})
+  const product = await prdctModel.findOne({ _id: req.params.id });
+  const comment = await reviewModel.create({
+    comment:req.body.comment,
+    commentOwner:user._id
+  })
+  product.prdctReview.push(comment._id)
+  await product.save()
+  console.log(user);
+  res.redirect(`/product/${req.params.id}`);
 });
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -131,7 +140,6 @@ function fileFilter(req, file, cb) {
     cb(null, false);
   }
 }
-
 router.post(
   "/productUpload",
   upload.array("prdctImg", 10),
@@ -149,7 +157,6 @@ router.post(
     res.redirect("/store");
   }
 );
-
 router.get("/cart", isLoggedIn, async (req, res, next) => {
   const user = await userModel.findOne({email:req.user.email}).populate("cart");
   // res.json(user)

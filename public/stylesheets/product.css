@@ -359,21 +359,34 @@ a{
 
 }
 #review .content .comment{
+  margin-top: 1vmax;
   width: 100%;
+  /* overflow-x: hidden;
+  overflow-y:auto ;   */
   display: flex;
 }
 #commentWrapper{
+  width: 100%;
   margin-top: 1vmax;
   display: flex;
+
 }
-#review .content .comment span{
+#review .content .comment #comm{
+  position: relative;
+  font-weight: 400;
+  /* max-width: 90%; */
+  display:inline-block;
+  word-break: break-all;
+  font-size: 1.2vmax;
+  word-break: break-all;
+
+
+}
+#review .content .comment h6{
   white-space: nowrap;
   font-weight: 500;
   font-size: 1.3vmax;
-}
-#review .content .comment h6{
-  font-weight: 400;
-  font-size: 1.2vmax;
+  word-break: break-all;
 }
 #review .content .comment img{
   width: 3.5vmax;
