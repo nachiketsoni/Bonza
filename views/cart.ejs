@@ -15,6 +15,8 @@
   </head>
 
   <body>
+  <% include ../views/Partial/loader.ejs %>
+
     <div id="main">
       <div class="left">
         <a href="/"> <i class="ri-arrow-left-s-line"></i> Back to Store</a>
@@ -26,9 +28,7 @@
               <div class="sec">
                 <h4>Size</h4>
               </div>
-              <div class="sec">
-                <h4>Delivery</h4>
-              </div>
+              
               <div class="sec">
                 <h4>Qty</h4>
               </div>
@@ -40,33 +40,30 @@
           <div class="item">
              <% if(user.cart.length>0){%>
 
-             
             <% user.cart.forEach(e => {%>
-              
-          
+           
+      
             <div class="itm txtanim">
-              <a id="delete" href=""><div ><i class="ri-close-line"></i></div></a>
+              <a id="delete" href="/cart/delete/<%=e._id%>"><div ><i class="ri-close-line"></i></div></a>
               <div class="lside">
                 <img src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg" alt="" />
-                <h2 class="pname" ><%= e.prdctName %> </h2>
+                <h2 class="pname" ><%= e.product.prdctName %> </h2>
               </div>
               <div class="side">
                 <div class="sec">
-                  <h4><select><option>S</option><option>M</option><option>L</option></select></h4>
+                  <h4><select><option><%= e.size %></option><option>S</option><option>M</option><option>L</option></select></h4>
                 </div>
-                <div class="sec">
-                  <h4>2 Days</h4>
-                </div>
+               
                 <div class="sec">
                   <a href="/cart/dec/"
                     ><i class="ri-indeterminate-circle-line"></i
                   ></a>
-                  <h3>1</h3>
+                  <h3><%= e.quantity %></h3>
                   <a href="/cart/inc/">
                     <i class="ri-add-circle-line"></i
                   ></a>
                 </div>
-                <div class="sec">₹<%= e.prdctPrice %> </div>
+                <div class="sec">₹<%= e.Amt*e.quantity  %> </div>
               </div>
             </div>
             
@@ -79,7 +76,6 @@
         </div>
 
         <div>
-          <!-- <h1 class="mtcart">Your cart is empty</h1> -->
         </div>
 
       </div>
@@ -88,24 +84,24 @@
         <div class="calc">
           <div class="cats txtanim2">
             <h2>Subtotal</h2>
-            <h2>$45.00</h2>
+            <h2>₹<%= subtotal %> </h2>
           </div>
           <div class="cats txtanim2">
             <h2>Delivery</h2>
-            <h2>$05.00</h2>
-            <!-- <h2>$00.00</h2> -->
+            <h2>₹50.00</h2>
+            <!-- <h2>₹00.00</h2> -->
           </div>
           <div class="cats txtanim2">
             <h2>Tax</h2>
-            <h2>$15.00</h2>
-            <!-- <h2>$00.00</h2> -->
+            <h2>₹14.99</h2>
+            <!-- <h2>₹00.00</h2> -->
           </div>
         </div>
         <div class="total">
           <div class="cats txtanim2">
             <h2>Total</h2>
-            <h2>$50.00</h2>
-            <!-- <h2>$00.00</h2> -->
+            <h2>₹<%=subtotal+65-0.01 %></h2>
+            <!-- <h2>₹00.00</h2> -->
           </div>
           <form action="/checkout" method="GEt">
             <button class="txtanim2">Checkout</button>
@@ -169,7 +165,7 @@
                 <div class="sec">
                   <h4>Price</h4>
                   
-                  $45</div> 
+                  ₹45</div> 
               </div>
               </div>`;
 

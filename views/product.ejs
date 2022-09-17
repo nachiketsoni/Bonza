@@ -35,9 +35,10 @@
   crossorigin="anonymous"
 />
 <body>
+  <% include ../views/Partial/loader.ejs %>
+
   <div class="main">
     <% include ../views/Partial/nav.ejs %>
-
     <div class="first">
       <div class="center">
         <div class="imgwrapper">
@@ -47,10 +48,10 @@
           <div class="imgs">
             <%product.prdctImg.forEach((e)=>{%>
             <a
-              href="../images/viaMulter/<%=e.filename%>"
+              href="<%=e%>"
               data-lightbox="mygallery"
             >
-              <img src="../images/viaMulter/<%=e.filename%>" alt="" />
+              <img src="<%=e%>" alt="" />
             </a>
             <%})%>
           </div>
@@ -60,18 +61,17 @@
         </div>
 
         <div class="dets">
-          <h1><%=product.prdctName%></h1>
-          <h4>₹<%=product.prdctPrice%></h4>
-          <p><%=product.prdctDesc%></p>
           <form action="/addToCart/<%=product._id%>" method="post">
+          <h1 id="title"><%=product.prdctName%></h1>
+          <h4 id="price">₹<%=product.prdctPrice%></h4>
+          <input type = "hidden" name = "price" value = "<%=product.prdctPrice%>" />
+          <p id="descp"><%=product.prdctDesc%></p>
             <div class="size">
               <h5>Size</h5>
               <select name="size">
-                <option>XS</option>
                 <option>S</option>
                 <option>M</option>
                 <option>L</option>
-                <option>XL</option>
               </select>
             </div>
             <div class="size">
@@ -83,7 +83,6 @@
             </button>
           </form>
           <div class="size">
-            <a href=""><i class="ri-heart-fill"></i></a>
             <a href="https://web.whatsapp.com/"
               ><i class="ri-whatsapp-fill"></i></a
             ><a href="https://www.instagram.com/"
@@ -106,15 +105,8 @@
             <ul>
               <%=product.prdctFeatures%>
             </ul>
-            <div id="vid">
-              <iframe
-                src="https://www.youtube.com/embed/<%=product.prdctVideo%>"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
           </div>
-
+        
           <div class="section" id="sizeChart">
             <h2>Size Chart</h2>
             <div class="cover">
@@ -153,13 +145,30 @@
         </div>
       </div>
     </div>
+    <div  id="vid">
+      <!-- https://www.youtube.com/watch?v=WNeLUngb-Xg&list=RDMMWNeLUngb-Xg&start_radio=1 -->
+      <a target="_blank" href="https://www.youtube.com/watch?v=<%=product.prdctVideo%>">
+        <img
+          src="<%=product.thumbnail%>"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        />
+      </a>
+    </div>
+
     <div id="review">
+        <h1>REVIEWS</h1>
       <div class="content">
         <% product.prdctReview.forEach((e)=>{%>
 
  
         <div class="comment">
-          <img src="../images/<%=e.commentOwner.pfp %>" alt=""> <div id="commentWrapper"><h6> <%=e.commentOwner.name %> :&nbsp;&nbsp;<div id="comm"><%=e.comment %></div></h6><span><i class="ri-delete-bin-4-fill"></i></span></div>
+          <img src="../images/<%=e.commentOwner.pfp %>" alt=""> <div id="commentWrapper"><h6> <%=e.commentOwner.name %> :&nbsp;&nbsp;<div id="comm"><%=e.comment %></div></h6></div>
+
+              <% if(user && user.email === e.commentOwner.email){%>
+                <a href="/removecomment/<%=product._id%>/<%= e._id%>" id="del"><i class="ri-delete-bin-4-fill"></i></a>
+              <%} %> 
+                
         </div>
         
         <%}) %> 
@@ -344,8 +353,8 @@
           .querySelector(".head > h4:nth-child(3)")
           .classList.remove("active");
       } else if (
-        body.scrollLeft > body.offsetWidth - 10 &&
-        body.scrollLeft < body.offsetWidth * 2
+        body.scrollLeft >= body.offsetWidth -100 &&
+        body.scrollLeft < body.offsetWidth * 2 - 100
       ) {
         document
           .querySelector(".head > h4:nth-child(2)")

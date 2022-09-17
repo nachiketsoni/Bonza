@@ -4,23 +4,31 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
-const reviewModel = require("./review") 
-const multer = require("multer");
+const reviewModel = require("./review");
+const cartModel = require("./cart");
 const path = require("path");
-const { log } = require("console");
-passport.use(new localStrategy({ usernameField: "email" }, userModel.authenticate()));
+passport.use(
+  new localStrategy({ usernameField: "email" }, userModel.authenticate())
+);
+
+const cloudinary = require("cloudinary");
+const formidable = require("formidable");
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const GOOGLE_CLIENT_ID =
-  "440162361558-a6g5bialhgo794bqbouv2fq2jjlvhrqg.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
-passport.use(new GoogleStrategy(
+passport.use(
+  new GoogleStrategy(
     {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-       
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+
       // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      callbackURL: "http://localhost:3000/google/authenticated",
+      callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -37,9 +45,11 @@ passport.use(new GoogleStrategy(
     }
   )
 );
-router.get("/google/auth",passport.authenticate("google", { scope: ["profile", "email"] })
+router.get("/google/auth",
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
-router.get("/google/authenticated",passport.authenticate("google", {
+router.get("/google/authenticated",
+  passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
@@ -50,7 +60,9 @@ router.get("/google/authenticated",passport.authenticate("google", {
 router.get("/login", checkLoggedIn, (req, res, next) => {
   res.render("login");
 });
-router.post("/login",checkLoggedIn,passport.authenticate("local", {
+router.post("/login",
+  checkLoggedIn,
+  passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
   }),
@@ -95,144 +107,254 @@ function checkLoggedIn(req, res, next) {
   }
 }
 router.get("/product/:id", async (req, res, next) => {
-  const product = await prdctModel.findOne({ _id: req.params.id })
-  .populate({
-    path : 'prdctReview',
-    populate : {
-      path : 'commentOwner'
-    }
-  })
-  console.log(product)
-  res.render("product", { product });
+  const product = await prdctModel.findOne({ _id: req.params.id }).populate({
+    path: "prdctReview",
+    populate: {
+      path: "commentOwner",
+    },
+  });
+
+  if (req.user) {
+    var user = await userModel
+      .findOne({ email: req.user.email })
+      .populate("cart");
+  } else {
+    var user = null;
+  }
+
+  res.render("product", { product, user });
 });
 router.post("/comment/:id", async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email})
+  const user = await userModel.findOne({ email: req.user.email });
   const product = await prdctModel.findOne({ _id: req.params.id });
   const comment = await reviewModel.create({
-    comment:req.body.comment,
-    commentOwner:user._id
-  })
-  product.prdctReview.push(comment._id)
-  await product.save()
+    comment: req.body.comment,
+    commentOwner: user._id,
+  });
+  product.prdctReview.push(comment._id);
+  await product.save();
   console.log(user);
   res.redirect(`/product/${req.params.id}`);
 });
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images/viaMulter");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
-  },
-});
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-});
-function fileFilter(req, file, cb) {
-  if (
-    file.mimetype.split("/")[1] === "png" ||
-    file.mimetype.split("/")[1] === "jpg" ||
-    file.mimetype.split("/")[1] === "jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-}
-router.post(
-  "/productUpload",
-  upload.array("prdctImg", 10),
-  async (req, res, next) => {
+
+router.post("/productUpload", async (req, res, next) => {
+  const form = formidable({ multiples: true });
+
+  form.parse(req, async (err, fields, files) => {
+    const {
+      prdctCtrg,
+      prdctName,
+      prdctFeatures,
+      prdctDesc,
+      prdctPrice,
+      prdctVideo,
+    } = fields;
+    const { secure_url } = await cloudinary.v2.uploader.upload(
+      files.thumbnail.filepath,
+      { folder: prdctName, fetch_format: "webp", quality: "30" }
+    );
+    const thumbnail = secure_url;
+    var allImg = [];
+    for (let i = 0; i < files.prdctImg.length; i++) {
+      const { secure_url } = await cloudinary.v2.uploader.upload(
+        files.prdctImg[i].filepath,
+        { folder: prdctName, fetch_format: "webp", quality: "30" }
+      );
+      allImg.push(secure_url);
+    }
     const newProduct = await prdctModel.create({
-      prdctCtrg: req.body.prdctCtrg,
-      prdctName: req.body.prdctName,
-      prdctFeatures:req.body.prdctFeatures,
-      prdctDesc: req.body.prdctDesc,
-      prdctPrice: req.body.prdctPrice,
-      prdctVideo: req.body.prdctVideo,
-      prdctImg: req.files,
+      prdctCtrg,
+      prdctName,
+      prdctFeatures,
+      prdctDesc,
+      prdctPrice,
+      prdctVideo,
+      thumbnail: thumbnail,
+      prdctImg: allImg,
     });
 
     res.redirect("/store");
-  }
-);
+    // res.status(200).json(newProduct);
+  });
+});
+
 router.get("/cart", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email}).populate("cart");
+  const user = await userModel.findOne({ email: req.user.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
+  var subtotal = 0;
+  user.cart.forEach(function (data) {
+    subtotal += parseInt(data.Amt * data.quantity);
+  });
   // res.json(user)
-  res.render("cart", {user});
+  console.log(user);
+  res.render("cart", { user, subtotal });
+});
+router.get("/checkout", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne({ email: req.user.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
+  var subtotal = 0;
+  user.cart.forEach(function (data) {
+    subtotal += parseInt(data.Amt * data.quantity);
+  });
+  res.render("checkout", { user, subtotal });
 });
 router.get("/store", async (req, res, next) => {
   const allProduct = await prdctModel.find();
-  try{
-    const user = await userModel.findOne({email:req.user.email});
-
+  try {
+    const user = await userModel.findOne({ email: req.user.email });
     res.render("store", { allProduct, user });
-  }
-  catch{
-    
-    res.render("store", { allProduct});
+  } catch {
+    res.render("store", { allProduct });
   }
 });
+// router.get("/story", async (req, res, next) => {
+//   const allProduct = await prdctModel.find();
+//   if(req.user){ var user = await userModel.findOne({email:req.user.email}).populate("cart")
+// }else{var user = null}
+//   res.status(200).json({user,allProduct})
+// });
+router.get("/story/:ctrg", async (req, res, next) => {
+  let allProduct = null;
+  if (req.params.ctrg == "all") {
+    allProduct = await prdctModel.find();
+  } else {
+    allProduct = await prdctModel.find({ prdctCtrg: req.params.ctrg });
+  }
+  if (req.user) {
+    var user = await userModel
+      .findOne({ email: req.user.email })
+      .populate("cart");
+  } else {
+    var user = null;
+  }
+  res.status(200).json({ user, allProduct });
+});
+
 router.get("/admin", (req, res, next) => {
   res.render("admin");
 });
-router.get("/checkout", isLoggedIn, (req, res, next) => {
-  res.render("checkout");
-});
-router.get("/about", isLoggedIn, (req, res, next) => {
+router.get("/about", (req, res, next) => {
   res.render("about");
 });
 router.get("/loggedinUser", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email});
+  const user = await userModel.findOne({ email: req.user.email });
   res.json(user);
 });
 router.get("/wishlist", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email}).populate("wishlist")
-  res.render("wishlist",{user})
+  const user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("wishlist");
+  res.render("wishlist", { user });
 });
 router.get("/wishlist/remove/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email}).populate("wishlist")
+  const user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("wishlist");
   user.wishlist.splice(user.wishlist.indexOf(req.params.id), 1);
   await user.save();
-  res.redirect("back")
+  res.redirect("back");
 });
 router.get("/profile", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email});
- 
+  const user = await userModel.findOne({ email: req.user.email });
+
   res.render("profile", { user });
 });
 router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email});
+  const user = await userModel.findOne({ email: req.user.email });
   const product = await prdctModel.findOne({ _id: req.params.id });
   console.log(user.wishlist.includes(req.params.id));
   if (!user.wishlist.includes(req.params.id)) {
     user.wishlist.push(product);
     await user.save();
     res.json({ status: "added", wishlist: user.wishlist });
-  } else {  
+  } else {
     user.wishlist.splice(user.wishlist.indexOf(req.params.id), 1);
     await user.save();
-    
-    
-      res.json({ status: "removed", wishlist: user.wishlist });
-    
+
+    res.json({ status: "removed", wishlist: user.wishlist });
   }
 });
 router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({email:req.user.email});
+  const user = await userModel.findOne({ email: req.user.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
   const product = await prdctModel.findOne({ _id: req.params.id });
+  const carts = await cartModel.find();
+  
+  
+  
 
-  if (!user.cart.includes(req.params.id)) {
-    user.cart.push(product);
-    await user.save();
+    const search = (item , i)=>{
+      if(item.product._id.toString() == product._id.toString() && item.size == req.body.size ){
+        return i
+      }
+      else{
+        return -1
+      }
+    }
+    const lolo = user.cart.findIndex(search)
+  if(lolo != -1){
     
-  } else {  
-    user.cart.splice(user.cart.indexOf(req.params.id), 1);
+    console.log(lolo);
+    user.cart[lolo].quantity++;
+    console.log(user);
+  }
+  else if (carts.findIndex(search) != -1){
+    console.log(carts);
+    console.log(carts.findIndex(search));
+    user.cart.push(carts[carts.findIndex(search)]._id);
     await user.save();
   }
-  res.redirect("back")
-});
+  else{
 
+    const cart = await cartModel.create({
+      size: req.body.size,
+      quantity: req.body.quantity,
+      Amt: req.body.price,
+      product: product._id,
+  });
+  user.cart.push(cart._id);
+  await user.save();
+
+  }
+  res.redirect("back");
+});
+router.get("/cart/delete/:id",isLoggedIn,async (req,res,next)=>{
+  const cart = await cartModel.findOneAndDelete({_id: req.params.id})
+  const user = await userModel.findOne({ email: req.user.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
+  user.cart.splice(user.cart.indexOf(cart._id),1)
+  await user.save()
+  res.redirect("back")
+})
+router.get("/removecomment/:product/:comment",
+  isLoggedIn,
+  async (req, res, next) => {
+    const product = await prdctModel.findOne({ _id: req.params.product });
+
+    await reviewModel.findByIdAndDelete({ _id: req.params.comment });
+    product.prdctReview.splice(
+      product.prdctReview.indexOf(req.params.comment),
+      1
+    );
+    await product.save();
+    res.redirect("back");
+  }
+);
 
 module.exports = router;

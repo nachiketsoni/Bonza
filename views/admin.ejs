@@ -30,6 +30,8 @@
 </head>
 
 <body>
+  <% include ../views/Partial/loader.ejs %>
+
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -203,6 +205,13 @@
                         <label for="floatingPassword">Product Video</label>
                     </div>
                     <div class="mb-3 ">
+                        <small>Thumbnail</small>
+                        <input name="thumbnail" class="form-control bg-dark prdctImg" type="file" >
+                    </div>
+                    
+                    <div class="mb-3 ">
+                        <small>Images</small>
+
                         <input name="prdctImg"  class="form-control bg-dark prdctImg" type="file" id="formFileMultiple" multiple>
                     </div>
                     

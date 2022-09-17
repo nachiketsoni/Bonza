@@ -12,6 +12,20 @@ a{
 
 }
 
+#addAdrs{
+    font-weight: 300;
+    font-size: 1vmax;
+    width: 15vmax;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1vmax 0;
+    border-radius: 10px; 
+    background-color: #000000;
+    padding: 1vmax;
+    color: white;
+}
+
 .left{
           width: 15%;
           height: 100%;  

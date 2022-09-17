@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "./config/.env" });
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -19,7 +20,7 @@ app.set('view engine', 'ejs');
 app.use(expressSession({
   resave: false,
   saveUninitialized: false,
-  secret: "saenrsn",
+  secret: process.env.SESSION_SECRET,
   // cookie: {maxAge: 1000 * 60 * 60 * 24 * 7}
 }))
 app.use(passport.initialize());

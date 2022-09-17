@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
 
 <body>
+  
+  <% include ../views/Partial/loader.ejs %>
+
   <div id="search">
     <div class="container">
       <div class="search-wrapper">
@@ -52,8 +55,11 @@
   <div id="main">
     <div class="catgs">
       <div class="lef">
-        <a href="">All</a> / <a href="">Hoodie</a> / <a href="">Bottoms</a> /
-        <a href="">T-Shirt</a> / <a href="">Sweatshirt</a>
+        <a onclick="allProduct('all')">All</a> /
+        <a onclick="allProduct('Hoodie')">Hoodie</a> /
+        <a onclick="allProduct('Bottoms')">Bottoms</a> /
+        <a onclick="allProduct('T-Shirt')">T-Shirt</a> /
+        <a onclick="allProduct('Sweatshirt')">Sweatshirt</a>
       </div>
       <div class="rig">
         <a href="">Filter</a> /
@@ -62,55 +68,90 @@
     </div>
 
     <div id="second">
-      <% allProduct.forEach((e)=>{ %>
-
-      <div class="item">
-        <div class="img">
-          <% try{%>
-
-            <% if(!user.wishlist.includes(e._id)){ %>
-            <div id="heart" onclick="wishlist(this,'<%= e._id %>')" id="heart">
-              <i class="ri-heart-3-line"></i>
-            </div>
-            <% }else if(user.wishlist.includes(e._id)){%>
-            <div id="heart" onclick="wishlist(this,'<%= e._id %>')" id="heart">
-              <lottie-player
-                src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"
-                background="transparent"
-                speed="1"
-                autoplay
-              ></lottie-player>
-            </div>
-          <% }%>
-          <%}catch{ %>
-          <div onclick="wishlist(this,'<%= e._id %>')" id="heart">
-            <i class="ri-heart-3-line"></i>
-          </div>
-          <% } %>
-
-          <a href="/product/<%= e._id %> ">
-            <img
-              class="scnd"
-              src="../images/viaMulter/<%= e.prdctImg[0].filename %>"
-              alt=""
-            />
-
-            <img
-              src="../images/viaMulter/<%= e.prdctImg[1].filename %>"
-              alt=""
-            />
-          </a>
-        </div>
-        <div class="dets">
-          <h2><%= e.prdctName %></h2>
-          <h4 class="show">₹<%= e.prdctPrice%></h4>
-        </div>
-      </div>
-      <% }) %>
+      <img src="../images/loader.gif" />
     </div>
 
     <% include ../views/Partial/links.ejs %>
   </div>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    
+        const showCard = (data,user) => {
+          let clutter = "";
+          data.forEach((e) => {
+              let heart=`<i class="ri-heart-3-line"></i>`;
+              if(user!= null){
+                        if(user.wishlist.includes(e._id)){heart = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`}
+                        else if(!user.wishlist.includes(e._id)){heart = `<i class="ri-heart-3-line"></i>`}
+                        else{heart= `<i class="ri-heart-3-line"></i>`}
+              }
+
+                        clutter += `
+                                <div class="item">
+                                <div class="img">
+                                  <div onclick="wishlist(this)" data-user="${user}" data-id="${e._id}" id="heart">${heart}</div>
+                        <a href="/product/${e._id}">
+                        <img
+                          class="scnd"
+                          src="${e.prdctImg[0]}"
+                          alt=""
+                        />
+
+                        <img
+                          src="${e.prdctImg[3]}"
+                          alt=""
+                        />
+                      </a>
+                    </div>
+                    <div class="dets">
+                      <h2>${e.prdctName}</h2>
+                      <h4 class="show">₹ ${e.prdctPrice}</h4>
+                    </div>
+                  </div>
+                    `;
+          });
+
+          document.querySelector("#second").innerHTML = clutter;
+
+        };
+
+        const wishlist = async (that) => {
+          if(that.dataset.user==null){
+                    window.location.href = "/login"
+          }
+          else{
+                    
+                    if(that.innerHTML==`<i class="ri-heart-3-line"></i>`){
+                              that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`
+                    }
+                    else{
+                              that.innerHTML = `<i class="ri-heart-3-line"></i>`
+                    }
+                    await axios.get(`/addToWish/${that.dataset.id}`)
+          }
+        };
+
+        const allProduct = (ctrg) => {
+          document.querySelector("#second").innerHTML = `<img src="../images/loader.gif" />`;
+          console.log("Hoodie");
+                        var settings = {
+                        "url": `/story/${ctrg}`,
+                        "method": "GET",
+                        "cache": true,      
+                    }
+                    $.ajax(settings).done(({allProduct,user})=>{
+                              showCard(allProduct,user)
+                    });
+
+          };
+
+        allProduct("all");
+  </script>
   <script>
     const bubbles = document.querySelectorAll(".bubble");
     const bubblePosition = [0, 50];
@@ -191,43 +232,9 @@
     };
   </script>
   <script src="../javascripts/nav.js"></script>
-  <script>
-    axios.get("/loggedinUser").then((res) => {
-      console.log(res);
-    });
-    const wishlist = async (thi, id) => {
-      let data = await axios.get(`/addToWish/${id}`);
-      console.log(id, data);
-      if(data.data.status == "added"){
-        console.log(data);
-        thi.innerHTML = `<lottie-player  src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"  background="transparent"  speed="1" autoplay></lottie-player>`;
 
-      }else if (data.data.status == "removed"){
-        console.log(data);
-        thi.innerHTML = `<i class="ri-heart-3-line dil"></i>`;
-      }
-      else{
-        console.log(data);
-      }
-    };
+  <script>
    
-  </script>
-  <script>
-    var scnd = document.querySelectorAll(".scnd");
-    var show = document.querySelectorAll(".show");
-    var txt = [];
-    document.querySelectorAll(".item").forEach((all, i) => {
-      txt.push(show[i].textContent);
-
-      all.addEventListener("mouseover", (e) => {
-        scnd[i].style.opacity = 1;
-        show[i].textContent = "Show More";
-      });
-      all.addEventListener("mouseout", (e) => {
-        scnd[i].style.opacity = 0;
-        show[i].textContent = txt[i];
-      });
-    });
   </script>
   <% include ../views/Partial/footer.ejs %>
 </body>

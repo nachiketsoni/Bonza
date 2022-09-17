@@ -1,6 +1,4 @@
-*{
-         
-}
+
 html,body{
           height: 100%;
           width: 100%;
@@ -106,6 +104,9 @@ html,body{
           object-fit: cover;
           transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
           
+        }
+        #second .item:hover .scnd{
+         opacity: 1;
         }
           @media screen and (max-width: 600px) {
             

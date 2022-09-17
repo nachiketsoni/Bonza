@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
   <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
   <link rel="stylesheet" href="../stylesheets/wishlist.css">
+  <% include ../views/Partial/loader.ejs %>
+
 <div id="main">
           <% include ../views/Partial/nav.ejs %> 
           <h1>Wishlist</h1>
@@ -24,12 +26,12 @@
                         <a href="/product/<%= e._id %> ">
                           <img
                             class="scnd"
-                            src="../images/viaMulter/"
+                            src="<%= e.prdctImg[0]%>"
                             alt=""
                           />
               
                           <img
-                            src="../images/viaMulter/"
+                            src="<%= e.prdctImg[1]%>"
                             alt=""
                           />
                         </a>

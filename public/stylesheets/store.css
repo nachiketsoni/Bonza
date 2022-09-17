@@ -138,6 +138,7 @@
           /* height: 110vh; */
           margin-bottom: 3vmax;
           width: 100vw;
+          min-height:20vmax ;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -221,6 +222,10 @@
           object-fit: cover;
           transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
           
+        }
+        
+        #second .item:hover .scnd{
+         opacity: 1;
         }
           @media screen and (max-width: 600px) {
             

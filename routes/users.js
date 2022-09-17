@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 
-mongoose.connect("mongodb+srv://bonza:bonza@cluster0.2nfpc7z.mongodb.net/test");
+mongoose.connect(process.env.MONGODB_URL);
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   cart: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      ref: "Cart",
     },
   ],
   wishlist: [
