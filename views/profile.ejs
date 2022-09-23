@@ -10,28 +10,29 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"
     />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
   </head>
   <body>
   <% include ../views/Partial/loader.ejs %>
+  <a href="/" id="backbtn"> <i class="ri-arrow-left-s-line"></i> Back to Homepage</a>
 
-    <div class="container rounded bg-white mt-5 mb-5">
+    <div class="container mt-5 mb-5">
       <div class="row">
         <div class="col-md-3 border-right">
-          <div
-            class="d-flex flex-column align-items-center text-center p-3 py-5"
+          <div style="position: relative;"
+            class="d-flex  flex-column align-items-center text-center p-3 py-5"
           >
             <img
+            style="cursor: auto;"
               class="rounded-circle mt-5"
               width="150px"
               src="../images/<%= user.pfp %>"
-            /><span class="font-weight-bold"><%= user.name %> </span
-            ><span class="text-black-50"><%= user.email %></span
-            ><span> </span>
+            /><span style="cursor: pointer !important; " ><form style="position: absolute;left: 60%;cursor: pointer !important; bottom: 25%; border-radius:50%; background-color: rgba(0, 0, 0, 0.716);width: 40px;height: 40px; color: white; display: flex; align-items: center; justify-content: center;" action=""><input style="width: 100%;height: 100%; position:absolute; opacity: 0;cursor: pointer !important; " type="file"><i style="color: white;cursor: pointer !important;" class="ri-pencil-line"></i></form></span><span class="font-weight-bold"><%= user.name %> </span>
           </div>
         </div>
         <div class="col-md-5 border-right">
-          <div class="p-3 py-5">
+          <form action="/update" method="post" class="p-3 py-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h4 class="text-right">Profile Settings</h4>
             </div>
@@ -42,6 +43,7 @@
                   type="text"
                   class="form-control"
                   placeholder="first name"
+                  name="name"
                   value="<%= user.name %>"
                 />
               </div>
@@ -54,6 +56,7 @@
                   type="text"
                   class="form-control"
                   placeholder="enter phone number"
+                  name="number"
                   value="<%= user.number %>"
                 />
               </div>
@@ -63,69 +66,46 @@
                   type="text"
                   class="form-control"
                   placeholder="enter email id"
+                  name="email"
                   value="<%= user.email %>"
                 />
               </div>
               <div class="col-md-12">
-                <label class="labels">Address</label
+                <label class="labels">Gender</label
                 ><input
                   type="text"
                   class="form-control"
-                  placeholder="enter address line 1"
-                  value=""
+                  placeholder="Gender"
+                  name="gender"
+                  value="<%= user.gender %>"
                 />
               </div>
               
               <div class="col-md-12">
-                <label class="labels">Postcode</label
+                <label class="labels">Date of Birth</label
                 ><input
-                  type="text"
+                  type="date"
                   class="form-control"
-                  placeholder="enter address line 2"
-                  value=""
+                  placeholder="Date of Birth"
+                  name="dob"
+                  value="<%= user.dob %>"
                 />
               </div>
               <div class="col-md-12">
-                <label class="labels">State</label
+                <label class="labels">Alternate Number</label
                 ><input
                   type="text"
                   class="form-control"
-                  placeholder="enter address line 2"
-                  value=""
+                  placeholder="Alternate Number"
+                  name="altNumber"
+                  value="<%= user.altNumber %>"
                 />
               </div>
-              <div class="col-md-12">
-                <label class="labels">Area</label
-                ><input
-                  type="text"
-                  class="form-control"
-                  placeholder="enter address line 2"
-                  value=""
-                />
-              </div>
+            
               
               
             </div>
-            <div class="row mt-3">
-              <div class="col-md-6">
-                <label class="labels">Country</label
-                ><input
-                  type="text"
-                  class="form-control"
-                  placeholder="country"
-                  value=""
-                />
-              </div>
-              <div class="col-md-6">
-                <label class="labels">State/Region</label
-                ><input
-                  type="text"
-                  class="form-control"
-                  value=""
-                  placeholder="state"
-                />
-              </div>
-            </div>
+            
             <div class="mt-5 text-center">
               <button
                 onclick="btnClick(this)"
@@ -134,8 +114,11 @@
               >
                 Edit
               </button>
+              &nbsp;&nbsp;
+              <a href="/logout" class="btn btn-danger profile-button"> Logout</a>
             </div>
-          </div>
+          </form>
+          
         </div>
       </div>
     </div>
@@ -151,13 +134,16 @@
           
         if (Btnflag === 0) {
           document.querySelectorAll("input").forEach((e) => {
-                    e.style.background = "rgba(214, 214, 214, 0.425)";
+            e.style.background = "rgba(214, 214, 214, 0.425)";
             e.removeAttribute("readonly");
             thi.textContent="Save"
           });
-
+          
+          thi.setAttribute("type", "button");
           Btnflag = 1;
         } else {
+          thi.setAttribute("type","submit");
+
           document.querySelectorAll("input").forEach((e) => {
                     e.style.outline = "none";
                     e.style.border = "none";

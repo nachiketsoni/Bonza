@@ -5,15 +5,20 @@ const findOrCreate = require("mongoose-findorcreate");
 mongoose.connect(process.env.MONGODB_URL);
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  email: String,
   name: String,
   pfp: { type: String, default: "Avatar.jpg" },
-  gender: String,
+  gender: {type:String,default: "N.A." },
   number: { type: String, default: "N.A." },
+  altNumber:{ type: String, default: "N.A." },
+  dob:{ type: String, default: "N.A." },
+  secret: String,
+  expiry:{
+    type:String
+  },
   address: [
     {
-      type: String,
-      ref: "address",
+      type: Object,
     },
   ],
   cart: [

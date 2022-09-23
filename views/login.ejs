@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../stylesheets/login.css">
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <link rel="stylesheet" href="../stylesheets/login.css">
+  <link rel="stylesheet" href="../public/stylesheets/Partial/header.css">
+  <body>
   <% include ../views/Partial/loader.ejs %>
 
     <section>
@@ -22,6 +23,7 @@
               <input class="inp"  type="submit" value="Login" />
 
               <p class="signup">
+                <a style="font-size: .85vmax ;" href="/forgot">Forgot Password</a> <br><br><br>
                 Don't have an account ?
                 <a href="#" onclick="toggleForm();">Sign Up.</a>
               </p>

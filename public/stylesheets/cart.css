@@ -1,3 +1,4 @@
+
 #main {
   width: 100%;
   height: 100%;
@@ -86,7 +87,7 @@ a {
 .item {
   width: 100%;
   height: 33vmax;
-  overflow: scroll;
+  overflow-y: auto;
   /* margin-top: 1vmax; */
   /* background-color: red; */
 }
@@ -228,7 +229,7 @@ select {
   align-items: center;
   justify-content: center;
 }
-@media (max-width: 600px) {
+@media (max-width: 770px) {
   #delete {
     top: 4px;
 
@@ -292,6 +293,7 @@ select {
 @media (max-width: 1000px) {
   .item {
     height: auto;
+    min-height:30vmax ;
   }
   #t {
     margin-left: 1.8vmax;

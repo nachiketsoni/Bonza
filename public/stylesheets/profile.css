@@ -1,6 +1,9 @@
 body {
           background: rgb(99, 39, 120)
       }
+      *{
+        color: white ;
+      }
       
       .form-control:focus {
           box-shadow: none;
@@ -44,6 +47,41 @@ body {
       }
       input{
           outline: none;
-          border: none ;
+          border: none !important;
+          color: #fff !important;
           
+      }
+      input::placeholder{
+            color: white !important;
+      }
+
+      body{
+        background-image: url(https://images.fineartamerica.com/images-medium-large-5/jeans-texture-andrew-dernie.jpg);
+        background-size: repeat;
+      }
+
+      .container{
+        background: rgba( 255, 255, 255, 0.1 ) !important;
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ) !important;
+        backdrop-filter: blur( 5px ) !important;
+        border-radius: 50px !important;
+        overflow: hidden;
+        border: 10px solid rgba( 255, 255, 255, 0.18 ) !important;
+      }
+      #backbtn{
+        text-decoration: none;
+        font-size: 1.5vh;
+        background-color: #000000;
+        color: #fff;
+        display: flex;
+        white-space: nowrap;
+        align-items: center;
+        justify-content: center;
+        max-width: 17vh;
+        padding:  1.3vh;
+        margin: 2vmax;
+        border-radius: 100px;
+      }
+      #backbtn i {
+        font-size: 1.7vmax;
       }

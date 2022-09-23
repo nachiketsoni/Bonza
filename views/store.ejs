@@ -6,64 +6,34 @@
 <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
 
 <body>
-  
-  <% include ../views/Partial/loader.ejs %>
-
-  <div id="search">
-    <div class="container">
-      <div class="search-wrapper">
-        <div id="searchBox">
-          <!-- <form action=""><input class="bubble" type="text" name="search" id="searcInput"></form> -->
-          <div class="bubble"><p class="S" style="color: #4c83f0">S</p></div>
-          <div class="bubble" style="left: 50px">
-            <p style="color: #d1333b">E</p>
-          </div>
-          <div class="bubble" style="left: 100px">
-            <p style="color: #eeb80b">A</p>
-          </div>
-          <div class="bubble" style="left: 150px">
-            <p style="color: #4c83f0">R</p>
-          </div>
-          <div class="bubble" style="left: 200px">
-            <p style="color: #1caf60">C</p>
-          </div>
-          <div class="bubble" style="left: 250px">
-            <p style="color: #d1333b">H</p>
-          </div>
-          <div class="bubble" style="left: 300px"><p>🔎</p></div>
-        </div>
-      </div>
-    </div>
-
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-          <feColorMatrix
-            in="blur"
-            mode="matrix"
-            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-            result="goo"
-          />
-          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-        </filter>
-      </defs>
-    </svg>
-  </div>
-  <% include ../views/Partial/nav.ejs %>
+  <% include ../views/Partial/loader.ejs %> <% include ../views/Partial/nav.ejs
+  %> <% include ../views/Partial/search.ejs %>
 
   <div id="main">
     <div class="catgs">
       <div class="lef">
-        <a onclick="allProduct('all')">All</a> /
-        <a onclick="allProduct('Hoodie')">Hoodie</a> /
-        <a onclick="allProduct('Bottoms')">Bottoms</a> /
-        <a onclick="allProduct('T-Shirt')">T-Shirt</a> /
-        <a onclick="allProduct('Sweatshirt')">Sweatshirt</a>
+        <a class="clicki" onclick="allProduct('all')">All</a> /
+        <a class="clicki" onclick="allProduct('Hoodie')">Hoodie</a> /
+        <a class="clicki" onclick="allProduct('Bottoms')">Bottoms</a> /
+        <a class="clicki" onclick="allProduct('T-Shirt')">T-Shirt</a> /
+        <a class="clicki" onclick="allProduct('Sweatshirt')">Sweatshirt</a>
       </div>
       <div class="rig">
-        <a href="">Filter</a> /
-        <a onclick="search()">Search <i class="ri-search-2-line"></i></a>
+        <a class="clicki"
+          ><span class="clicki"
+            >Sort <img class="clicki" src="../images/sort.png" alt=""
+          /></span>
+          <div id="sort">
+            <div onclick="allProduct('all','new')" class="options clicki">
+              What's New
+            </div>
+            <div onclick="allProduct('all','high')" class="options clicki">
+              Price : Low to High<i class="ri-sort-asc"></i>
+            </div>
+            <div onclick="allProduct('all','low')" class="options clicki">
+              Price : High to Low<i class="ri-sort-desc"></i>
+            </div></div
+        ></a>
       </div>
     </div>
 
@@ -80,18 +50,26 @@
     crossorigin="anonymous"
   ></script>
   <script>
-    
-        const showCard = (data,user) => {
-          let clutter = "";
-          data.forEach((e) => {
-              let heart=`<i class="ri-heart-3-line"></i>`;
-              if(user!= null){
-                        if(user.wishlist.includes(e._id)){heart = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`}
-                        else if(!user.wishlist.includes(e._id)){heart = `<i class="ri-heart-3-line"></i>`}
-                        else{heart= `<i class="ri-heart-3-line"></i>`}
-              }
+    const search = () => {
+      let search = document.getElementById("searchBar").value;
+      allProduct(search, "search");
+      srchclose(1)
+    };
+    const showCard = (data, user) => {
+      let clutter = "";
+      data.forEach((e) => {
+        let heart = `<i class="ri-heart-3-line"></i>`;
+        if (user != null) {
+          if (user.wishlist.includes(e._id)) {
+            heart = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+          } else if (!user.wishlist.includes(e._id)) {
+            heart = `<i class="ri-heart-3-line"></i>`;
+          } else {
+            heart = `<i class="ri-heart-3-line"></i>`;
+          }
+        }
 
-                        clutter += `
+        clutter += `
                                 <div class="item">
                                 <div class="img">
                                   <div onclick="wishlist(this)" data-user="${user}" data-id="${e._id}" id="heart">${heart}</div>
@@ -114,127 +92,61 @@
                     </div>
                   </div>
                     `;
-          });
+      });
 
-          document.querySelector("#second").innerHTML = clutter;
+      document.querySelector("#second").innerHTML = clutter;
+    };
 
-        };
-
-        const wishlist = async (that) => {
-          if(that.dataset.user==null){
-                    window.location.href = "/login"
-          }
-          else{
-                    
-                    if(that.innerHTML==`<i class="ri-heart-3-line"></i>`){
-                              that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`
-                    }
-                    else{
-                              that.innerHTML = `<i class="ri-heart-3-line"></i>`
-                    }
-                    await axios.get(`/addToWish/${that.dataset.id}`)
-          }
-        };
-
-        const allProduct = (ctrg) => {
-          document.querySelector("#second").innerHTML = `<img src="../images/loader.gif" />`;
-          console.log("Hoodie");
-                        var settings = {
-                        "url": `/story/${ctrg}`,
-                        "method": "GET",
-                        "cache": true,      
-                    }
-                    $.ajax(settings).done(({allProduct,user})=>{
-                              showCard(allProduct,user)
-                    });
-
-          };
-
-        allProduct("all");
-  </script>
-  <script>
-    const bubbles = document.querySelectorAll(".bubble");
-    const bubblePosition = [0, 50];
-    const search = document.querySelector(".search-wrapper");
-    const S = document.querySelector(".S");
-    const input = document.createElement("input");
-    var searchFlag = 0;
-    const searchbar = (e) => {
-      if (searchFlag === 0) {
-        e.innerHTML = '<i class="ri-close-line"></i>';
-        document.querySelector("#search").style.display = "block";
-        input.type = "text";
-        input.className = "inputSearch";
-        let counter = 0;
-        let distanceAll = [];
-
-        function bubbling() {
-          if (counter < bubbles.length) {
-            setTimeout(function () {
-              bubbles[counter].classList.add("animate");
-              let distance = [counter] * 50 + "px";
-              distanceAll[counter] = distance;
-              counter++;
-              bubbling(counter);
-            }, 80);
-          }
-        }
-
-        bubbling();
-
-        search.addEventListener("mouseover", function () {
-          // console.log("ciao");
-          bubbles[0].style =
-            "width: 350px;display:initial;  border-radius: 10px;  z-index: 52;";
-          // bubbles[0].classList.remove("animate");
-          input.placeholder = "Search";
-          S.style.color = "#333333";
-          setTimeout(() => {
-            S.innerHTML = "";
-            bubbles[0].appendChild(input);
-            let inputAppended = document.querySelector(".inputSearch");
-            inputAppended.focus();
-            inputAppended.style = "opacity:1;";
-            inputAppended.addEventListener("keypress", (e) => {
-              if (e.keyCode == 13) {
-                console.log(
-                  "Now I am removing text but you can do whatever you want with text value 😊"
-                );
-                inputAppended.value = "";
-              }
-            });
-          }, 1000);
-        });
-
-        search.addEventListener("mouseout", async function () {
-          let inputAppended = document.querySelector(".inputSearch");
-          bubbles[0].style = "";
-          inputAppended.style =
-            "width:0;display:initial;opacity:0; z-index: -1; ";
-          console.log("ciao");
-          console.log(inputAppended);
-          bubbles[0].classList.add("animate");
-          S.style.color = "#4C83F0";
-          input.placeholder = "";
-
-          await setTimeout(() => {
-            bubbles[0].removeChild(input);
-            S.innerHTML = "S";
-          }, 1000);
-        });
-
-        searchFlag = 1;
+    const wishlist = async (that) => {
+      if (that.dataset.user == null) {
+        window.location.href = "/login";
       } else {
-        e.innerHTML = '<i class="ri-search-2-line"></i>';
-        document.querySelector("#search").style.display = "none";
-        searchFlag = 0;
+        if (that.innerHTML == `<i class="ri-heart-3-line"></i>`) {
+          that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+        } else {
+          that.innerHTML = `<i class="ri-heart-3-line"></i>`;
+        }
+        await axios.get(`/addToWish/${that.dataset.id}`);
       }
     };
+
+   
+    const allProduct = (ctrg, sort) => {
+      document.querySelector(
+        "#second"
+      ).innerHTML = `<img src="../images/loader.gif" />`;
+      console.log("Hoodie");
+        var settings = {
+          url: `/story/${ctrg}`,
+          method: "GET",
+          cache: true,
+        };
+      $.ajax(settings).done(({ allProduct, user }) => {
+        if (sort === "low") {
+          let sorted = allProduct.sort((a, b) => {
+            return b.prdctPrice - a.prdctPrice;
+          });
+          showCard(sorted, user);
+        } else if (sort === "high") {
+          let sorted = allProduct.sort((a, b) => {
+            return a.prdctPrice - b.prdctPrice;
+          });
+          showCard(sorted, user);
+        } else if (sort === "new") {
+          let sorted = allProduct.reverse();
+          showCard(sorted, user);
+        
+        } else {
+          showCard(allProduct, user);
+        }
+      });
+    };
+
+    allProduct("all");
   </script>
+
   <script src="../javascripts/nav.js"></script>
 
-  <script>
-   
-  </script>
+  <script></script>
   <% include ../views/Partial/footer.ejs %>
 </body>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../stylesheets/checkout.css" />
-<link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+    <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
 
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
@@ -15,11 +15,12 @@
   </head>
 
   <body>
-  <% include ../views/Partial/loader.ejs %>
+    <% include ../views/Partial/loader.ejs %>
+    <% include ../views/Partial/addaddress.ejs %>
 
     <div id="main">
       <div class="left">
-        <a href="/cart"><i class="ri-arrow-left-s-line"></i> Back to Store</a>
+        <a href="/cart"><i class="ri-arrow-left-s-line"></i> Back to Cart</a>
 
         <h4>
           Checkout <br />
@@ -28,94 +29,112 @@
       </div>
       <div class="center">
         <h1 class="txtanim">
-          Hi <span id="currentuser">LOLO</span>, Where would you like your <br>
-          <span class="txtanim">order to sent ?</span>
+          Hi <span id="currentuser"><%= user.name.split(" ")[0]%></span>, Where would you like your
+          <span class="txtanim">order to Delivered ?</span>
         </h1>
         <form action="" method="post">
-          <h2 id="addAdrs" >Add New Address +</h2>
+          <h2 id="addAdrs" class="txtanim" onclick="addshow()" >Add New Address +</h2>
           <select class="txtanim">
-            <option value="">Address 1 </option>
-            <option value="">Address 2 </option>
-            <option value="">Address 3 </option>
+            <%if (user.address.length>0){%>
+            <% user.address.forEach((e)=>{%>
+
+              <option value=""><%= e.location%></option>
+      
+            <%}) %>
+
+            <%}else{%>
+              <option class="txtanim">No Address Found</option>
+              <%}%>
           </select>
           <br />
-          <input
-            id="email"
-            class="txtanim"
-            type="text"
-            name="email"
-            placeholder="Email"
-          />
-          <input
-            class="txtanim"
-            type="text"
-            name="address"
-            placeholder="Address"
-          />
+          
+          
           <div class="do txtanim">
-            <input type="text" name="city" placeholder="City" />
             <input
+              id="email"
+              class="txtanim"
               type="text"
-              name="state"
-              placeholder="State"
+              name="email"
+              placeholder="Email"
+            />
+            <input
+            id="phnNum"
+            type="tel"
+            name="number"
+            placeholder="Phone Number"
             />
           </div>
-          <input
+          <textarea
             class="txtanim"
+            style="width: 100%; resize: vertical; min-height: 10vmax; max-height: 15vmax; font-weight: 300; padding: 1vmax; border-radius: 10px; border: 1px solid #e0e0e0; outline: none; font-size: 2vh; margin-top: 1vmax;"
             type="text"
             name="instruction"
             placeholder="Add Delivery Instruction"
-          />
-          <div class="do txtanim">
-            <input type="text" 
-            name="address" 
-            placeholder="Pincode" 
-            />
-            <input
-              id="phnNum"
-              type="tel"
-              name="number"
-              placeholder="Phone Number"
-            />
-          </div>
+          ></textarea>
         </form>
       </div>
       <div class="right">
         <h1 class="txtanim2">Summary</h1>
-            <div class="calc">
-                <div class="cats txtanim2">
-                    <h2>Subtotal</h2>
-                    <h2>$45.00</h2>
-                </div>
-                <div class="cats txtanim2">
-                    <h2>Shipping</h2>
-                        <h2>$05.00</h2>
-                        <!-- <h2>$00.00</h2> -->
-                </div>
-                <div class="cats txtanim2">
-                    <h2>Tax</h2>
-                        <h2>$15.00</h2>
-                        <!-- <h2>$00.00</h2> -->
-                </div>
-            </div>
-            <div class="total">
-                <div class="cats txtanim2">
-                    <h2>Total</h2>
-                        <h2 id="finalAmt" >$ 50.00</h2>
-                        <!-- <h2>$00.00</h2> -->
-                </div>
-          <form action="/Thankyou" method="GEt">
-          <button id="rzp-button1">
-            <h3>Place Order</h3>
-          </button>
+        <div class="calc">
+          <div class="cats txtanim2">
+            <h2>Subtotal</h2>
+            <% if(user.cart.length>0){%>
+            <h2>₹<%= subtotal %></h2>
+            <%}else{%>
+            <h2>₹00.00</h2>
+            <%} %>
+          </div>
+          <div class="cats txtanim2">
+            <h2>Delivery</h2>
+
+            <% if(user.cart.length>0){%>
+            <h2>₹50.00</h2>
+            <%}else{%>
+            <h2>₹0</h2>
+            <%} %>
+          </div>
+          <div class="cats txtanim2">
+            <h2>Tax</h2>
+
+            <% if(user.cart.length>0){%>
+            <h2>₹14.99</h2>
+            <%}else{%>
+            <h2>₹00.00</h2>
+            <%} %>
+          </div>
+        </div>
+        <div class="total">
+          <div class="cats txtanim2">
+            <h2>Total</h2>
+
+            <% if(user.cart.length>0){%>
+            <h2 >₹ <span id="finalAmt" > <%=subtotal+65-0.01 %></span></h2>
+            <%}else{%>
+            <h2>₹00.00</h2>
+            <%} %>
+          </div>
+          <form  method="GEt">
+            <button id="rzp-button1">
+              <h3>Place Order</h3>
+            </button>
           </form>
         </div>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      const addshow = () => {
+        document.getElementById("full").style.display = "flex";
+      }
+    </script>
     <script>
       gsap.from(".txtanim", {
         stagger: 0.2,
@@ -123,93 +142,85 @@
         y: 100,
         opacity: 0,
       });
-     
-        function openCheckout() {
-        var finalAmt = document.getElementById("finalAmt").textContent;
-        var currentuser = document.getElementById("currentuser").textContent;
-        var orderId;
-        $(document).ready(function () {
+
+      
+      var orderId;
+      var finalAmt = document.getElementById("finalAmt").textContent.split(".").join("");
+
+    $(document).ready(function () {
+      var settings = {
+        "url": "/create/orderId",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+          "amount": finalAmt
+        }),
+      };
+
+      //creates new orderId everytime
+      $.ajax(settings).done(function (response) {
+
+        orderId = response.orderId;
+        console.log(orderId);
+        $("#rzp-button1").show();
+      });
+    });
+
+    document.getElementById('rzp-button1').onclick = function (e) {
+      var options = {
+        "key": "rzp_test_IiBBE2SNfjNWi6", // Enter the Key ID generated from the Dashboard
+        "amount": finalAmt, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Bonza On Street",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": orderId.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
           var settings = {
-            url: "/create/orderId",
-            method: "POST",
-            timeout: 0,
-            headers: {
-              "Content-Type": "application/json",
+            "url": "/api/payment/verify",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+              "Content-Type": "application/json"
             },
-            data: JSON.stringify({
-              amount: finalAmt,
-            }),
-          };
-
-          //creates new orderId everytime
+            "data": JSON.stringify({ response }),
+          }
           $.ajax(settings).done(function (response) {
-            orderId = response.orderId;
-            console.log(orderId);
-            $("#rzp-button1").show();
+            console.log(response)
+            if (response.signatureIsValid) {
+              window.location.href = "/thankyou"
+            } else {
+              alert("Payment Failed")
+            }
           });
-        });
-        document.getElementById("rzp-button1").onclick = function (e) {
-          var options = {
-            key: "rzp_test_IiBBE2SNfjNWi6", // Enter the Key ID generated from the Dashboard
-            amount: finalAmt, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            currency: "INR",
-            name: "KiKi's Kitchen",
-            description: "Test Transaction",
-            image: "https://cdn.dribbble.com/users/378783/screenshots/3131251/untitled-1.jpg",
-            order_id: orderId.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            handler: function (response) {
-              var settings = {
-                url: "/api/payment/verify",
-                method: "POST",
-                timeout: 0,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                data: JSON.stringify({ response }),
-              };
-              $.ajax(settings).done(function (response) {
-                console.log(response);
-               if(response.signatureIsValid === 'true'){
-                
-                  axios.get('/cart/delete').then(()=>{
-                    window.location.href = '/Thankyou';
-                  })
-                .catch((error) => {
-                  console.log(error);
-                });
-                
 
-               }
-              });
-            },
-            prefill: {
-              name:currentuser,
-              email: document.getElementById("email").value,
-              contact: document.getElementById("phnNum").value,
-            },
+        },
+          
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#00000"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.on('payment.failed', function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+      });
+      rzp1.open();
+      e.preventDefault(); 
+    }
 
-            notes: {
-              address: "Bonza",
-            },
-            theme: {
-              color: "#000",
-            },
-          };
-          var rzp1 = new Razorpay(options);
-          rzp1.on("payment.failed", function (response) {
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-          });
-          rzp1.open();
-          e.preventDefault();
-        };
-      }
-      openCheckout();
+    
     </script>
   </body>
 </html>

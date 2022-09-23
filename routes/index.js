@@ -7,10 +7,17 @@ const prdctModel = require("./product");
 const reviewModel = require("./review");
 const cartModel = require("./cart");
 const path = require("path");
+const Razorpay = require("razorpay")
+const {v4 : uuidv4} = require('uuid');
+const sendMail = require("../nodemailer.js")
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
 );
 
+var instance = new Razorpay({
+  key_id: "rzp_test_IiBBE2SNfjNWi6",
+  key_secret: "QvKYuE79SLrdE3OLlXZ8RmCw",
+});
 const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 cloudinary.config({
@@ -27,8 +34,8 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      callbackURL: "http://localhost:4000/google/authenticated",
+      callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
+      // callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -45,10 +52,13 @@ passport.use(
     }
   )
 );
-router.get("/google/auth",
+
+router.get(
+  "/google/auth",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-router.get("/google/authenticated",
+router.get(
+  "/google/authenticated",
   passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login",
@@ -60,7 +70,8 @@ router.get("/google/authenticated",
 router.get("/login", checkLoggedIn, (req, res, next) => {
   res.render("login");
 });
-router.post("/login",
+router.post(
+  "/login",
   checkLoggedIn,
   passport.authenticate("local", {
     successRedirect: "/",
@@ -215,18 +226,20 @@ router.get("/store", async (req, res, next) => {
     res.render("store", { allProduct });
   }
 });
-// router.get("/story", async (req, res, next) => {
-//   const allProduct = await prdctModel.find();
-//   if(req.user){ var user = await userModel.findOne({email:req.user.email}).populate("cart")
-// }else{var user = null}
-//   res.status(200).json({user,allProduct})
-// });
 router.get("/story/:ctrg", async (req, res, next) => {
   let allProduct = null;
   if (req.params.ctrg == "all") {
     allProduct = await prdctModel.find();
   } else {
-    allProduct = await prdctModel.find({ prdctCtrg: req.params.ctrg });
+    allProduct = await prdctModel.find({
+      $or: [
+        { prdctCtrg: { $regex: req.params.ctrg } },
+        { prdctName: { $regex: req.params.ctrg } },
+        { prdctDesc: { $regex: req.params.ctrg } },
+        { prdctFeatures: { $regex: req.params.ctrg } },
+        { prdctPrice: { $regex: req.params.ctrg } },
+      ],
+    });
   }
   if (req.user) {
     var user = await userModel
@@ -237,7 +250,6 @@ router.get("/story/:ctrg", async (req, res, next) => {
   }
   res.status(200).json({ user, allProduct });
 });
-
 router.get("/admin", (req, res, next) => {
   res.render("admin");
 });
@@ -291,58 +303,52 @@ router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
   });
   const product = await prdctModel.findOne({ _id: req.params.id });
   const carts = await cartModel.find();
-  
-  
-  
 
-    const search = (item , i)=>{
-      if(item.product._id.toString() == product._id.toString() && item.size == req.body.size ){
-        return i
-      }
-      else{
-        return -1
-      }
-    }
-    const lolo = user.cart.findIndex(search)
-  if(lolo != -1){
-    
-    console.log(lolo);
+  const search = (item) => {
+    return (
+      item.product._id.toString() == product._id.toString() &&
+      item.size == req.body.size
+    );
+  };
+  const lolo = user.cart.findIndex(search);
+  console.log(lolo);
+  if (lolo != -1) {
+    console.log("if lolo >>>>>", lolo);
     user.cart[lolo].quantity++;
-    console.log(user);
-  }
-  else if (carts.findIndex(search) != -1){
-    console.log(carts);
-    console.log(carts.findIndex(search));
+    await user.save();
+    console.log("if user >>>>>", user);
+  } else if (carts.findIndex(search) != -1) {
+    console.log("Else if cart >>>>>", carts);
+    console.log("Else if cart.finnd >>>>>", carts.findIndex(search));
     user.cart.push(carts[carts.findIndex(search)]._id);
     await user.save();
-  }
-  else{
-
+  } else {
+    console.log("else >>>>...");
     const cart = await cartModel.create({
       size: req.body.size,
       quantity: req.body.quantity,
       Amt: req.body.price,
       product: product._id,
-  });
-  user.cart.push(cart._id);
-  await user.save();
-
+    });
+    user.cart.push(cart._id);
+    await user.save();
   }
   res.redirect("back");
 });
-router.get("/cart/delete/:id",isLoggedIn,async (req,res,next)=>{
-  const cart = await cartModel.findOneAndDelete({_id: req.params.id})
+router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
+  const cart = await cartModel.findOne({ _id: req.params.id });
   const user = await userModel.findOne({ email: req.user.email }).populate({
     path: "cart",
     populate: {
       path: "product",
     },
   });
-  user.cart.splice(user.cart.indexOf(cart._id),1)
-  await user.save()
-  res.redirect("back")
-})
-router.get("/removecomment/:product/:comment",
+  user.cart.splice(user.cart.indexOf(cart._id), 1);
+  await user.save();
+  res.redirect("back");
+});
+router.get(
+  "/removecomment/:product/:comment",
   isLoggedIn,
   async (req, res, next) => {
     const product = await prdctModel.findOne({ _id: req.params.product });
@@ -356,5 +362,139 @@ router.get("/removecomment/:product/:comment",
     res.redirect("back");
   }
 );
+
+router.post("/update", isLoggedIn, async (req, res, next) => {
+  const { email, pfp, name, gender, number,altNumber,dob, } = req.body;
+ 
+  await userModel.findOneAndUpdate(
+    { email: req.user.email },
+    {
+      email: email,
+      name: name,
+      gender: gender,
+      number: number,
+      altNumber: altNumber,
+      dob:dob,
+    }
+  );
+  
+  res.redirect("back")
+});
+router.post('/addressAdd',isLoggedIn,   async (req, res, next) =>{
+  const {location,pincode,city,state} = req.body
+  const address = {
+    location: location,
+    pincode:pincode,
+    city: city,
+    state: state,
+  }
+
+  const user =await userModel.findOne({email: req.user.email })
+  user.address.push(address)
+  await user.save()
+  res.json(user)
+})
+router.get("/changepfp/:id",isLoggedIn,async (req,res,next)=>{
+
+})
+router.get("/forgotpage",async (req,res,next)=>{
+  res.render("forgot")
+})
+
+router.get('/usernotfound', function(req, res) {
+  res.render('usernotfound',{pagename:"Not Found",loggedin:false});
+});
+
+
+router.post('/forgot',function(req, res) {
+  var sec = uuidv4();
+  userModel.findOne({email:req.body.email})
+  .then(function(founduser){
+    if(founduser !== null){
+    founduser.secret = sec;
+    founduser.expiry = Date.now()+15*1000;
+    founduser.save()
+    .then(function(){
+      var routeaddress = `http://localhost:4000/forgot/${founduser._id}/${sec}`;
+      sendMail(req.body.email,routeaddress)
+      .then(function(){
+        res.send("Check your email");
+      })
+    })
+  }
+  })
+});
+
+router.get('/forgot/:id/:secret',function(req,res){
+  userModel.findOne({_id:req.params.id})
+  .then(function(founduser){
+    if(founduser.secret === req.params.secret &&  Date.now() < founduser.expiry ){
+      res.render('newpassword',{founduser,pagename:"New Password",loggedin:false});
+    }else{
+      res.send("link expired");
+    }
+  })
+})
+
+router.post('/newpassword/:email',function(req,res){
+  userModel.findOne({email:req.params.email})
+  .then(function(founduser){
+    founduser.setPassword(req.body.password1,function(){
+      founduser.save()
+    .then(function(){
+      req.logIn(founduser,function(){
+        res.redirect('/');
+      })
+    })
+    })
+  })
+})
+
+
+router.get("/thankyou",async (req,res,next)=>{
+  res.render("thankyou")
+})
+
+router.get("/alluser/:email",async (req,res,next)=>{
+  const user =await userModel.findOne({email : req.params.email})
+  res.json(user)
+ 
+})
+router.post("/create/orderId", function (req, res, next) {
+  var options = {
+    amount: req.body.amount, // amount in the smallest currency unit
+    currency: "INR",
+    receipt:
+      "order_rcptid_11" + Math.floor(Math.random() * 100000000000) + Date.now(),
+  };
+
+  instance.orders.create(options, function (err, order) {
+    res.send({ orderId: order });
+  });
+});
+router.post("/api/payment/verify", (req, res) => {
+  let body =
+    req.body.response.razorpay_order_id +
+    "|" +
+    req.body.response.razorpay_payment_id;
+
+  var crypto = require("crypto");
+  var expectedSignature = crypto
+    .createHmac("sha256", "QvKYuE79SLrdE3OLlXZ8RmCw")
+    .update(body.toString())
+    .digest("hex");
+
+  var response = { signatureIsValid: "false" };
+  if (expectedSignature === req.body.response.razorpay_signature) {
+    response = { signatureIsValid: "true" };
+  }
+  res.send(response);
+});
+
+
+router.get("*",async (req,res,next)=>{
+  res.render("errorpage")
+})
+
 
 module.exports = router;
