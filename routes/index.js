@@ -5,11 +5,13 @@ const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
 const reviewModel = require("./review");
-const cartModel = require("./cart");
 const path = require("path");
-const Razorpay = require("razorpay")
-const {v4 : uuidv4} = require('uuid');
-const sendMail = require("../nodemailer.js")
+const Razorpay = require("razorpay");
+const { v4: uuidv4 } = require("uuid");
+const sendMail = require("../nodemailer.js");
+const cloudinary = require("cloudinary");
+const formidable = require("formidable");
+const { dirname } = require("path");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
 );
@@ -18,8 +20,6 @@ var instance = new Razorpay({
   key_id: "rzp_test_IiBBE2SNfjNWi6",
   key_secret: "QvKYuE79SLrdE3OLlXZ8RmCw",
 });
-const cloudinary = require("cloudinary");
-const formidable = require("formidable");
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -34,8 +34,8 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-      callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      // callbackURL: "http://localhost:4000/google/authenticated",
+      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
+      callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -80,11 +80,13 @@ router.post(
   (req, res, next) => {}
 );
 
-router.post("/register", (req, res) => {
+router.post("/register", async(req, res) => {
+
   var newUser = new userModel({
-    email: req.body.email,
+    email: req.body.email,  
     name: req.body.name,
     number: req.body.number,
+  
   });
   userModel.register(newUser, req.body.password).then(function (u) {
     passport.authenticate("local")(req, res, () => {
@@ -138,11 +140,11 @@ router.get("/product/:id", async (req, res, next) => {
 router.post("/comment/:id", async (req, res, next) => {
   const user = await userModel.findOne({ email: req.user.email });
   const product = await prdctModel.findOne({ _id: req.params.id });
-  const comment = await reviewModel.create({
+  const comment ={
     comment: req.body.comment,
     commentOwner: user._id,
-  });
-  product.prdctReview.push(comment._id);
+  };
+  product.prdctReview.push(comment);
   await product.save();
   console.log(user);
   res.redirect(`/product/${req.params.id}`);
@@ -162,7 +164,7 @@ router.post("/productUpload", async (req, res, next) => {
     } = fields;
     const { secure_url } = await cloudinary.v2.uploader.upload(
       files.thumbnail.filepath,
-      { folder: prdctName, fetch_format: "webp", quality: "30" }
+      { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
     );
     const thumbnail = secure_url;
     var allImg = [];
@@ -295,14 +297,13 @@ router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
+  const product = await prdctModel.findOne({ _id: req.params.id });
   const user = await userModel.findOne({ email: req.user.email }).populate({
     path: "cart",
     populate: {
       path: "product",
     },
   });
-  const product = await prdctModel.findOne({ _id: req.params.id });
-  const carts = await cartModel.find();
 
   const search = (item) => {
     return (
@@ -310,46 +311,49 @@ router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
       item.size == req.body.size
     );
   };
-  const lolo = user.cart.findIndex(search);
-  console.log(lolo);
-  if (lolo != -1) {
-    console.log("if lolo >>>>>", lolo);
-    user.cart[lolo].quantity++;
-    await user.save();
-    console.log("if user >>>>>", user);
-  } else if (carts.findIndex(search) != -1) {
-    console.log("Else if cart >>>>>", carts);
-    console.log("Else if cart.finnd >>>>>", carts.findIndex(search));
-    user.cart.push(carts[carts.findIndex(search)]._id);
-    await user.save();
-  } else {
-    console.log("else >>>>...");
-    const cart = await cartModel.create({
+  const productIndex = user.cart.findIndex(search);
+
+  console.log(productIndex);
+  if (productIndex == -1) {
+    const cart = {
       size: req.body.size,
       quantity: req.body.quantity,
       Amt: req.body.price,
       product: product._id,
-    });
-    user.cart.push(cart._id);
+    };
+    user.cart.push(cart);
     await user.save();
+  } else {
+    try {
+      user.cart[productIndex].quantity += 1;
+      await user.save();
+    } catch (err) {
+      console.log(user);
+      res.status(400).json(err);
+    }
   }
-  res.redirect("back");
+  res.redirect("back")
 });
 router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
-  const cart = await cartModel.findOne({ _id: req.params.id });
   const user = await userModel.findOne({ email: req.user.email }).populate({
     path: "cart",
     populate: {
       path: "product",
     },
   });
-  user.cart.splice(user.cart.indexOf(cart._id), 1);
+  const search = (item) => {
+    return (
+      item._id = req.params.id
+      
+    );
+  };
+  const productIndex = user.cart.findIndex(search);
+
+  user.cart.splice(user.cart[productIndex], 1);
   await user.save();
   res.redirect("back");
 });
-router.get(
-  "/removecomment/:product/:comment",
-  isLoggedIn,
+router.get("/removecomment/:product/:comment",isLoggedIn,
   async (req, res, next) => {
     const product = await prdctModel.findOne({ _id: req.params.product });
 
@@ -364,8 +368,8 @@ router.get(
 );
 
 router.post("/update", isLoggedIn, async (req, res, next) => {
-  const { email, pfp, name, gender, number,altNumber,dob, } = req.body;
- 
+  const { email, pfp, name, gender, number, altNumber, dob } = req.body;
+
   await userModel.findOneAndUpdate(
     { email: req.user.email },
     {
@@ -374,92 +378,120 @@ router.post("/update", isLoggedIn, async (req, res, next) => {
       gender: gender,
       number: number,
       altNumber: altNumber,
-      dob:dob,
+      dob: dob,
     }
   );
-  
-  res.redirect("back")
+
+  res.redirect("back");
 });
-router.post('/addressAdd',isLoggedIn,   async (req, res, next) =>{
-  const {location,pincode,city,state} = req.body
+router.post("/addressAdd", isLoggedIn, async (req, res, next) => {
+  const { location, pincode, city, state } = req.body;
   const address = {
     location: location,
-    pincode:pincode,
+    pincode: pincode,
     city: city,
     state: state,
-  }
+  };
 
-  const user =await userModel.findOne({email: req.user.email })
-  user.address.push(address)
-  await user.save()
-  res.json(user)
-})
-router.get("/changepfp/:id",isLoggedIn,async (req,res,next)=>{
-
-})
-router.get("/forgotpage",async (req,res,next)=>{
-  res.render("forgot")
-})
-
-router.get('/usernotfound', function(req, res) {
-  res.render('usernotfound',{pagename:"Not Found",loggedin:false});
+  const user = await userModel.findOne({ email: req.user.email });
+  user.address.push(address);
+  await user.save();
+  res.json(user);
 });
+router.post("/changepfp", isLoggedIn, async (req, res, next) => {
+  const form = formidable();
 
+  form.parse(req, async (err, fields, files) => {
+    const user = await userModel.findOne({ email: req.user.email });
+    console.log(files);
+    console.log(err);
+    if(user.pfp.public_id === "default/Avatar_tictb7.png"){
 
-router.post('/forgot',function(req, res) {
-  var sec = uuidv4();
-  userModel.findOne({email:req.body.email})
-  .then(function(founduser){
-    if(founduser !== null){
-    founduser.secret = sec;
-    founduser.expiry = Date.now()+15*1000;
-    founduser.save()
-    .then(function(){
-      var routeaddress = `http://localhost:4000/forgot/${founduser._id}/${sec}`;
-      sendMail(req.body.email,routeaddress)
-      .then(function(){
-        res.send("Check your email");
-      })
-    })
-  }
+    }
+    else{
+      const imageId = user.pfp.public_id;
+      await cloudinary.v2.uploader.destroy(imageId);
+    }
+            const { public_id, secure_url } =
+                await cloudinary.v2.uploader.upload(files.pfp.filepath, {
+                  folder: `user/${user.email}`,
+                  fetch_format: "webp",
+                  quality:"50"
+                });
+    user.pfp = { public_id,url: secure_url };
+    await user.save();
+    res.redirect("back");
   })
 });
+router.get("/forgot", async (req, res, next) => {
+  res.render("forgot");
+});
 
-router.get('/forgot/:id/:secret',function(req,res){
-  userModel.findOne({_id:req.params.id})
-  .then(function(founduser){
-    if(founduser.secret === req.params.secret &&  Date.now() < founduser.expiry ){
-      res.render('newpassword',{founduser,pagename:"New Password",loggedin:false});
-    }else{
+router.get("/usernotfound", function (req, res) {
+  res.render("usernotfound", { pagename: "Not Found", loggedin: false });
+});
+router.get("/mail", function (req, res) {
+  res.render("mail");
+});
+
+router.post("/forgot", function (req, res) {
+  var sec = uuidv4();
+  userModel.findOne({ email: req.body.email }).then(function (founduser) {
+    if (founduser !== null) {
+      founduser.secret = sec;
+      founduser.expiry = Date.now() + 15 * 1000;
+      founduser.save().then(function () {
+        var routeaddress = `http://localhost:4000/forgot/${founduser._id}/${sec}`;
+        sendMail(req.body.email, routeaddress).then(function () {
+          res.send("Check your email");
+        });
+      });
+    }
+  });
+});
+
+router.get("/forgot/:id/:secret", function (req, res) {
+  userModel.findOne({ _id: req.params.id }).then(function (founduser) {
+    if (
+      founduser.secret === req.params.secret &&
+      Date.now() < founduser.expiry
+    ) {
+      res.render("newpassword", {
+        founduser,
+        pagename: "New Password",
+        loggedin: false,
+      });
+    } else {
       res.send("link expired");
     }
-  })
-})
+  });
+});
 
-router.post('/newpassword/:email',function(req,res){
-  userModel.findOne({email:req.params.email})
-  .then(function(founduser){
-    founduser.setPassword(req.body.password1,function(){
-      founduser.save()
-    .then(function(){
-      req.logIn(founduser,function(){
-        res.redirect('/');
-      })
-    })
-    })
-  })
-})
+router.post("/newpassword/:email", function (req, res) {
+  userModel.findOne({ email: req.params.email }).then(function (founduser) {
+    founduser.setPassword(req.body.password1, function () {
+      founduser.save().then(function () {
+        req.logIn(founduser, function () {
+          res.redirect("/");
+        });
+      });
+    });
+  });
+});
 
+router.get("/thankyou", async (req, res, next) => {
+  res.render("thankyou");
+});
 
-router.get("/thankyou",async (req,res,next)=>{
-  res.render("thankyou")
-})
-
-router.get("/alluser/:email",async (req,res,next)=>{
-  const user =await userModel.findOne({email : req.params.email})
-  res.json(user)
- 
-})
+router.get("/alluser/:email", async (req, res, next) => {
+  const user = await userModel.findOne({ email: req.params.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
+  res.json(user);
+});
 router.post("/create/orderId", function (req, res, next) {
   var options = {
     amount: req.body.amount, // amount in the smallest currency unit
@@ -473,10 +505,7 @@ router.post("/create/orderId", function (req, res, next) {
   });
 });
 router.post("/api/payment/verify", (req, res) => {
-  let body =
-    req.body.response.razorpay_order_id +
-    "|" +
-    req.body.response.razorpay_payment_id;
+  let body =req.body.response.razorpay_order_id +"|" +req.body.response.razorpay_payment_id;
 
   var crypto = require("crypto");
   var expectedSignature = crypto
@@ -490,11 +519,20 @@ router.post("/api/payment/verify", (req, res) => {
   }
   res.send(response);
 });
-
-
-router.get("*",async (req,res,next)=>{
-  res.render("errorpage")
-})
-
+router.get("/myorders", async (req, res, next) => {
+  const allProduct = await prdctModel.find();
+  try {
+    const user = await userModel.findOne({ email: req.user.email });
+    res.render("myorders", { allProduct, user });
+  } catch {
+    res.render("myorders", { allProduct });
+  }
+});
+router.get("/custom", async (req, res, next) => {
+  res.render("custom");
+});
+router.get("*", async (req, res, next) => {
+  res.render("errorpage");
+});
 
 module.exports = router;

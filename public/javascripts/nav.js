@@ -6,7 +6,8 @@
                 <a href=""><div class="sec">Bottoms</div></a>
                 <a href=""><div class="sec">Sweatshirt</div> </a>
                 <a href=""><div class="sec">Hoodies</div> </a>
-                <a href=""><div class="sec">Customisation</div> </a>
+                <a href="/custom"><div class="sec">Customisation</div> </a>
+                <a href="/myorders"><div class="sec">My Orders</div> </a>
                 <a href=""><div class="sec">Blog</div> </a>
                 <a href=""><div class="sec">Why to Oversize?</div> </a>
                 <a href=""><div class="sec">Help & Support</div> </a>
@@ -21,7 +22,8 @@
                 <a href=""><div class="sec">Bottoms</div></a>
                 <a href=""><div class="sec">Sweatshirt</div> </a>
                 <a href=""><div class="sec">Hoodies</div> </a>
-                <a href=""><div class="sec">Customisation</div> </a>
+                <a href="/custom"><div class="sec">Customisation</div> </a>
+                <a href="/myorders"><div class="sec">My Orders</div> </a>
                 <a href=""><div class="sec">Suggestions</div></a>
                 <a href="/about"><div class="sec">About Us</div></a>
                 

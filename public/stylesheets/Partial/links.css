@@ -6,7 +6,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-           
         }
         .link{
           display: flex;
@@ -23,3 +22,16 @@
           cursor: pointer;
         }
         
+        @keyframes bounce {
+          0% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-50px);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+
+      

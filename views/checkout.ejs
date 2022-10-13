@@ -189,10 +189,10 @@
             "data": JSON.stringify({ response }),
           }
           $.ajax(settings).done(function (response) {
-            console.log(response)
             if (response.signatureIsValid) {
-              window.location.href = "/thankyou"
-            } else {
+              console.log(response)
+              // window.location.href = "/thankyou"
+            } else { 
               alert("Payment Failed")
             }
           });

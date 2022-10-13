@@ -1,40 +1,122 @@
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css"
+/>
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-classic.css"
+/>
+<style>
+  .jssocials-share-link {
+    border-radius: 50%;
+    margin: 2.8vmax;
+    font-size: 1.5vmax;
+    font-weight: 100;
+    
+    animation-iteration-count: infinite;
+     animation-name: bounce;
+     transform-origin: center bottom;
+     animation-duration: 2s;
+     animation-fill-mode: both;
+    }
+   
+  
+</style>
 <div id="links">
-          <div class="link">
-            <a href=""
-              ><lottie-player
-                src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"
-                background="transparent"
-                speed="1.5"
-                autoplay
-                loop
-              ></lottie-player
-            ></a>
-            <a href=""
-              ><lottie-player
-                src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"
-                background="transparent"
-                speed="1.5"
-                autoplay
-                loop
-              ></lottie-player
-            ></a>
-            <a href=""
-              ><lottie-player
-                src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"
-                background="transparent"
-                speed="1.5"
-                autoplay
-                loop
-              ></lottie-player
-            ></a>
-            <a href=""
-              ><lottie-player
-                src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"
-                background="transparent"
-                speed="1.5"
-                autoplay
-                loop
-              ></lottie-player
-            ></a>
-          </div>
-        </div>
+  <div class="link">
+    <a href=""
+      ><lottie-player
+        src="https://assets1.lottiefiles.com/packages/lf20_xwabp3dh.json"
+        background="transparent"
+        speed="1.5"
+        autoplay
+        loop
+      ></lottie-player
+    ></a>
+    <a href=""
+      ><lottie-player
+        src="https://assets8.lottiefiles.com/packages/lf20_zvhuj6my.json"
+        background="transparent"
+        speed="1.5"
+        autoplay
+        loop
+      ></lottie-player
+    ></a>
+    <a href=""
+      ><lottie-player
+        src="https://assets10.lottiefiles.com/packages/lf20_86afyky0.json"
+        background="transparent"
+        speed="1.5"
+        autoplay
+        loop
+      ></lottie-player
+    ></a>
+    <a href=""
+      ><lottie-player
+        src="https://assets8.lottiefiles.com/packages/lf20_ej2lfhv2.json"
+        background="transparent"
+        speed="1.5"
+        autoplay
+        loop
+      ></lottie-player
+    ></a>
+  </div>
+</div>
+
+<script
+  src="https://kit.fontawesome.com/7368c40b21.js"
+  crossorigin="anonymous"
+></script>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+  integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"
+></script>
+<script>
+  $("#links").jsSocials({
+    showLabel: false,
+    showCount: false,
+    shares: [
+
+      {
+    share: "telegram",           
+    text: "Check Out This Awesome Product ", // tweet text (optional)
+    via: "bonza_on_street",       // custom twitter sharing param 'via' (optional)
+    hashtags: "oversized,tshirts"   // custom twitter sharing param 'hashtags' (optional)
+},
+      {
+    share: "twitter",           
+    text: "Check Out This Awesome Product ", // tweet text (optional)
+    via: "bonza_on_street",       // custom twitter sharing param 'via' (optional)
+    hashtags: "oversized,tshirts"   // custom twitter sharing param 'hashtags' (optional)
+},
+      {
+    share: "facebook",           
+    text: "Check Out This Awesome Product ", // tweet text (optional)
+    via: "bonza_on_street",       // custom twitter sharing param 'via' (optional)
+    hashtags: "oversized,tshirts"   // custom twitter sharing param 'hashtags' (optional)
+},
+      {
+    share: "whatsapp",           
+    text: "Check Out This Awesome Product ", // tweet text (optional)
+    via: "bonza_on_street",       // custom twitter sharing param 'via' (optional)
+    hashtags: "oversized,tshirts"   // custom twitter sharing param 'hashtags' (optional)
+},
+      {
+    share: "pinterest",           
+    text: "Check Out This Awesome Product ", // tweet text (optional)
+    via: "bonza_on_street",       // custom twitter sharing param 'via' (optional)
+    hashtags: "oversized,tshirts"   // custom twitter sharing param 'hashtags' (optional)
+},
+      
+    ],
+  });
+</script>

@@ -3,7 +3,7 @@
   <div class="search">
     <div class="bonza"><img src="../../images/BonzaLogo.png" alt="" /></div>
     <input id="searchBar"  placeholder="Search" type="text" />
-    <button onclick="search()" class="btn">Search &nbsp;<i class="ri-search-2-line"></i></button>
+    <button onclick="search()" class="btn">Search <i class="ri-search-2-line"></i></button>
   </div>
 </div>
 <style>
@@ -20,7 +20,7 @@ display: none;
     z-index: 9900;
   }
   #close{
-          position: absolute;
+    position: absolute;
           top:10%;
           left: 50%;
           z-index: 9999;
@@ -31,24 +31,25 @@ display: none;
           display: flex;
           align-items: center;
           justify-content: center;
-
+          
           border-radius: 50%;
-           }
+        }
            #close i{
                     cursor: pointer;
            }
 
   .search {
     width: 60%;
-    height: 50px;
+    height: 6vmin;
     position: relative;
     display: flex;
     align-items: center;
     border-radius: 10px;
     overflow: hidden;
+        margin-top: -20vh;
   }
   .bonza {
-    position: absolute;
+    /* position: absolute; */
     height: inherit;
     left: 0%;
     background-color: black;
@@ -59,9 +60,8 @@ display: none;
     align-items: center;
   }
   .btn {
-    position: absolute;
+    /* position: absolute; */
     height: inherit;
-    right: 0%;
     background-color: black;
     display: flex;
     border: none;
@@ -71,8 +71,10 @@ display: none;
     padding: 0 10px;
     z-index: 999;
     align-items: center;
+    gap: 10px;
     cursor: pointer;
   }
+ 
   .bonza img {
     height: 90%;
   }
@@ -80,15 +82,17 @@ display: none;
     position: relative;
     width: 100%;
     height: 100%;
-
+    display: flex;
+    align-items: center;
     font-size: 2vh;
-    padding: 1.3vh 12vh;
+    padding: 1vh;
     border: none;
     outline: none;
   }
   @media(max-width: 768px) {
     .search {
       width: 98%;
+      height: 4vmax;
     }
   }
 </style>
