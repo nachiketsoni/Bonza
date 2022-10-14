@@ -6,7 +6,7 @@ const userModel = require("./users");
 const prdctModel = require("./product");
 const reviewModel = require("./review");
 const path = require("path");
-const Razorpay = require("razorpay");
+const Razorpay = require("razorpay"); 
 const { v4: uuidv4 } = require("uuid");
 const sendMail = require("../nodemailer.js");
 const cloudinary = require("cloudinary");
@@ -14,7 +14,7 @@ const formidable = require("formidable");
 const { dirname } = require("path");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
-);
+);          
 
 var instance = new Razorpay({
   key_id: "rzp_test_IiBBE2SNfjNWi6",
