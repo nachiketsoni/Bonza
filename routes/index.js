@@ -34,8 +34,8 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      callbackURL: "http://localhost:4000/google/authenticated",
+      callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
+    //   callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
