@@ -108,7 +108,8 @@
             <h2>Total</h2>
 
             <% if(user.cart.length>0){%>
-            <h2 >₹ <span id="finalAmt" > <%=subtotal+65-0.01 %></span></h2>
+            <!-- <h2 >₹ <span id="finalAmt" > <%=subtotal+65-0.01 %></span></h2> -->
+            <h2 >₹ <span id="finalAmt" > 100</span></h2>
             <%}else{%>
             <h2>₹00.00</h2>
             <%} %>
@@ -156,8 +157,8 @@
           "Content-Type": "application/json"
         },
         "data": JSON.stringify({
-          // "amount": finalAmt
-          "amount": 100
+          "amount": finalAmt
+          // "amount": 100
 
         }),
       };
@@ -174,8 +175,8 @@
     document.getElementById('rzp-button1').onclick = function (e) {
       var options = {
         "key": "rzp_test_IiBBE2SNfjNWi6", // Enter the Key ID generated from the Dashboard
-        // "amount": finalAmt, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        "amount": 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": finalAmt, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        // "amount": 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Bonza On Street",
         "description": "Test Transaction",
