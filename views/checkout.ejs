@@ -55,12 +55,14 @@
               class="txtanim"
               type="text"
               name="email"
+              value="<%= user.email%>"
               placeholder="Email"
             />
             <input
             id="phnNum"
             type="tel"
             name="number"
+            value="<%= user.number%>"
             placeholder="Phone Number"
             />
           </div>
@@ -193,21 +195,28 @@
             "data": JSON.stringify({ response }),
           }
           $.ajax(settings).done(function (response) {
-            if (response.signatureIsValid) {
-              console.log(response)
-              // window.location.href = "/thankyou"
+            const {signatureIsValid, razorpay_order_id,razorpay_payment_id ,razorpay_signature} = response
+            console.log(response);
+            if (signatureIsValid) {
+              console.log("razorpay_order_id>>>"+ razorpay_order_id,"razorpay_payment_id>>>"+  razorpay_payment_id , "razorpay_signature>>>"+ razorpay_signature)
+              window.location.href = `/thankyou?reference=${razorpay_order_id}`
             } else { 
               alert("Payment Failed")
             }
           });
-
+        
         },
+        "prefill": {
+              "name":currentuser,
+              "email": document.getElementById("email").value,
+              "contact": document.getElementById("phnNum").value,
+            },
           
         "notes": {
           "address": "Razorpay Corporate Office"
         },
         "theme": {
-          "color": "#00000"
+          "color": "#F3f3f3"
         }
       };
       var rzp1 = new Razorpay(options);

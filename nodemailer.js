@@ -12,6 +12,7 @@ async function sendMail(receiver,text ){
     })
 
     const mailOpts = {
+      
       from:process.env.MAILUSER ,
       to: receiver,
       subject: "Forget Details",

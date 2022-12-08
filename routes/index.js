@@ -5,6 +5,7 @@ const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
 const reviewModel = require("./review");
+const Payment = require("./payment");
 const path = require("path");
 const Razorpay = require("razorpay"); 
 const { v4: uuidv4 } = require("uuid");
@@ -34,8 +35,8 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-      callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-    //   callbackURL: "http://localhost:4000/google/authenticated",
+      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
+      callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -53,12 +54,10 @@ passport.use(
   )
 );
 
-router.get(
-  "/google/auth",
+router.get("/google/auth",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-router.get(
-  "/google/authenticated",
+router.get("/google/authenticated",
   passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login",
@@ -70,8 +69,7 @@ router.get(
 router.get("/login", checkLoggedIn, (req, res, next) => {
   res.render("login");
 });
-router.post(
-  "/login",
+router.post("/login",
   checkLoggedIn,
   passport.authenticate("local", {
     successRedirect: "/",
@@ -480,6 +478,7 @@ router.post("/newpassword/:email", function (req, res) {
 });
 
 router.get("/thankyou", async (req, res, next) => {
+  console.log(req.query);
   res.render("thankyou");
 });
 
@@ -504,21 +503,34 @@ router.post("/create/orderId", function (req, res, next) {
     res.send({ orderId: order });
   });
 });
-router.post("/api/payment/verify", (req, res) => {
-  let body =req.body.response.razorpay_order_id +"|" +req.body.response.razorpay_payment_id;
+
+
+router.post("/api/payment/verify",async (req, res) => {
+  const { response: {razorpay_order_id,razorpay_payment_id ,razorpay_signature} } = req.body
+  let body =razorpay_order_id +"|" +razorpay_payment_id;
 
   var crypto = require("crypto");
   var expectedSignature = crypto
     .createHmac("sha256", "QvKYuE79SLrdE3OLlXZ8RmCw")
     .update(body.toString())
     .digest("hex");
+    
+   var response = { signatureIsValid: "false" };
+	if (expectedSignature === razorpay_signature) {
+      const payment = new Payment({
+        razorpay_order_id,razorpay_payment_id ,razorpay_signature
+      })
+     await payment.save()
+		 response = { signatureIsValid: "true" ,razorpay_order_id,razorpay_payment_id ,razorpay_signature};
+	}
 
-  var response = { signatureIsValid: "false" };
-  if (expectedSignature === req.body.response.razorpay_signature) {
-    response = { signatureIsValid: "true" };
-  }
-  res.send(response);
+  res.status(200).json(response);
 });
+
+
+
+
+
 router.get("/myorders", async (req, res, next) => {
   const allProduct = await prdctModel.find();
   try {

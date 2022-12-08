@@ -18,7 +18,7 @@
   #G-btn{
     padding: 10px;
     width: 100%;
-    font-family: gilroy;
+    font-family: gilro;
     height: 40px;
     background-color: #677EFF;
     text-decoration: none;
@@ -26,7 +26,7 @@
     display: flex;
     align-items: center;
     margin-top: 2vmax;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: 5px;
   }
   #G-btn img{
