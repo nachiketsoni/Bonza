@@ -88,40 +88,50 @@
                   class="form-control"
                   placeholder="first name"
                   name="name"
+                  id="name"
+
                   value="<%= user.name %>"
                 />
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-md-12">
+
                 <label class="labels">Mobile Number</label
                 ><input
-                  type="text"
+                  type="number"
                   class="form-control"
+                  pattern="[0-9]{10}"
                   placeholder="enter phone number"
                   name="number"
+                  id="number"
                   value="<%= user.number %>"
                 />
               </div>
               <div class="col-md-12">
                 <label class="labels">Email ID</label
                 ><input
-                  type="text"
+                  type="email"
                   class="form-control"
                   placeholder="enter email id"
                   name="email"
+                  id="email"
+
                   value="<%= user.email %>"
                 />
               </div>
               <div class="col-md-12">
                 <label class="labels">Gender</label
-                ><input
-                  type="text"
-                  class="form-control"
-                  placeholder="Gender"
-                  name="gender"
-                  value="<%= user.gender %>"
-                />
+                >
+                
+                <!-- <input id="gender" list="gender" name="gender"    class="form-control"> -->
+
+                <select name="gender" class="form-control" id="gender">
+                  <option value="<%= user.gender %>"><%= user.gender %></option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Others">Others</option>
+                </select>
               </div>
 
               <div class="col-md-12">
@@ -137,7 +147,7 @@
               <div class="col-md-12">
                 <label class="labels">Alternate Number</label
                 ><input
-                  type="text"
+                  type="tel"
                   class="form-control"
                   placeholder="Alternate Number"
                   name="altNumber"
@@ -167,13 +177,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
       document.querySelectorAll("input").forEach((e) => {
-        e.style.background = "transparent";
+        e.style.background = "transparent ";
+        document.querySelector("select").style.backgroundColor = "transparent !important";
+
         e.setAttribute("readonly", "");
+        document.querySelector("select").setAttribute("readonly", "");
+
       });
       let Btnflag = 0;
       const btnClick = (thi) => {
         if (Btnflag === 0) {
           document.querySelectorAll("input").forEach((e) => {
+            document.querySelector("select").style.backgroundColor = "rgba(214, 214, 214, 0.425) !important";
+            document.querySelector("select").removeAttribute("readonly");
             e.style.background = "rgba(214, 214, 214, 0.425)";
             e.removeAttribute("readonly");
             thi.textContent = "Save";
@@ -182,6 +198,7 @@
           thi.setAttribute("type", "button");
           Btnflag = 1;
         } else {
+    
           thi.setAttribute("type", "submit");
 
           document.querySelectorAll("input").forEach((e) => {

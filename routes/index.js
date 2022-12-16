@@ -4,7 +4,6 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
-const reviewModel = require("./review");
 const Payment = require("./payment");
 const path = require("path");
 const Razorpay = require("razorpay"); 
@@ -12,14 +11,15 @@ const { v4: uuidv4 } = require("uuid");
 const sendMail = require("../nodemailer.js");
 const cloudinary = require("cloudinary");
 const formidable = require("formidable");
+var crypto = require("crypto");
 const { dirname } = require("path");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
 );          
 
 var instance = new Razorpay({
-  key_id: "rzp_test_IiBBE2SNfjNWi6",
-  key_secret: "QvKYuE79SLrdE3OLlXZ8RmCw",
+  key_id: "rzp_test_BkPWeFB0YcGvWJ",
+  key_secret: "TNkLevqWrFFS2YXrf4kACVnq",
 });
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -125,6 +125,14 @@ router.get("/product/:id", async (req, res, next) => {
     },
   });
 
+  let related = await prdctModel.find({ prdctCtrg: product.prdctCtrg  });
+
+  function getMultipleRandom(arr, num) {
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  
+    return shuffled.slice(0, num);
+  }
+  related = getMultipleRandom(related, 6);
   if (req.user) {
     var user = await userModel
       .findOne({ email: req.user.email })
@@ -133,7 +141,7 @@ router.get("/product/:id", async (req, res, next) => {
     var user = null;
   }
 
-  res.render("product", { product, user });
+  res.render("product", { product, user,related });
 });
 router.post("/comment/:id", async (req, res, next) => {
   const user = await userModel.findOne({ email: req.user.email });
@@ -142,10 +150,10 @@ router.post("/comment/:id", async (req, res, next) => {
     comment: req.body.comment,
     commentOwner: user._id,
   };
-  product.prdctReview.push(comment);
+  product.prdctReview = [...product.prdctReview , comment ]
   await product.save();
   console.log(user);
-  res.redirect(`/product/${req.params.id}`);
+  res.redirect(`back`);
 });
 
 router.post("/productUpload", async (req, res, next) => {
@@ -169,11 +177,11 @@ router.post("/productUpload", async (req, res, next) => {
     for (let i = 0; i < files.prdctImg.length; i++) {
       const { secure_url } = await cloudinary.v2.uploader.upload(
         files.prdctImg[i].filepath,
-        { folder: prdctName, fetch_format: "webp", quality: "30" }
+        { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
       );
       allImg.push(secure_url);
     }
-    const newProduct = await prdctModel.create({
+   await prdctModel.create({
       prdctCtrg,
       prdctName,
       prdctFeatures,
@@ -233,11 +241,11 @@ router.get("/story/:ctrg", async (req, res, next) => {
   } else {
     allProduct = await prdctModel.find({
       $or: [
-        { prdctCtrg: { $regex: req.params.ctrg } },
-        { prdctName: { $regex: req.params.ctrg } },
-        { prdctDesc: { $regex: req.params.ctrg } },
-        { prdctFeatures: { $regex: req.params.ctrg } },
-        { prdctPrice: { $regex: req.params.ctrg } },
+        { prdctCtrg: { $regex: req.params.ctrg ,$options : "i" } },
+        { prdctName: { $regex: req.params.ctrg ,$options : "i" } },
+        { prdctDesc: { $regex: req.params.ctrg ,$options : "i" } },
+        { prdctFeatures: { $regex: req.params.ctrg,$options : "i" } },
+        { prdctPrice: { $regex: req.params.ctrg ,$options : "i"} },
       ],
     });
   }
@@ -332,6 +340,7 @@ router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
   }
   res.redirect("back")
 });
+
 router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
   const user = await userModel.findOne({ email: req.user.email }).populate({
     path: "cart",
@@ -351,11 +360,53 @@ router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
   await user.save();
   res.redirect("back");
 });
+router.get("/cart/inc/:id", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne({ email: req.user.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
+  const search = (item) => {
+    return (
+      item._id == req.params.id
+      
+    );
+  };
+  const productIndex = user.cart.findIndex(search);
+
+  user.cart[productIndex].quantity += 1;
+  await user.save();
+  res.redirect("back");
+});
+router.get("/cart/dec/:id", isLoggedIn, async (req, res, next) => {
+  const user = await userModel.findOne({ email: req.user.email }).populate({
+    path: "cart",
+    populate: {
+      path: "product",
+    },
+  });
+  const search = (item) => {
+    return (
+      item._id == req.params.id
+      
+    );
+  };
+  const productIndex = user.cart.findIndex(search);
+  
+  if(user.cart[productIndex].quantity >1){
+    user.cart[productIndex].quantity -= 1;
+  }else{
+    user.cart.splice(user.cart[productIndex], 1);
+  }
+  await user.save();
+  res.redirect("back");
+});
+
 router.get("/removecomment/:product/:comment",isLoggedIn,
   async (req, res, next) => {
     const product = await prdctModel.findOne({ _id: req.params.product });
 
-    await reviewModel.findByIdAndDelete({ _id: req.params.comment });
     product.prdctReview.splice(
       product.prdctReview.indexOf(req.params.comment),
       1
@@ -500,7 +551,8 @@ router.post("/create/orderId", function (req, res, next) {
   };
 
   instance.orders.create(options, function (err, order) {
-    res.send({ orderId: order });
+    console.log({ orderId: order })
+    res.json({ orderId: order });
   });
 });
 
@@ -509,13 +561,15 @@ router.post("/api/payment/verify",async (req, res) => {
   const { response: {razorpay_order_id,razorpay_payment_id ,razorpay_signature} } = req.body
   let body =razorpay_order_id +"|" +razorpay_payment_id;
 
-  var crypto = require("crypto");
   var expectedSignature = crypto
-    .createHmac("sha256", "QvKYuE79SLrdE3OLlXZ8RmCw")
+    .createHmac("sha256", "TNkLevqWrFFS2YXrf4kACVnq")
     .update(body.toString())
     .digest("hex");
-    
+  console.log("sig >> " + expectedSignature);
+
+    console.log("rzp_signature >> "+  razorpay_signature);
    var response = { signatureIsValid: "false" };
+   console.log(expectedSignature,razorpay_signature)
 	if (expectedSignature === razorpay_signature) {
       const payment = new Payment({
         razorpay_order_id,razorpay_payment_id ,razorpay_signature
@@ -526,10 +580,6 @@ router.post("/api/payment/verify",async (req, res) => {
 
   res.status(200).json(response);
 });
-
-
-
-
 
 router.get("/myorders", async (req, res, next) => {
   const allProduct = await prdctModel.find();
@@ -543,8 +593,11 @@ router.get("/myorders", async (req, res, next) => {
 router.get("/custom", async (req, res, next) => {
   res.render("custom");
 });
+
+
+
 router.get("*", async (req, res, next) => {
-  res.render("errorpage");
+  res.render("error");
 });
 
 module.exports = router;

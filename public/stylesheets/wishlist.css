@@ -87,7 +87,7 @@ html,body{
         }
         
         #second .item .img img{
-          width: 100%;
+          width: 50vh;
           height: 100%;
           
           cursor: pointer;
@@ -96,7 +96,7 @@ html,body{
           
         }
         #second .item .scnd{
-          width: 100%;
+          width: 50vh;
           height: 100%;
           opacity: 0;
           position: absolute;

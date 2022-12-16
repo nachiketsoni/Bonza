@@ -323,7 +323,7 @@ select option{
       .right h1 {
         font-size: 4vmax;
       }
-      .total .cats h2 {
+      .total .cats h2,#finalAmt {
         font-size: 2vmax;
         margin-top: 1vmax;
         color: #3f3f3f;

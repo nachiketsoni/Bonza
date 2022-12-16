@@ -18,18 +18,18 @@
           <div class="formBx">
             <form action="/login"  method="POST">
               <h2>Sign In</h2>
-              <input class="inp"  type="text" name="email" placeholder="Email Address" />
-              <input class="inp"  type="password" name="password" placeholder="Password" />
+              <input class="inp" style="cursor: text;"  type="text" name="email" placeholder="Email Address" />
+              <input class="inp" style="cursor: text;"  type="password" name="password" placeholder="Password" />
               <input class="inp"  type="submit" value="Login" />
 
               <p class="signup">
-                <a style="font-size: .85vmax ;" href="/forgot">Forgot Password</a> <br><br><br>
+                <a style="font-size: .85vmax ; cursor: pointer;"  href="/forgot">Forgot Password</a> <br><br><br>
                 Don't have an account ?
-                <a href="#" onclick="toggleForm();">Sign Up.</a>
+                <a style="cursor: pointer;" onclick="toggleForm();">Sign Up.</a>
               </p>
             </form>
-            <a id="G-btn" href="/google/auth">
-             <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png?20150923131459" alt=""> Continue with Google
+            <a id="G-btn" style="cursor: pointer;" href="/google/auth">
+             <img style="cursor: pointer;" src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png?20150923131459" alt=""> Continue with Google
             </a>
           </div>
         </div>
@@ -37,24 +37,24 @@
           <div class="formBx">
             <form action="/register" method="POST">
               <h2>Create an account</h2>
-              <input class="inp" type="text" name="name" placeholder="Name" />
-              <input class="inp"  type="text" name="number" placeholder="Contact No." />
-              <input class="inp"  type="email" name="email" placeholder="Email Address" />
+              <input class="inp" style="cursor: text;" type="text" name="name" placeholder="Name" />
+              <input class="inp" style="cursor: text;" type="text" name="number" placeholder="Contact No." />
+              <input class="inp" style="cursor: text;" type="email" name="email" placeholder="Email Address" />
               <select class="inp"  name="gender" aria-label="Floating label select example">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Others">Others</option>
                 </select>
-              <input class="inp"  type="password" placeholder="Create Password" />
-              <input class="inp"  type="password" name="password" placeholder="Confirm Password" />
+              <input class="inp" style="cursor: text;"  type="password" placeholder="Create Password" />
+              <input class="inp" style="cursor: text;" type="password" name="password" placeholder="Confirm Password" />
               <input class="inp"  type="submit"  value="Sign Up" />
               <p class="signup">
                 Already have an account ?
-                <a href="#" onclick="toggleForm()">Sign in</a>
+                <a style="cursor: pointer;" onclick="toggleForm()">Sign in</a>
               </p>
             </form>
-            <a id="G-btn" href="/google/auth">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png?20150923131459" alt=""> Continue with Google
+            <a id="G-btn" style="cursor: pointer;" href="/google/auth">
+              <img style="cursor: pointer;" src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png?20150923131459" alt=""> Continue with Google
              </a>
           </div>
           <div class="imgBx"><img src="https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1888&q=80" alt="" /></div>

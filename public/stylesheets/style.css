@@ -13,59 +13,49 @@
   width: 100vw;
   display: flex;
   align-items: center;
-  background-color: red;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
 }
-  
+
 #first .cntr{
   width: 100%;
+  /* height: 100vmin; */
   overflow: hidden;
   scroll-snap-align: start;
   flex-shrink: 0;
-}
-#first .cntr .lef h5{
-  
-  font-weight:1000;
-  font-size: 1.5vmax;
-  letter-spacing: .7vmax;
-  margin-bottom: 2vmax;
-}
-#first .cntr .lef h1{
-  font-weight:1000;
-  font-size: 5vmax;
-}
-#first .cntr .lef h1 span{
-  font-weight:700;
+  background: #000;
+  position: relative;
+  z-index: 10;
 
-  font-size: 3.8vmax;
 }
-#first .cntr .lef a button{
-  background-color: black;
-  color: white;
-  font-size: 1.2vmax;
-  border: none;
-  font-weight: 700;
-  margin-top: 3vmax;
-  padding: 1.1vmax 1.5vmax;
-}
+
 #first .cntr img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 5;
+}
+
+/* #first .cntr img{
   height:100vh;
   margin-top: 10vmax;
   position: relative;
-}
+} */
 #second {
   position: relative;
   /* height: 110vh; */
+  margin-top: 20px;
+  margin-bottom: 3vmax;
   width: 100vw;
+  min-height:20vmax ;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px 4vmax ;
-  padding: 5vmax 0;
   /* overflow: hidden; */
-  overflow-x:hidden ;
+  overflow:hidden ;
   flex-wrap: wrap;
   background-color: rgb(255, 255, 255);
   /* overflow: hidden; */
@@ -77,22 +67,6 @@
   width: 50vh;
   position: relative;
 }
-@media screen and (max-width: 500px) {
-  #second .item{
-    width: 90vw;
-  }
-  #second .item .img{
-    height: 90vw;
-    width: 90vw;
-  }
-  #second .item .dets{
-    width: 90vw;
-   
-  }
-
-  
-}
-
 #second .item .img{
   height: 50vh;
   width: 100%;
@@ -100,27 +74,38 @@
   display: flex;
   position: relative;
   cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
 }
+
 #second .item .dets{
   width: 100%;
-  padding:0  1vmax;
+  padding: 1vmax;
 }
 #second .item h2{
   display: flex;
   /* padding: 0 .2vmax; */
   align-items: center;
   justify-content:space-between;
+  font-weight: 500;
   font-size: 20px;
 }
-#second .item h2 #heart {
-  height:3.1rem;
-  width: 3.1rem;
+#second .item  #heart {
+  height:3rem;
+  width: 3rem;
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  z-index: 15;
+  border-radius: 50%;
   display: flex;
+  background-color: #f9f9f9;
+
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
-#second .item h2 #heart i,#second .item h2 #heart lottie-player{
+#second .item #heart i,#second .item #heart lottie-player{
   cursor: pointer;
 }
 
@@ -132,7 +117,7 @@
 }
 
 #second .item .img img{
-  width: 100%;
+  width: 50vh;
   height: 100%;
   
   cursor: pointer;
@@ -141,13 +126,44 @@
   
 }
 #second .item .scnd{
-  width: 100%;
+  width: 50vh;
   height: 100%;
   opacity: 0;
   position: absolute;
   cursor: pointer;
-    object-fit: cover;
+  object-fit: cover;
   transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+  
+}
+
+#second .item:hover .scnd{
+ opacity: 1;
+}
+
+
+
+
+@media screen and (max-width: 500px) {
+  #second .item{
+    width: 40vw;
+  }
+  #second .item .img{
+    height:40vw;
+    width: 40vw;
+  }
+  #second .item .dets{
+    width: 40vw;
+   
+  }
+
+  #second .item h4{
+    font-size:10px;
+    /* margin-top: 10px; */
+
+  }
+  #second .item h2{
+    font-size: 10px;
+  }
   
 }
 #third{
@@ -168,7 +184,10 @@
   justify-content: center;
 }
 #third .left img{
-  height: 30vmax;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  
 }
 #third .right{
   width: 50%;
@@ -177,7 +196,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: red;
+  background-color: rgb(0, 0, 0);
   color: white;
   padding: 0 10vmin;
 }
@@ -194,7 +213,7 @@
   font-weight: 400;
 }
 .buynow{
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   color: white;
   font-size: 1.2vmax;
   border: none;

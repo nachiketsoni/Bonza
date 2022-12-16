@@ -51,6 +51,21 @@ body {
           color: #fff !important;
           
       }
+      select{
+          outline: none;
+          border: none !important;
+          color: rgb(255, 255, 255) !important;
+          background-color: #00000000 !important;
+      }
+      option{
+          outline: none;
+          border: none !important;
+          color: rgb(255, 255, 255) !important;
+          background-color: #000000;
+      }
+      select::placeholder{
+            color: white !important;
+      }
       input::placeholder{
             color: white !important;
       }

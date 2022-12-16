@@ -47,12 +47,9 @@
           </div>
           <div class="imgs">
             <%product.prdctImg.forEach((e)=>{%>
-            <a
-              href="<%=e%>"
-              data-lightbox="mygallery"
-            >
-              <img src="<%=e%>" alt="" />
-            </a>
+              <a href="<%=e%>" data-lightbox="mygallery">
+                <img src="<%=e%>" alt="" />
+              </a>
             <%})%>
           </div>
           <div onclick="slide(`right`)" class="slidebtn">
@@ -62,10 +59,10 @@
 
         <div class="dets">
           <form action="/addToCart/<%=product._id%>" method="post">
-          <h1 id="title"><%=product.prdctName%></h1>
-          <h4 id="price">₹<%=product.prdctPrice%></h4>
-          <input type = "hidden" name = "price" value = "<%=product.prdctPrice%>" />
-          <p id="descp"><%=product.prdctDesc%></p>
+            <h1 id="title"><%=product.prdctName%></h1>
+            <h4 id="price">₹<%=product.prdctPrice%></h4>
+            <input type="hidden" name="price" value="<%=product.prdctPrice%>" />
+            <p id="descp"><%=product.prdctDesc%></p>
             <div class="size">
               <h5>Size</h5>
               <select name="size">
@@ -78,7 +75,7 @@
               <h5>Quantity</h5>
               <input name="quantity" type="number" min="1" value="1" />
             </div>
-            <button id="btn" >
+            <button id="btn">
               <h5>Add to Cart</h5>
             </button>
           </form>
@@ -97,16 +94,22 @@
     <div class="second">
       <div class="desc">
         <div class="head">
-          <h4 class="active" onclick="openBody(this, 0)">Description</h4>
+          <h4 class="active" onclick="openBody(this, 0)">Highlights</h4>
           <h4 onclick="openBody(this , 1)">Size Chart</h4>
         </div>
         <div onscroll="scrolly()" class="body">
           <div class="section" id="bakchodi">
             <ul>
-              <%=product.prdctFeatures%>
+              <%product.prdctFeatures.forEach(e => { %>
+              <li><%=e%></li>
+              <li><%=e%></li>
+              <li><%=e%></li>
+              <li><%=e%></li>
+              <li><%=e%></li>
+              <% }) %>
             </ul>
           </div>
-        
+
           <div class="section" id="sizeChart">
             <h2>Size Chart</h2>
             <div class="cover">
@@ -145,178 +148,110 @@
         </div>
       </div>
     </div>
-    <div  id="vid">
+    <div id="vid">
       <!-- https://www.youtube.com/watch?v=WNeLUngb-Xg&list=RDMMWNeLUngb-Xg&start_radio=1 -->
-      <a target="_blank" href="https://www.youtube.com/watch?v=<%=product.prdctVideo%>">
+      <a target="_blank" href="<%=product.prdctVideo%>">
         <img
+          style="cursor: pointer"
           src="<%=product.thumbnail%>"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         />
       </a>
     </div>
+    <h1 id="rel">Reviews</h1>
 
     <div id="review">
       <div class="content">
-        <% product.prdctReview.forEach((e)=>{%>
+        <% if ( product.prdctReview.length > 0) {%> <%
+        product.prdctReview.forEach((e)=>{%>
 
- 
         <div class="comment">
-          <img src="../images/<%=e.commentOwner.pfp %>" alt=""> <div id="commentWrapper"><h6> <%=e.commentOwner.name %> :&nbsp;&nbsp;<div id="comm"><%=e.comment %></div></h6></div>
+          <img src="<%=e.commentOwner.pfp.url %>" alt="" />
+          <div id="commentWrapper">
+            <h6>
+              <%=e.commentOwner.name %> :&nbsp;&nbsp;
+              <div id="comm"><%=e.comment %></div>
+            </h6>
+          </div>
 
-              <% if(user && user.email === e.commentOwner.email){%>
-                <a href="/removecomment/<%=product._id%>/<%= e._id%>" id="del"><i class="ri-delete-bin-4-fill"></i></a>
-              <%} %> 
-                
+          <% if(user && user.email === e.commentOwner.email){%>
+          <a href="/removecomment/<%=product._id%>/<%= e._id%>" id="del"
+            ><i class="ri-delete-bin-4-fill"></i></a>
+          <%} %>
         </div>
-        
-        <%}) %> 
+
+        <%}) %> <%} else {%>
+        <h4>Be The First One To Review 😀</h4>
+        <%}%>
       </div>
-       <form action="/comment/<%=product._id%>" method="POST" id="inp" > <input  name="comment" type="text" placeholder="Share Your Review..." class="reviewInp"> <button><i class="ri-send-plane-fill"></i></button></form>
+      <% if (user && user.email) { %>
+      <form action="/comment/<%=product._id%>" method="POST" id="inp">
+        <input
+          id="CommentInp"
+          name="comment"
+          type="text"
+          placeholder="Share Your Review..."
+          class="reviewInp"
+        />
+        <button><i class="ri-send-plane-fill"></i></button>
+      </form>
+
+      <% } else { %>
+      <div method="POST" id="inp">
+        <input
+          id="CommentInp"
+          name="comment"
+          type="text"
+          placeholder="Share Your Review..."
+          class="reviewInp"
+        />
+        <button onclick='alert("Login To Share Your Review")'>
+          <i class="ri-send-plane-fill"></i>
+        </button>
+      </div>
+
+      <%}%>
     </div>
     <h1 id="rel">Related product</h1>
     <div id="third">
-      <a href="/product/">
+      <% related.forEach(e => {%>
         <div class="item">
           <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
+            <div
+              onclick="wishlist(this)"
+              data-user="<%=user%>"
+              data-id="<%=e._id%>"
+              id="heart"
+            >
+              <% if(user){ %>
+                <% if(user.wishlist.includes(e._id)){%>
+                  <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>
+                <%} else if (!user.wishlist.includes(e._id)) {%>
+                      <i class="ri-heart-line"></i>
+                <%}%>
+              <%}else{%>
+                      <i class="ri-heart-line"></i>
+                <%}%>
+            
+            </div>
+            <a target="_blank" href="/product/<%=e._id%>">
+              <img class="scnd" src="<%=e.prdctImg[0]%>" alt="" />
 
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg"
-              alt=""
-            />
+              <img src="<%=e.prdctImg[1]%>" alt="" />
+            </a>
           </div>
           <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
+            <h2><%=e.prdctName%></h2>
+            <h4 class="show">₹ <%=e.prdctPrice%></h4>
           </div>
         </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
 
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
 
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Game-Over-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
-
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
-
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
-
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Game-Over-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
+      <% }); %>
     </div>
 
-    <!-- <% include ../views/Partial/links.ejs %> -->
+    <!-- <% include ./Partial/links.ejs %> -->
   </div>
   <script
     defer
@@ -333,6 +268,20 @@
   ></script>
 
   <script>
+    const wishlist = async (that) => {
+      if (that.dataset.user == null) {
+        window.location.href = "/login";
+      } else {
+        if (that.innerHTML == `<i class="ri-heart-3-line"></i>`) {
+          that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+        } else {
+          that.innerHTML = `<i class="ri-heart-3-line"></i>`;
+        }
+        await axios.get(`/addToWish/${that.dataset.id}`);
+      }
+    };
+
+   
     function openBody(elem, e) {
       var pos = e * document.querySelector(".body").offsetWidth;
       // console.log(e*document.querySelector(".body").offsetWidth, e);
@@ -352,7 +301,7 @@
           .querySelector(".head > h4:nth-child(3)")
           .classList.remove("active");
       } else if (
-        body.scrollLeft >= body.offsetWidth -100 &&
+        body.scrollLeft >= body.offsetWidth - 100 &&
         body.scrollLeft < body.offsetWidth * 2 - 100
       ) {
         document
@@ -407,8 +356,7 @@
         } else {
           gsap.to(imgs, { x: `-${100 * current}%` });
         }
-      } 
-      else {
+      } else {
         current = current - 1;
 
         if (current <= 0) {

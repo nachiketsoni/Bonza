@@ -46,7 +46,7 @@ display: none;
     align-items: center;
     border-radius: 10px;
     overflow: hidden;
-        margin-top: -20vh;
+        margin-top: -57vh;
   }
   .bonza {
     /* position: absolute; */
@@ -102,10 +102,10 @@ const srchclose = (n)=>{
 
                     console.log("chala");
                     document.querySelector('#search').style.display = 'none';
-                    document.querySelector('#searchBar').textContent= '';
+                    document.querySelector('#searchBar').innerHTML= '';
           }
           else{
-                    document.querySelector('#searchBar').textContent= '';
+                    document.querySelector('#searchBar').innerHTML= '';
                     document.querySelector('#search').style.display = 'flex';
           }
 }

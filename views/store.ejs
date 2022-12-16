@@ -16,7 +16,8 @@
         <a class="clicki" onclick="allProduct('Hoodie')">Hoodie</a> /
         <a class="clicki" onclick="allProduct('Bottoms')">Bottoms</a> /
         <a class="clicki" onclick="allProduct('Oversized')">Oversized</a> /
-        <a class="clicki" onclick="allProduct('Sweatshirt')">Sweatshirt</a>
+        <a class="clicki" onclick="allProduct('Sweatshirt')">Sweatshirt</a> /
+        <a class="clicki" onclick="allProduct('Thrifted')">Thrifted</a>
       </div>
       <div class="rig">
         <a class="clicki"
@@ -27,7 +28,7 @@
             <div onclick="allProduct('all','new')" class="options clicki">
               What's New
             </div>
-            <div onclick="allProduct('all','high')" class="options clicki">
+            <div  onclick="allProduct('all','high')" class="options clicki">
               Price : Low to High<i class="ri-sort-asc"></i>
             </div>
             <div onclick="allProduct('all','low')" class="options clicki">
@@ -58,7 +59,7 @@
     const showCard = (data, user) => {
       let clutter = "";
       if(data.length == 0){
-        clutter = `<h1>No Product Available Right Now!</h1>`
+        clutter = `<h1 style="font-weight: 400;" >No Product Available Right Now!</h1>`
       }
       else{
 
@@ -78,7 +79,7 @@
                                   <div class="item">
                                   <div class="img">
                                     <div onclick="wishlist(this)" data-user="${user}" data-id="${e._id}" id="heart">${heart}</div>
-                          <a href="/product/${e._id}">
+                          <a target="_blank" href="/product/${e._id}">
                           <img
                             class="scnd"
                             src="${e.prdctImg[0]}"
@@ -121,7 +122,6 @@
       document.querySelector(
         "#second"
       ).innerHTML = `<img src="../images/loader.gif" />`;
-      console.log("Hoodie");
         var settings = {
           url: `/story/${ctrg}`,
           method: "GET",
