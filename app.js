@@ -16,9 +16,6 @@ const couponResource = require('./routes/coupon')
 const paymentResource = require('./routes/payment')
 
 
-
-
-
 AdminJS.registerAdapter({
   Resource: AdminJSMongoose.Resource,
   Database: AdminJSMongoose.Database,
@@ -27,50 +24,8 @@ AdminJS.registerAdapter({
 // //port
 const PORT = 3000
 
-// const startAdminJS = async () => {
-//   const app = express()
-//   const mongooseDB = await mongoose
-//     .connect(
-//       process.env.DOMAIN,
-//       {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//       }
-//     )
-//     .then(() => console.log("database connected"))
-//     .catch((err) => console.log(err));
-
-//   const BookResourceOptions = {
-//     databases: [mongooseDB],
-//     resource: userResource,
-//   };
-
-//   const adminOptions = {
-//     rootPath: "/admin",
-//     resources: [BookResourceOptions],
-//   };
-
-//   const admin = new AdminJS(adminOptions);
-//   app.listen(PORT, () => {
-//         console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${admin.options.rootPath}`)
-//       })
-//   startAdminJS()
-
-
-
-
 const startAdminJS = async () => {
   const app = express();
-  // const mongooseDB = await mongoose
-  // .connect(
-  //   process.env.DOMAIN,
-  //   {
-  //     useNewUrlParser: true,
-  //     useUnifiedTopology: true,
-  //   }
-  // )
-  // .then(() => console.log("database connected"))
-  // .catch((err) => console.log(err));
 
   const mongooseDB = mongoose.createConnection(process.env.MONGODB_URL);
   mongooseDB.on(`error`, console.error.bind(console, `connection error:`));
@@ -105,15 +60,15 @@ const startAdminJS = async () => {
         resource: paymentResource,
       }
     ],
-    rootPath:'/admin'
-})
+    rootPath: '/admin'
+  })
 
-const adminRouter = AdminJSExpress.buildRouter(adminJs)
-app.use(adminJs.options.rootPath, adminRouter)
+  const adminRouter = AdminJSExpress.buildRouter(adminJs)
+  app.use(adminJs.options.rootPath, adminRouter)
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${adminJs.options.rootPath}`)
-})
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${adminJs.options.rootPath}`)
+  })
 }
 startAdminJS()
 
