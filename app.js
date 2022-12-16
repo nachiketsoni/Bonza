@@ -4,26 +4,117 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const mongoose = require('mongoose')
 //AdminJs
 const AdminJS = require('adminjs')
 const AdminJSExpress = require('@adminjs/express')
+const AdminJSMongoose = require("@adminjs/mongoose");
 
+const userResource = require('./routes/users')
+const productResource = require('./routes/product')
+const couponResource = require('./routes/coupon')
+const paymentResource = require('./routes/payment')
+
+
+
+
+
+AdminJS.registerAdapter({
+  Resource: AdminJSMongoose.Resource,
+  Database: AdminJSMongoose.Database,
+})
+
+// //port
 const PORT = 3000
 
+// const startAdminJS = async () => {
+//   const app = express()
+//   const mongooseDB = await mongoose
+//     .connect(
+//       process.env.DOMAIN,
+//       {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//       }
+//     )
+//     .then(() => console.log("database connected"))
+//     .catch((err) => console.log(err));
+
+//   const BookResourceOptions = {
+//     databases: [mongooseDB],
+//     resource: userResource,
+//   };
+
+//   const adminOptions = {
+//     rootPath: "/admin",
+//     resources: [BookResourceOptions],
+//   };
+
+//   const admin = new AdminJS(adminOptions);
+//   app.listen(PORT, () => {
+//         console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${admin.options.rootPath}`)
+//       })
+//   startAdminJS()
+
+
+
+
 const startAdminJS = async () => {
-  const app = express()
+  const app = express();
+  // const mongooseDB = await mongoose
+  // .connect(
+  //   process.env.DOMAIN,
+  //   {
+  //     useNewUrlParser: true,
+  //     useUnifiedTopology: true,
+  //   }
+  // )
+  // .then(() => console.log("database connected"))
+  // .catch((err) => console.log(err));
 
-  const admin = new AdminJS({})
+  const mongooseDB = mongoose.createConnection(process.env.MONGODB_URL);
+  mongooseDB.on(`error`, console.error.bind(console, `connection error:`));
+  mongooseDB.once(`open`, function () {
+    // we`re connected!
+    // console.log(`MongoDB connected on "  ${process.env.MONGODB_URL}`);
+    console.log(`MongoDB connected on ${process.env.MONGODB_URL}}`);
+  });
 
-  const adminRouter = AdminJSExpress.buildRouter(admin)
-  app.use(admin.options.rootPath, adminRouter)
+  // const BookResourceOptions = {
+  //   databases: [mongooseDB],
+  //   resources: [userResource,productResource , couponResource , paymentResource],
+  // };
 
-  app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${admin.options.rootPath}`)
-  })
+  // const adminOptions = {
+  //   rootPath: "/admin",
+  //   resources: [BookResourceOptions],
+  // };
+
+  const adminJs = new AdminJS({
+    resources: [
+      {
+        resource: userResource,
+      },
+      {
+        resource: productResource,
+      },
+      {
+        resource: couponResource,
+      },
+      {
+        resource: paymentResource,
+      }
+    ],
+    rootPath:'/admin'
+})
+
+const adminRouter = AdminJSExpress.buildRouter(adminJs)
+app.use(adminJs.options.rootPath, adminRouter)
+
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${adminJs.options.rootPath}`)
+})
 }
-
 startAdminJS()
 
 const indexRouter = require('./routes/index');
@@ -46,8 +137,8 @@ app.use(expressSession({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(function(user, done) {done(null, user);});
-passport.deserializeUser(function(user, done) {done(null, user);});
+passport.serializeUser(function (user, done) { done(null, user); });
+passport.deserializeUser(function (user, done) { done(null, user); });
 
 
 app.use(logger('dev'));
@@ -60,12 +151,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -73,6 +164,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
+})
 
 module.exports = app;
