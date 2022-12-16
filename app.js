@@ -5,6 +5,27 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+//AdminJs
+const AdminJS = require('adminjs')
+const AdminJSExpress = require('@adminjs/express')
+
+const PORT = 3000
+
+const startAdminJS = async () => {
+  const app = express()
+
+  const admin = new AdminJS({})
+
+  const adminRouter = AdminJSExpress.buildRouter(admin)
+  app.use(admin.options.rootPath, adminRouter)
+
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}, AdminJS server started on URL: http://localhost:${PORT}${admin.options.rootPath}`)
+  })
+}
+
+startAdminJS()
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const passport = require('passport')
