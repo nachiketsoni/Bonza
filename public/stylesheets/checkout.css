@@ -125,7 +125,7 @@ transform-origin:left;
           display: flex;
           justify-content: space-between;
 }
-form select{
+form .address{
           width: 100%;
           border: none;
           border-radius: 5px;
@@ -139,7 +139,7 @@ form select{
           padding: 1vmax 3vmax;
           margin-bottom: 5vw;
 }
-select option{
+.address option{
           font-size: 1.2vw;
           cursor: pointer;
 
@@ -246,12 +246,15 @@ select option{
     color: white;
     margin-top: 3vmax;
     margin-bottom: 2vmax;
+    position: relative;
+    margin-left:50%;
+    transform: translateX(-50%);
     
     cursor: pointer;
 }
 .total button h3{
     font-size: 2.5vh;
-          font-weight: 500;
+    font-weight: 500;
           
 }
 

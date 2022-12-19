@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
   myorder: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      ref: "Order",
     },
   ],
 });

@@ -2,158 +2,99 @@
 
 <link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
 <link rel="stylesheet" href="../stylesheets/Partial/links.css" />
-<link rel="stylesheet" href="../stylesheets/store.css" />
+<link rel="stylesheet" href="../stylesheets/cart.css" />
+<link
+  href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
 <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
-
+<style>
+  .left{
+    width: 100%;
+  }
+</style>
 <body>
-  <% include ../views/Partial/loader.ejs %> <% include ../views/Partial/nav.ejs
-  %> <% include ../views/Partial/search.ejs %>
-
-  <div id="main">
-            <h1 style="font-size: 5vmax; font-weight: 100; margin-left: 4vmax; margin-top: 2vmax; " >All Orders</h1>
-            <div class="catgs">
-      <div class="lef">
-        <a class="clicki" onclick="allProduct('all')">All</a> /
-        <a class="clicki" onclick="allProduct('Hoodie')">Hoodie</a> /
-        <a class="clicki" onclick="allProduct('Bottoms')">Bottoms</a> /
-        <a class="clicki" onclick="allProduct('Oversized')">Oversized</a> /
-        <a class="clicki" onclick="allProduct('Sweatshirt')">Sweatshirt</a>
-      </div>
-      <div class="rig">
-        <a class="clicki"
-          ><span class="clicki"
-            >Sort <img class="clicki" src="../images/sort.png" alt=""
-          /></span>
-          <div id="sort">
-            <div onclick="allProduct('all','new')" class="options clicki">
-              What's New
+  <% include ../views/Partial/loader.ejs %> 
+  <% include ../views/Partial/search.ejs %>
+   <div id="main">
+    <div class="left">
+      <a style="cursor: pointer" href="/">
+        <i class="ri-arrow-left-s-line"></i> Back to Homepage</a
+      >
+      <h1 class="txtanim">My Orders</h1>
+      <div class="box">
+        <div class="ctrg txtanim">
+          <h4 id="t">Item</h4>
+          <div class="side">
+            <div class="sec">
+              <h4>Size</h4>
             </div>
-            <div onclick="allProduct('all','high')" class="options clicki">
-              Price : Low to High<i class="ri-sort-asc"></i>
+
+            <div class="sec">
+              <h4>Qty</h4>
             </div>
-            <div onclick="allProduct('all','low')" class="options clicki">
-              Price : High to Low<i class="ri-sort-desc"></i>
-            </div></div
-        ></a>
+            <div class="sec">
+              <h4>Price</h4>
+            </div>
+            <div class="sec">
+              <h4>Status</h4>
+            </div>
+            <div class="sec">
+              <h4>Payment</h4>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <!-- <%=Myorder %> -->
+          <% if(Myorder.length>0){%> <% Myorder.forEach(e => {%>
+
+          <div class="itm txtanim">
+            <a id="delete" href="/cart/delete/<%=e._id%>"
+              ><div><i style="cursor: pointer" class="ri-close-line"></i></div
+            ></a>
+            <div class="lside">
+              <!-- <img src="<%= e.items.prdctImg[0] %> " alt="" /> -->
+              <!-- <h2 class="pname"><%= e.items.prdctName %></h2> -->
+            </div>
+            <div class="side">
+              <div class="sec">
+                <h4><%= e.size %></h4>
+              </div>
+
+              <div class="sec">
+                <a href="/cart/dec/<%= e._id %>"
+                  ><i class="ri-indeterminate-circle-line"></i
+                ></a>
+                <h3><%= e.quantity %></h3>
+                <a href="/cart/inc/<%= e._id %>">
+                  <i class="ri-add-circle-line"></i
+                ></a>
+              </div>
+              <div class="sec">₹<%= e.amount %></div>
+              <div class="sec"><%= e.status %></div>
+              <div class="sec"><%= payment.type  %> </div>
+            </div>
+          </div>
+
+          <% }); %> <%}else{%>
+          <h1 id="empty">You Haven't Ordered Anything <span style="opacity: .7;" > 🥺</span></h1>
+          <%} %>
+        </div>
       </div>
-    </div>
 
-    <div id="second">
-      <img src="../images/loader.gif" />
+      <div></div>
     </div>
-
-    <% include ../views/Partial/links.ejs %>
+   
   </div>
-
+  
+  <% include ../views/Partial/footer.ejs %>
   <script
     src="https://code.jquery.com/jquery-3.6.1.min.js"
     integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
     crossorigin="anonymous"
   ></script>
-  <script>
-    const search = () => {
-      let search = document.getElementById("searchBar").value;
-      allProduct(search, "search");
-      srchclose(1)
-    };
-    const showCard = (data, user) => {
-      let clutter = "";
-      if(data.length == 0){
-        clutter = `<h1>No Product Available Right Now!</h1>`
-      }
-      else{
-
-        data.forEach((e) => {
-          let heart = `<i class="ri-heart-3-line"></i>`;
-          if (user != null) {
-            if (user.wishlist.includes(e._id)) {
-              heart = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
-            } else if (!user.wishlist.includes(e._id)) {
-              heart = `<i class="ri-heart-3-line"></i>`;
-            } else {
-              heart = `<i class="ri-heart-3-line"></i>`;
-            }
-          }
-  
-          clutter += `
-                                  <div class="item">
-                                  <div class="img">
-                                    <div onclick="wishlist(this)" data-user="${user}" data-id="${e._id}" id="heart">${heart}</div>
-                          <a href="/product/${e._id}">
-                          <img
-                            class="scnd"
-                            src="${e.prdctImg[0]}"
-                            alt=""
-                          />
-  
-                          <img
-                            src="${e.prdctImg[1]}"
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                      <div class="dets">
-                        <h2>${e.prdctName}</h2>
-                        <h4 class="show">₹ ${e.prdctPrice}</h4>
-                      </div>
-                    </div>
-                      `;
-        });
-      }
-
-      document.querySelector("#second").innerHTML = clutter;
-    };
-
-    const wishlist = async (that) => {
-      if (that.dataset.user == null) {
-        window.location.href = "/login";
-      } else {
-        if (that.innerHTML == `<i class="ri-heart-3-line"></i>`) {
-          that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
-        } else {
-          that.innerHTML = `<i class="ri-heart-3-line"></i>`;
-        }
-        await axios.get(`/addToWish/${that.dataset.id}`);
-      }
-    };
-
-   
-    const allProduct = (ctrg, sort) => {
-      document.querySelector(
-        "#second"
-      ).innerHTML = `<img src="../images/loader.gif" />`;
-      console.log("Hoodie");
-        var settings = {
-          url: `/story/${ctrg}`,
-          method: "GET",
-          cache: true,
-        };
-      $.ajax(settings).done(({ allProduct, user }) => {
-        if (sort === "low") {
-          let sorted = allProduct.sort((a, b) => {
-            return b.prdctPrice - a.prdctPrice;
-          });
-          showCard(sorted, user);
-        } else if (sort === "high") {
-          let sorted = allProduct.sort((a, b) => {
-            return a.prdctPrice - b.prdctPrice;
-          });
-          showCard(sorted, user);
-        } else if (sort === "new") {
-          let sorted = allProduct.reverse();
-          showCard(sorted, user);
-        
-        } else {
-          showCard(allProduct, user);
-        }
-      });
-    };
-
-    allProduct("all");
-  </script>
 
   <script src="../javascripts/nav.js"></script>
 
   <script></script>
-  <% include ../views/Partial/footer.ejs %>
 </body>

@@ -331,7 +331,10 @@ a{
   #vid a img{
     width: 100%;
   }
-  
+  .first #descp{
+    font-size: 1.8vmax;
+    line-height: 2vmax;
+  }
 }
 
 #review{

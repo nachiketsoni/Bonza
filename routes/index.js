@@ -4,18 +4,19 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
-const Payment = require("./payment");
+// const Order = require("./Order");
 const path = require("path");
-const Razorpay = require("razorpay"); 
+const Razorpay = require("razorpay");
 const { v4: uuidv4 } = require("uuid");
 const sendMail = require("../nodemailer.js");
 const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 var crypto = require("crypto");
 const { dirname } = require("path");
+const Order = require("./Order");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
-);          
+);
 
 var instance = new Razorpay({
   key_id: "rzp_test_BkPWeFB0YcGvWJ",
@@ -54,10 +55,12 @@ passport.use(
   )
 );
 
-router.get("/google/auth",
+router.get(
+  "/google/auth",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-router.get("/google/authenticated",
+router.get(
+  "/google/authenticated",
   passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login",
@@ -69,7 +72,8 @@ router.get("/google/authenticated",
 router.get("/login", checkLoggedIn, (req, res, next) => {
   res.render("login");
 });
-router.post("/login",
+router.post(
+  "/login",
   checkLoggedIn,
   passport.authenticate("local", {
     successRedirect: "/",
@@ -78,13 +82,11 @@ router.post("/login",
   (req, res, next) => {}
 );
 
-router.post("/register", async(req, res) => {
-
+router.post("/register", async (req, res) => {
   var newUser = new userModel({
-    email: req.body.email,  
+    email: req.body.email,
     name: req.body.name,
     number: req.body.number,
-  
   });
   userModel.register(newUser, req.body.password).then(function (u) {
     passport.authenticate("local")(req, res, () => {
@@ -125,11 +127,11 @@ router.get("/product/:id", async (req, res, next) => {
     },
   });
 
-  let related = await prdctModel.find({ prdctCtrg: product.prdctCtrg  });
+  let related = await prdctModel.find({ prdctCtrg: product.prdctCtrg });
 
   function getMultipleRandom(arr, num) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
-  
+
     return shuffled.slice(0, num);
   }
   related = getMultipleRandom(related, 6);
@@ -141,16 +143,16 @@ router.get("/product/:id", async (req, res, next) => {
     var user = null;
   }
 
-  res.render("product", { product, user,related });
+  res.render("product", { product, user, related });
 });
 router.post("/comment/:id", async (req, res, next) => {
   const user = await userModel.findOne({ email: req.user.email });
   const product = await prdctModel.findOne({ _id: req.params.id });
-  const comment ={
+  const comment = {
     comment: req.body.comment,
     commentOwner: user._id,
   };
-  product.prdctReview = [...product.prdctReview , comment ]
+  product.prdctReview = [...product.prdctReview, comment];
   await product.save();
   console.log(user);
   res.redirect(`back`);
@@ -181,7 +183,7 @@ router.post("/productUpload", async (req, res, next) => {
       );
       allImg.push(secure_url);
     }
-   await prdctModel.create({
+    await prdctModel.create({
       prdctCtrg,
       prdctName,
       prdctFeatures,
@@ -241,11 +243,11 @@ router.get("/story/:ctrg", async (req, res, next) => {
   } else {
     allProduct = await prdctModel.find({
       $or: [
-        { prdctCtrg: { $regex: req.params.ctrg ,$options : "i" } },
-        { prdctName: { $regex: req.params.ctrg ,$options : "i" } },
-        { prdctDesc: { $regex: req.params.ctrg ,$options : "i" } },
-        { prdctFeatures: { $regex: req.params.ctrg,$options : "i" } },
-        { prdctPrice: { $regex: req.params.ctrg ,$options : "i"} },
+        { prdctCtrg: { $regex: req.params.ctrg, $options: "i" } },
+        { prdctName: { $regex: req.params.ctrg, $options: "i" } },
+        { prdctDesc: { $regex: req.params.ctrg, $options: "i" } },
+        { prdctFeatures: { $regex: req.params.ctrg, $options: "i" } },
+        { prdctPrice: { $regex: req.params.ctrg, $options: "i" } },
       ],
     });
   }
@@ -338,7 +340,7 @@ router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
       res.status(400).json(err);
     }
   }
-  res.redirect("back")
+  res.redirect("back");
 });
 
 router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
@@ -349,10 +351,7 @@ router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
     },
   });
   const search = (item) => {
-    return (
-      item._id = req.params.id
-      
-    );
+    return (item._id = req.params.id);
   };
   const productIndex = user.cart.findIndex(search);
 
@@ -368,10 +367,7 @@ router.get("/cart/inc/:id", isLoggedIn, async (req, res, next) => {
     },
   });
   const search = (item) => {
-    return (
-      item._id == req.params.id
-      
-    );
+    return item._id == req.params.id;
   };
   const productIndex = user.cart.findIndex(search);
 
@@ -387,23 +383,20 @@ router.get("/cart/dec/:id", isLoggedIn, async (req, res, next) => {
     },
   });
   const search = (item) => {
-    return (
-      item._id == req.params.id
-      
-    );
+    return item._id == req.params.id;
   };
   const productIndex = user.cart.findIndex(search);
-  
-  if(user.cart[productIndex].quantity >1){
+
+  if (user.cart[productIndex].quantity > 1) {
     user.cart[productIndex].quantity -= 1;
-  }else{
-    user.cart.splice(user.cart[productIndex], 1);
-  }
+  } 
   await user.save();
   res.redirect("back");
 });
 
-router.get("/removecomment/:product/:comment",isLoggedIn,
+router.get(
+  "/removecomment/:product/:comment",
+  isLoggedIn,
   async (req, res, next) => {
     const product = await prdctModel.findOne({ _id: req.params.product });
 
@@ -436,6 +429,7 @@ router.post("/update", isLoggedIn, async (req, res, next) => {
 router.post("/addressAdd", isLoggedIn, async (req, res, next) => {
   const { location, pincode, city, state } = req.body;
   const address = {
+    id: uuidv4(),
     location: location,
     pincode: pincode,
     city: city,
@@ -445,7 +439,7 @@ router.post("/addressAdd", isLoggedIn, async (req, res, next) => {
   const user = await userModel.findOne({ email: req.user.email });
   user.address.push(address);
   await user.save();
-  res.json(user);
+  res.redirect("back");
 });
 router.post("/changepfp", isLoggedIn, async (req, res, next) => {
   const form = formidable();
@@ -454,23 +448,23 @@ router.post("/changepfp", isLoggedIn, async (req, res, next) => {
     const user = await userModel.findOne({ email: req.user.email });
     console.log(files);
     console.log(err);
-    if(user.pfp.public_id === "default/Avatar_tictb7.png"){
-
-    }
-    else{
+    if (user.pfp.public_id === "default/Avatar_tictb7.png") {
+    } else {
       const imageId = user.pfp.public_id;
       await cloudinary.v2.uploader.destroy(imageId);
     }
-            const { public_id, secure_url } =
-                await cloudinary.v2.uploader.upload(files.pfp.filepath, {
-                  folder: `user/${user.email}`,
-                  fetch_format: "webp",
-                  quality:"50"
-                });
-    user.pfp = { public_id,url: secure_url };
+    const { public_id, secure_url } = await cloudinary.v2.uploader.upload(
+      files.pfp.filepath,
+      {
+        folder: `user/${user.email}`,
+        fetch_format: "webp",
+        quality: "50",
+      }
+    );
+    user.pfp = { public_id, url: secure_url };
     await user.save();
     res.redirect("back");
-  })
+  });
 });
 router.get("/forgot", async (req, res, next) => {
   res.render("forgot");
@@ -530,6 +524,7 @@ router.post("/newpassword/:email", function (req, res) {
 
 router.get("/thankyou", async (req, res, next) => {
   console.log(req.query);
+
   res.render("thankyou");
 });
 
@@ -547,19 +542,22 @@ router.post("/create/orderId", function (req, res, next) {
     amount: req.body.amount, // amount in the smallest currency unit
     currency: "INR",
     receipt:
-      "order_rcptid_11" + Math.floor(Math.random() * 100000000000) + Date.now(),
+      "order_rcptid_" +
+      Math.floor(Math.random() * 1000000000000) +
+      Date.now().toString(),
   };
 
   instance.orders.create(options, function (err, order) {
-    console.log({ orderId: order })
+    console.log({ orderId: order });
     res.json({ orderId: order });
   });
 });
 
-
-router.post("/api/payment/verify",async (req, res) => {
-  const { response: {razorpay_order_id,razorpay_payment_id ,razorpay_signature} } = req.body
-  let body =razorpay_order_id +"|" +razorpay_payment_id;
+router.post("/api/payment/verify", async (req, res) => {
+  const {
+    response: { razorpay_order_id, razorpay_payment_id, razorpay_signature },
+  } = req.body;
+  let body = razorpay_order_id + "|" + razorpay_payment_id;
 
   var expectedSignature = crypto
     .createHmac("sha256", "TNkLevqWrFFS2YXrf4kACVnq")
@@ -567,34 +565,116 @@ router.post("/api/payment/verify",async (req, res) => {
     .digest("hex");
   console.log("sig >> " + expectedSignature);
 
-    console.log("rzp_signature >> "+  razorpay_signature);
-   var response = { signatureIsValid: "false" };
-   console.log(expectedSignature,razorpay_signature)
-	if (expectedSignature === razorpay_signature) {
-      const payment = new Payment({
-        razorpay_order_id,razorpay_payment_id ,razorpay_signature
-      })
-     await payment.save()
-		 response = { signatureIsValid: "true" ,razorpay_order_id,razorpay_payment_id ,razorpay_signature};
-	}
+  console.log("rzp_signature >> " + razorpay_signature);
+  var response = { signatureIsValid: false };
+  console.log(expectedSignature, razorpay_signature);
+  if (expectedSignature === razorpay_signature) {
+    response = {
+      signatureIsValid: true,
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    };
+  }
 
   res.status(200).json(response);
 });
 
-router.get("/myorders", async (req, res, next) => {
-  const allProduct = await prdctModel.find();
-  try {
-    const user = await userModel.findOne({ email: req.user.email });
-    res.render("myorders", { allProduct, user });
-  } catch {
-    res.render("myorders", { allProduct });
+router.post("/successOrder", async (req, res, next) => {
+  try{
+
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    orderId,
+    Email,
+    phnNum,
+    address,
+    instruction,
+    type,
+  } = req.body;
+  // instance.invoices.create({
+  //   type: "invoice",
+  //   date: Date.now(),
+  //   customer_id: "cust_" + req.user._id ,
+  //   line_items: [
+  //     {
+  //       item_id: razorpay_order_id,
+
+  //         name: "Book / A Wild Sheep Chase",
+  //         amount: 200,
+  //         currency: "INR",
+  //         quantity: 1
+
+  //     }
+  //   ]
+  // })
+  console.log(req.body)
+  if (type == "COD") {
+    var payment = {
+      type,
+      PaymentID: "Cash On Delivery",
+    };
+  } else {
+    var payment = {
+      type,
+      PaymentID: razorpay_payment_id,
+    };
   }
+  const user = await userModel.findOne({ _id: req.user._id });
+
+  let addressDets = user.address.filter((item) => item.id == address);
+  console.log(addressDets);
+  const order = new Order({
+    user: user._id,
+    amount: orderId.amount,
+
+
+    orderID: orderId.id || razorpay_order_id,
+    payment,
+    Email,
+    phnNum,
+    Address: addressDets[0],
+    status: "placed",
+    DeliveryInstructions: instruction,
+    items: user.cart,
+  });
+  user.cart = [];
+  user.myorder.push(order._id);
+  await user.save();
+
+  const createdOrder = await order.save();
+  //  await Order.save()
+  console.log(createdOrder);
+  res.status(200).json({ msg: "success", createdOrder });
+}
+catch(err){
+  console.log(err)
+  res.render("error", {error:err , message: " Something went wrong Please Contact to Our Developers "})
+}
+
+});
+
+router.get("/myorders",isLoggedIn, async (req, res, next) => {
+
+  let order = await userModel.findOne({ _id: req.user._id }).populate({
+    path: "myorder",
+    populate: {
+      path: "items",
+      populate: {
+        path: "product",
+      },
+    },
+  })
+  console.log(order)
+
+  res.render("myorders", {Myorder: order})
+
+
 });
 router.get("/custom", async (req, res, next) => {
   res.render("custom");
 });
-
-
 
 router.get("*", async (req, res, next) => {
   res.render("error");

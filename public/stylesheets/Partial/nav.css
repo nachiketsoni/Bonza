@@ -196,7 +196,7 @@ a {
 .catg a:hover .sec {
   background-color: #262626;
 }
-@media (max-width: 600px) {
+@media (max-width: 763px) {
   #nav {
     height: 8vmax;
   }
@@ -237,24 +237,7 @@ a {
     display: initial;
   }
 }
-#first .cntr {
-  display: flex;
-  align-items: center;
-}
-#first .cntr .lef {
-  /* width: 40vmax; */
-  width: 45vw;
-  color: white;
-  margin-left: 15vw;
-  line-height: 3.8vmax;
-}
+
 #username{
   cursor: pointer;
-}
-@media screen and (max-width: 786px) {
-  #first .cntr .lef {
-    margin-left: 1.5vw;
-    line-height: 4vmax;
-    margin-right: 1vw;
-  }
 }
