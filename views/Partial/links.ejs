@@ -2,7 +2,28 @@
 <style>
   #links{
     position: relative;
+    background-size: cover;
+    background-position: center;
+    background-image: url(https://res.cloudinary.com/bonzaonstreet/image/upload/v1671560166/default/WhatsApp_Image_2022-12-17_at_4.41.30_PM_hvkku8.jpg);
   }
+  #links *{
+   z-index: 2;
+  }
+  #links::after{
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  #links a,#links i{
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
     #Head{
       font-size: 5vmax;
       color: white;
@@ -18,17 +39,24 @@
       bottom: 0;
       width: 100%;
       height: 5vmax;
-      background-color: rgb(0, 0, 0);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    #footer #left{
+     #center{
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vmax;
+      position: absolute;
+      right:15vw;
+      top: 5vmax;
+    }
+     #center a{
       text-decoration: none;
       color: rgb(255, 255, 255);
       font-size: 1.5vmax;
       font-weight: 100;
-    }
+      text-align: left;    }
     #footer #left a{
       text-decoration: none;
       color: rgb(255, 255, 255);
@@ -52,11 +80,19 @@
 </style>
 <div id="links">
   <h1 id="Head" >Get In Touch</h1>
+  <div id="center">
+    <a href="">Thrifted</a>
+    <a href="">Sweatshirt</a>
+    <a href="">Oversized</a>
+    <a href="">Limited Edition</a>
+    
+  </div>
   <div id="footer">
     <div id="left">
       <a href="">Contact Us</a>
       <a href="">About Us</a>
     </div>
+    
    <div id="right" >
     <a href=""><i class="ri-instagram-line"></i></a>
     <a href=""><i class="ri-linkedin-box-fill"></i></a>

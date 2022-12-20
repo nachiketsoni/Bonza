@@ -312,34 +312,5 @@
   width: 100%;
   height: 40vmax;
 }
-#blog{
-  height: 35vmax;
-  position: relative;
-  background-color: #C90000;
-  overflow: hidden;
-}
-#blog img{
-  position: absolute;
-  width: 20%;
-  left: 30%;
-  top: 15%;
-}
-@media (max-width: 550px){
-  #blog img{
-    width:10vmax;
-    top: 50%;
-    transform: translateY(-50%);
-    /* left: 35%; */
-  }
-  
-}
-#blog .yexy{
-  position: absolute;
-  color: #fff;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30%;
-  right: 15%;
-}
 
 

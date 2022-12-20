@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="../stylesheets/style.css" />
 <body>
   <% include ../views/Partial/loader.ejs %>
+  <% include ../views/Partial/search.ejs %>
   <div id="main">
     <% include ../views/Partial/nav.ejs %>
 
@@ -244,23 +245,7 @@
       </div>
     </div>
    
-    <div id="blog">
-      <img
-        src="https://tokyoarkade.com/wp-content/uploads/2020/05/2251992.svg"
-        alt=""
-      />
-      <div class="yexy">
-        <h1>News For You</h1>
-        <h2>From Japan</h2>
-        <h4>
-          Excellent content on all things design industry,here you'll find out
-          about our latest news about Japan,insights about fashion, design and
-          gaming.
-        </h4>
-        <button class="buynow">Buy Now</button>
-      </div>
-    </div>
-
+    
     <% include ../views/Partial/links.ejs %>
   </div>
   <script src="../javascripts/nav.js"></script>

@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
   prdctVideo: String,
   thumbnail: Object,
   prdctImg: Array,
+  sizes: Array,
   prdctReview: [{
      comment:{type:String},
      commentOwner:{type: mongoose.Schema.Types.ObjectId,ref:"User"},

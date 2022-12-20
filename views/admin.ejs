@@ -98,7 +98,7 @@
                 <a href="element.html" class="dropdown-item">Other Elements</a>
               </div>
             </div>
-            <a href="widget.html" class="nav-item nav-link"
+            <a href="/admin/allProduct" class="nav-item nav-link"
               ><i class="fa fa-th me-2"></i>All Products</a
             >
             <a href="form.html" class="nav-item nav-link"
@@ -268,7 +268,7 @@
         </nav>
         <div class="col-sm-12 col-xl-6 mt-1 mx-1">
           <form
-            action="/productUpload"
+            action="/admin/productUpload"
             id="prdctForm"
             method="POST"
             enctype="multipart/form-data"
@@ -290,6 +290,8 @@
                 </select>
                 <label for="floatingSelect">Category</label>
               </div>
+             
+             
               <div class="form-floating mb-3">
                 <input
                   name="prdctName"
@@ -308,7 +310,7 @@
                 />
                 <label for="floatingPassword">Product Price</label>
               </div>
-              <div class="form-floating mb-3">
+              <!-- <div class="form-floating mb-3">
                 <input
                   name="prdctVideo"
                   type="text"
@@ -316,15 +318,15 @@
                   id="floatingPassword"
                 />
                 <label for="floatingPassword">Product Video</label>
-              </div>
-              <div class="mb-3">
+              </div> -->
+              <!-- <div class="mb-3">
                 <small>Thumbnail</small>
                 <input
                   name="thumbnail"
                   class="form-control bg-dark prdctImg"
                   type="file"
                 />
-              </div>
+              </div> -->
 
               <div class="mb-3">
                 <small>Images</small>
@@ -349,27 +351,48 @@
                 <label for="floatingTextarea">Description</label>
               </div>
               <label  for="floatingTextarea mt-5 d-flex justify-content-between">Features
-                <div id="addInp " onclick="addInp()" class="btn btn-primary  mt-2">
+                <div id="addInp " onclick="addInp('highlight')" class="btn btn-primary  mx-4 mt-2">
                     Add Input
                   </div>
               </label>
-              <div id="highlight" class="form-floating">
-                <div class="d-flex mt-1">
-                  <input
-                    name="prdctFeatures"
-                    class="form-control"
-                    placeholder="Add a highlight here"
-                    id="floatingTextarea"
-                  />
-                  <div
-                    onclick="removeInp(this)"
-                    class="d-flex text-center justify-content-center align-items-center btn btn-primary h-5"
-                  >
-                    X
+                <div id="highlight" class="form-floating">
+                  <div class="d-flex mt-1">
+                    <input
+                      name="prdctFeatures"
+                      class="form-control"
+                      placeholder="Add a highlight here"
+                      id="floatingTextarea"
+                    />
+                    <div
+                      onclick="removeInp(this)"
+                      class="d-flex text-center justify-content-center align-items-center btn btn-primary h-5"
+                    >
+                      X
+                    </div>
                   </div>
                 </div>
-              </div>
-              
+              <label  for="floatingTextarea mt-5 d-flex justify-content-between">Sizes
+                <div id="addInp " onclick="addInp('size')" class="btn btn-primary  mx-4 mt-2">
+                    Add Input
+                  </div>
+              </label>
+                <div id="size" class="form-floating">
+                  <div class="d-flex mt-1">
+                    <input
+                      name="size"
+                      class="form-control"
+                      placeholder="Write Size here"
+                      id="floatingTextarea"
+                    />
+                    <div
+                      onclick="removeInp(this)"
+                      class="d-flex text-center justify-content-center align-items-center btn btn-primary h-5"
+                    >
+                      X
+                    </div>
+                  </div>
+                </div>
+                
               <button type="submit" id="submit" class="btn btn-primary mt-2">
                 Submit
               </button>
@@ -384,14 +407,14 @@
 
     <script src="../javascripts/main.js"></script>
     <script>
-      const addInp = () => {
+      const addInp = (jagah) => {
         html = `
         <div  class="d-flex mt-1">
                   <input
                     
-                    name="prdctFeatures"
+                    name=${jagah==='highlight'?'prdctFeatures':'size'}
                     class="form-control"
-                    placeholder="Add a highlight here"
+                    placeholder="Write Size here"
                     id="floatingTextarea"
                   />
                   <div
@@ -402,9 +425,17 @@
                   </div>
                 </div>
            `;
-        document
-          .querySelector("#highlight")
-          .insertAdjacentHTML("beforeend", html);
+           if (jagah == "highlight") {
+             document
+               .querySelector("#highlight")
+               .insertAdjacentHTML("beforeend", html);
+            
+           } else {
+            document
+               .querySelector("#size")
+               .insertAdjacentHTML("beforeend", html);
+            
+           }
       };
       const removeInp = (e) => {
         console.log(e.parentNode);

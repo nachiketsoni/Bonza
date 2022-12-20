@@ -261,7 +261,7 @@
                   headers: {
                   "Content-Type": "application/json",
                   },
-                  data: JSON.stringify({ razorpay_order_id, razorpay_payment_id,orderId,Email,phnNum,address,instruction ,type:"Online" }),
+                  data: JSON.stringify({ razorpay_order_id, razorpay_payment_id,orderId,Email,phnNum,address,instruction ,typy:"Online" }),
                 }
 
                   $.ajax(opt).done((response)=>{
@@ -315,8 +315,7 @@
         });
         rzp1.open();
       };
-    </script>
-    <script>
+
       document.querySelector("#COD").addEventListener("click",()=>{
           try{
                 Swal.fire("Payment Successful!", "Thankyou For Shopping", "success");
@@ -330,7 +329,7 @@
                   headers: {
                   "Content-Type": "application/json",
                   },
-                  data: JSON.stringify({ orderId,Email,phnNum,address,instruction ,type:"COD" }),
+                  data: JSON.stringify({ orderId,Email,phnNum,address,instruction ,typy:"COD" }),
                 }
                 
 
@@ -351,6 +350,9 @@
         
       })
 
+    </script>
+    <script>
+  
     </script>
   </body>
 </html>

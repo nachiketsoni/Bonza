@@ -47,8 +47,8 @@
           </div>
           <div class="imgs">
             <%product.prdctImg.forEach((e)=>{%>
-              <a href="<%=e%>" data-lightbox="mygallery">
-                <img src="<%=e%>" alt="" />
+              <a href="<%=e.secure_url%>" data-lightbox="mygallery">
+                <img src="<%=e.secure_url%>" alt="<%=e.public_id%>" />
               </a>
             <%})%>
           </div>
@@ -145,9 +145,9 @@
         </div>
       </div>
     </div>
-    <div id="vid">
-      <!-- https://www.youtube.com/watch?v=WNeLUngb-Xg&list=RDMMWNeLUngb-Xg&start_radio=1 -->
-      <a target="_blank" href="<%=product.prdctVideo%>">
+    <!-- <div id="vid">
+      https://www.youtube.com/watch?v=WNeLUngb-Xg&list=RDMMWNeLUngb-Xg&start_radio=1 -->
+      <!-- <a target="_blank" href="<%=product.prdctVideo%>">
         <img
           style="cursor: pointer"
           src="<%=product.thumbnail%>"
@@ -155,7 +155,7 @@
           allowfullscreen
         />
       </a>
-    </div>
+    </div> -->
     <h1 id="rel">Reviews</h1>
 
     <div id="review">
@@ -233,9 +233,9 @@
             
             </div>
             <a target="_blank" href="/product/<%=e._id%>">
-              <img class="scnd" src="<%=e.prdctImg[0]%>" alt="" />
+              <img class="scnd" src="<%=e.prdctImg[0].secure_url%>" alt="<%=e.prdctImg[0].public_id%>" />
 
-              <img src="<%=e.prdctImg[1]%>" alt="" />
+              <img  src="<%=e.prdctImg[1].secure_url%>" alt="<%=e.prdctImg[1].public_id%>" />
             </a>
           </div>
           <div class="dets">
