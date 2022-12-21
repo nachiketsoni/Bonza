@@ -691,7 +691,7 @@ router.post("/successOrder", async (req, res, next) => {
 
 router.get("/myorders", async (req, res, next) => {
 
-  let order = await userModel.findOne({ _id:'6398bd6286c418b23cd5286b' }).populate({
+  let order = await userModel.findOne({ _id:req.user._id }).populate({
     path: "myorder",
     populate: {
       path: "items.product",
