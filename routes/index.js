@@ -121,33 +121,38 @@ function checkLoggedIn(req, res, next) {
   }
 }
 router.get("/product/:id", async (req, res, next) => {
-  const product = await prdctModel.findOne({ _id: req.params.id }).populate({
-    path: "prdctReview",
-    populate: {
-      path: "commentOwner",
-    },
-  });
-
-  let related = await prdctModel.find({ prdctCtrg: product.prdctCtrg });
-
-  function getMultipleRandom(arr, num) {
-    const shuffled = [...arr].sort(() => 0.5 - Math.random());
-
-    return shuffled.slice(0, num);
+  try {
+    const product = await prdctModel.findOne({ _id: req.params.id }).populate({
+      path: "prdctReview",
+      populate: {
+        path: "commentOwner",
+      },
+    });
+  
+    let related = await prdctModel.find({ prdctCtrg: product.prdctCtrg });
+  
+    function getMultipleRandom(arr, num) {
+      const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  
+      return shuffled.slice(0, num);
+    }
+    related = getMultipleRandom(related, 6);
+    if (req.user) {
+      var user = await userModel
+        .findOne({ email: req.user.email })
+        .populate("cart");
+    } else {
+      var user = null;
+    }
+  
+    res.render("product", { product, user, related });
+  } catch (error) {
+    console.log(error)
   }
-  related = getMultipleRandom(related, 6);
-  if (req.user) {
-    var user = await userModel
-      .findOne({ email: req.user.email })
-      .populate("cart");
-  } else {
-    var user = null;
-  }
-
-  res.render("product", { product, user, related });
 });
 router.post("/comment/:id", async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email });
+  try {
+    const user = await userModel.findOne({ email: req.user.email });
   const product = await prdctModel.findOne({ _id: req.params.id });
   const comment = {
     comment: req.body.comment,
@@ -157,6 +162,9 @@ router.post("/comment/:id", async (req, res, next) => {
   await product.save();
   console.log(user);
   res.redirect(`back`);
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 router.post("/admin/productUpload", async (req, res, next) => {
@@ -220,32 +228,40 @@ router.post("/admin/productUpload", async (req, res, next) => {
 });
 
 router.get("/cart", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email }).populate({
-    path: "cart",
-    populate: {
-      path: "product",
-    },
-  });
-  var subtotal = 0;
-  user.cart.forEach(function (data) {
-    subtotal += parseInt(data.Amt * data.quantity);
-  });
-  // res.json(user)
-  console.log(user);
-  res.render("cart", { user, subtotal });
+  try {
+    const user = await userModel.findOne({ email: req.user.email }).populate({
+      path: "cart",
+      populate: {
+        path: "product",
+      },
+    });
+    var subtotal = 0;
+    user.cart.forEach(function (data) {
+      subtotal += parseInt(data.Amt * data.quantity);
+    });
+    // res.json(user)
+    console.log(user);
+    res.render("cart", { user, subtotal });
+  } catch (error) {
+    console.log(error)
+  }
 });
 router.get("/checkout", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email }).populate({
-    path: "cart",
-    populate: {
-      path: "product",
-    },
-  });
-  var subtotal = 0;
-  user.cart.forEach(function (data) {
-    subtotal += parseInt(data.Amt * data.quantity);
-  });
-  res.render("checkout", { user, subtotal });
+  try {
+    const user = await userModel.findOne({ email: req.user.email }).populate({
+      path: "cart",
+      populate: {
+        path: "product",
+      },
+    });
+    var subtotal = 0;
+    user.cart.forEach(function (data) {
+      subtotal += parseInt(data.Amt * data.quantity);
+    });
+    res.render("checkout", { user, subtotal });
+  } catch (error) {
+    console.log(error)
+  }
 });
 router.get("/store", async (req, res, next) => {
   const allProduct = await prdctModel.find();
@@ -257,6 +273,7 @@ router.get("/store", async (req, res, next) => {
   }
 });
 router.get("/story/:ctrg", async (req, res, next) => {
+ try {
   let allProduct = null;
   if (req.params.ctrg == "all") {
     allProduct = await prdctModel.find();
@@ -279,6 +296,9 @@ router.get("/story/:ctrg", async (req, res, next) => {
     var user = null;
   }
   res.status(200).json({ user, allProduct });
+ } catch (err) {
+  console.log(err)
+ }
 });
 router.get("/admin", (req, res, next) => {
   res.render("admin");
@@ -287,29 +307,46 @@ router.get("/about", (req, res, next) => {
   res.render("about");
 });
 router.get("/loggedinUser", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email });
+  try {
+    const user = await userModel.findOne({ email: req.user.email });
   res.json(user);
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.get("/wishlist", isLoggedIn, async (req, res, next) => {
-  const user = await userModel
+  try {
+    const user = await userModel
     .findOne({ email: req.user.email })
     .populate("wishlist");
   res.render("wishlist", { user });
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.get("/wishlist/remove/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel
+  try {
+    const user = await userModel
     .findOne({ email: req.user.email })
     .populate("wishlist");
   user.wishlist.splice(user.wishlist.indexOf(req.params.id), 1);
   await user.save();
   res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.get("/profile", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email });
+  try {
+    const user = await userModel.findOne({ email: req.user.email });
 
   res.render("profile", { user });
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
+ try {
   const user = await userModel.findOne({ email: req.user.email });
   const product = await prdctModel.findOne({ _id: req.params.id });
   console.log(user.wishlist.includes(req.params.id));
@@ -323,9 +360,13 @@ router.get("/addToWish/:id", isLoggedIn, async (req, res, next) => {
 
     res.json({ status: "removed", wishlist: user.wishlist });
   }
+ } catch (err) {
+  console.log(err)
+ }
 });
 router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
-  const product = await prdctModel.findOne({ _id: req.params.id });
+  try {
+    const product = await prdctModel.findOne({ _id: req.params.id });
   const user = await userModel.findOne({ email: req.user.email }).populate({
     path: "cart",
     populate: {
@@ -361,65 +402,81 @@ router.post("/addToCart/:id", isLoggedIn, async (req, res, next) => {
     }
   }
   res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 
 router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email }).populate({
-    path: "cart",
-    populate: {
-      path: "product",
-    },
-  });
-  const search = (item) => {
-    return (item._id = req.params.id);
-  };
-  const productIndex = user.cart.findIndex(search);
-
-  user.cart.splice(user.cart[productIndex], 1);
-  await user.save();
-  res.redirect("back");
+  try {
+    const user = await userModel.findOne({ email: req.user.email }).populate({
+      path: "cart",
+      populate: {
+        path: "product",
+      },
+    });
+    const search = (item) => {
+      return (item._id = req.params.id);
+    };
+    const productIndex = user.cart.findIndex(search);
+  
+    user.cart.splice(user.cart[productIndex], 1);
+    await user.save();
+    res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 
 router.get("/cart/inc/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email }).populate({
-    path: "cart",
-    populate: {
-      path: "product",
-    },
-  });
-  const search = (item) => {
-    return item._id == req.params.id;
-  };
-  const productIndex = user.cart.findIndex(search);
-
-  user.cart[productIndex].quantity += 1;
-  await user.save();
-  res.redirect("back");
+  try {
+    const user = await userModel.findOne({ email: req.user.email }).populate({
+      path: "cart",
+      populate: {
+        path: "product",
+      },
+    });
+    const search = (item) => {
+      return item._id == req.params.id;
+    };
+    const productIndex = user.cart.findIndex(search);
+  
+    user.cart[productIndex].quantity += 1;
+    await user.save();
+    res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.get("/cart/dec/:id", isLoggedIn, async (req, res, next) => {
-  const user = await userModel.findOne({ email: req.user.email }).populate({
-    path: "cart",
-    populate: {
-      path: "product",
-    },
-  });
-  const search = (item) => {
-    return item._id == req.params.id;
-  };
-  const productIndex = user.cart.findIndex(search);
-
-  if (user.cart[productIndex].quantity > 1) {
-    user.cart[productIndex].quantity -= 1;
-  } 
-  await user.save();
-  res.redirect("back");
+  try {
+    const user = await userModel.findOne({ email: req.user.email }).populate({
+      path: "cart",
+      populate: {
+        path: "product",
+      },
+    });
+    const search = (item) => {
+      return item._id == req.params.id;
+    };
+    const productIndex = user.cart.findIndex(search);
+  
+    if (user.cart[productIndex].quantity > 1) {
+      user.cart[productIndex].quantity -= 1;
+    } 
+    await user.save();
+    res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 
 router.get(
   "/removecomment/:product/:comment",
   isLoggedIn,
   async (req, res, next) => {
-    const product = await prdctModel.findOne({ _id: req.params.product });
+    try {
+      const product = await prdctModel.findOne({ _id: req.params.product });
 
     product.prdctReview.splice(
       product.prdctReview.indexOf(req.params.comment),
@@ -427,11 +484,15 @@ router.get(
     );
     await product.save();
     res.redirect("back");
+    } catch (err) {
+      console.log(err)
+    }
   }
 );
 
 router.post("/update", isLoggedIn, async (req, res, next) => {
-  const { email, pfp, name, gender, number, altNumber, dob } = req.body;
+  try {
+    const { email, pfp, name, gender, number, altNumber, dob } = req.body;
 
   await userModel.findOneAndUpdate(
     { email: req.user.email },
@@ -446,9 +507,13 @@ router.post("/update", isLoggedIn, async (req, res, next) => {
   );
 
   res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.post("/addressAdd", isLoggedIn, async (req, res, next) => {
-  const { location, pincode, city, state } = req.body;
+  try {
+    const { location, pincode, city, state } = req.body;
   const address = {
     id: uuidv4(),
     location: location,
@@ -461,8 +526,12 @@ router.post("/addressAdd", isLoggedIn, async (req, res, next) => {
   user.address.push(address);
   await user.save();
   res.redirect("back");
+  } catch (err) {
+    console.log(err)
+  }
 });
 router.post("/changepfp", isLoggedIn, async (req, res, next) => {
+ try {
   const form = formidable();
 
   form.parse(req, async (err, fields, files) => {
@@ -486,6 +555,9 @@ router.post("/changepfp", isLoggedIn, async (req, res, next) => {
     await user.save();
     res.redirect("back");
   });
+ } catch (err) {
+  console.log(err)
+ }
 });
 router.get("/forgot", async (req, res, next) => {
   res.render("forgot");
@@ -575,35 +647,39 @@ router.post("/create/orderId", function (req, res, next) {
 });
 
 router.post("/api/payment/verify", async (req, res) => {
-  const {
-    response: { razorpay_order_id, razorpay_payment_id, razorpay_signature },
-  } = req.body;
-  let body = razorpay_order_id + "|" + razorpay_payment_id;
-
-  var expectedSignature = crypto
-    .createHmac("sha256", "TNkLevqWrFFS2YXrf4kACVnq")
-    .update(body.toString())
-    .digest("hex");
-  console.log("sig >> " + expectedSignature);
-
-  console.log("rzp_signature >> " + razorpay_signature);
-  var response = { signatureIsValid: false };
-  console.log(expectedSignature, razorpay_signature);
-  if (expectedSignature === razorpay_signature) {
-    response = {
-      signatureIsValid: true,
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    };
+  try {
+    const {
+      response: { razorpay_order_id, razorpay_payment_id, razorpay_signature },
+    } = req.body;
+    let body = razorpay_order_id + "|" + razorpay_payment_id;
+  
+    var expectedSignature = crypto
+      .createHmac("sha256", "TNkLevqWrFFS2YXrf4kACVnq")
+      .update(body.toString())
+      .digest("hex");
+    console.log("sig >> " + expectedSignature);
+  
+    console.log("rzp_signature >> " + razorpay_signature);
+    var response = { signatureIsValid: false };
+    console.log(expectedSignature, razorpay_signature);
+    if (expectedSignature === razorpay_signature) {
+      response = {
+        signatureIsValid: true,
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+      };
+    }
+  
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err)
   }
-
-  res.status(200).json(response);
 });
 
 router.post("/successOrder", async (req, res, next) => {
 
-
+try {
   const {
     razorpay_order_id,
     razorpay_payment_id,
@@ -683,6 +759,10 @@ router.post("/successOrder", async (req, res, next) => {
   res.status(200).json({ msg: "success", createdOrder });
 
 
+} catch (err) {
+  console.log(err)
+}
+  
 });
 
 router.get("/myorders", async (req, res, next) => {
