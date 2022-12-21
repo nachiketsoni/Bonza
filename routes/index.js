@@ -83,6 +83,7 @@ router.post(
 );
 
 router.post("/register", async (req, res) => {
+ try {
   var newUser = new userModel({
     email: req.body.email,
     name: req.body.name,
@@ -93,6 +94,9 @@ router.post("/register", async (req, res) => {
       res.redirect("/");
     });
   });
+ } catch (err) {
+  console.log(err)
+ }
 });
 router.get("/logout", (req, res) => {
   req.logout(function (err) {
@@ -103,10 +107,14 @@ router.get("/logout", (req, res) => {
   });
 });
 router.get("/", async (req, res, next) => {
+try {
   const user = req.user;
   const product = await prdctModel.find({}).sort({_id:-1}).limit(6)
   console.log(product)
   res.render("index",{product,user});
+} catch (err) {
+  console.log(err)
+}
 });
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
