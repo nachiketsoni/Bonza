@@ -825,6 +825,11 @@ router.get("/admin/allProduct", async (req, res, next) => {
   console.log(order);
   res.render("allOrders", { order });
 });
+router.get("/admin/allUsers", async (req, res, next) => {
+  let users = await userModel.find().sort({ _id: -1 });
+  console.log(users);
+  res.render("AllUsers", { users });
+});
 
 router.get("/renderSearchPage/", (req, res) => {
   res.render("searchItems", { searchValue: req.query.searchValue });

@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "./config/.env" });
+require("dotenv").config({ path: "./config/config.env" });
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
