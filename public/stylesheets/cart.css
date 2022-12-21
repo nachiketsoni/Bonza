@@ -86,8 +86,11 @@ a {
 
 .item {
   width: 100%;
-  height: 33vmax;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
   /* margin-top: 1vmax; */
   /* background-color: red; */
 }
@@ -127,7 +130,7 @@ a {
   display: flex;
   /* justify-content: space-between; */
   align-items: center;
-
+  /* background-color: aqua; */
   cursor: default;
 }
 .pname {
@@ -229,6 +232,16 @@ select {
   align-items: center;
   justify-content: center;
 }
+#containn h5{
+  font-weight: 300;
+  font-size: 1.4vw;
+}
+.side .sec {
+  font-size: 1.5vw;
+}
+.ctrg .side h4{
+  font-size: 1.5vw;
+}
 @media (max-width: 770px) {
   #delete {
     top: 4px;
@@ -241,7 +254,7 @@ select {
     justify-content: flex-start;
   }
   .lside {
-    width: 15%;
+    width: 95%;
   }
   .pname {
     align-items: flex-start;
@@ -257,12 +270,15 @@ select {
   }
   .side {
     margin-left: 1vmax;
-    width: 85%;
+    width: 54vw;
     /* background-color: #3f3f3f; */
-    flex-direction: column;
     align-items: space-between;
     justify-content: space-between;
     padding-right: 1vmax;
+  }
+  #containn h5{
+    font-weight: 300;
+    font-size: 1.8vw;
   }
   .sidesec {
     display: flex;
@@ -273,7 +289,8 @@ select {
     /* background-color: #3f3f3f; */
   }
   .ctrg .side {
-    display: none;
+    width: 37vw;
+    /* background-color: #3f3f3f; */
   }
   .sec {
     padding: 0 1vmax;
@@ -283,7 +300,12 @@ select {
   .sec a i {
     font-size: 2vmax;
   }
-
+  .side .sec {
+    font-size: 1.7vw;
+  }
+  .ctrg .side h4{
+    font-size: 1.7vw;
+  }
   .qty {
     display: flex;
 
@@ -352,8 +374,9 @@ select {
   .box {
     margin-top: 7vmax;
   }
+  
   .lside h2 {
-    font-size: 1.8vmax;
+    font-size: 1.4vmax;
     /* background-color: antiquewhite; */
     margin-left: 1vmax;
   }
