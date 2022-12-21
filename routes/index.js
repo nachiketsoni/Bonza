@@ -694,7 +694,7 @@ router.post("/api/payment/verify", async (req, res) => {
 
 router.post("/successOrder", async (req, res, next) => {
 
-  
+
   const {
     razorpay_order_id,
     razorpay_payment_id,
@@ -775,7 +775,7 @@ router.post("/successOrder", async (req, res, next) => {
 
 });
 
-router.get("/myorders", async (req, res, next) => {
+router.get("/myorders",isLoggedIn, async (req, res, next) => {
 
   let order = await userModel.findOne({ _id:req.user._id }).populate({
     path: "myorder",
