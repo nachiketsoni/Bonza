@@ -823,7 +823,7 @@ router.post("/admin/updateFeature", async (req, res, next) => {
 router.get("/admin/allProduct", async (req, res, next) => {
   let order = await Order.find().sort({ _id: -1 });
   console.log(order);
-  res.render("allOrders", { order });
+  res.render("adminDashboardOrder", { order });
 });
 router.get("/admin/allUsers", async (req, res, next) => {
   let users = await userModel.find().sort({ _id: -1 });
