@@ -835,6 +835,10 @@ router.get("/renderSearchPage/", (req, res) => {
   res.render("searchItems", { searchValue: req.query.searchValue });
 });
 
+router.get("/adminDashboardOrders", (req, res) => {
+  res.render("adminDashboardOrder");
+});
+
 router.get("*", async (req, res, next) => {
   res.render("error");
 });

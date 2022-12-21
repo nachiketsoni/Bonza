@@ -28,7 +28,7 @@
             <div onclick="allProduct('all','new')" class="options clicki">
               What's New
             </div>
-            <div  onclick="allProduct('all','high')" class="options clicki">
+            <div onclick="allProduct('all','high')" class="options clicki">
               Price : Low to High<i class="ri-sort-asc"></i>
             </div>
             <div onclick="allProduct('all','low')" class="options clicki">
@@ -51,18 +51,11 @@
     crossorigin="anonymous"
   ></script>
   <script>
-    const search = () => {
-      let search = document.getElementById("searchBar").value;
-      allProduct(search, "search");
-      srchclose(1)
-    };
     const showCard = (data, user) => {
       let clutter = "";
-      if(data.length == 0){
-        clutter = `<h1 style="font-weight: 400;" >No Product Available Right Now!</h1>`
-      }
-      else{
-
+      if (data.length == 0) {
+        clutter = `<h1 style="font-weight: 400;" >No Product Available Right Now!</h1>`;
+      } else {
         data.forEach((e) => {
           let heart = `<i class="ri-heart-3-line"></i>`;
           if (user != null) {
@@ -74,7 +67,7 @@
               heart = `<i class="ri-heart-3-line"></i>`;
             }
           }
-  
+
           clutter += `
                                   <div class="item">
                                   <div class="img">
@@ -117,16 +110,15 @@
       }
     };
 
-   
     const allProduct = (ctrg, sort) => {
       document.querySelector(
         "#second"
       ).innerHTML = `<img src="../images/loader.gif" />`;
-        var settings = {
-          url: `/story/${ctrg}`,
-          method: "GET",
-          cache: true,
-        };
+      var settings = {
+        url: `/story/${ctrg}`,
+        method: "GET",
+        cache: true,
+      };
       $.ajax(settings).done(({ allProduct, user }) => {
         if (sort === "low") {
           let sorted = allProduct.sort((a, b) => {
@@ -141,7 +133,6 @@
         } else if (sort === "new") {
           let sorted = allProduct.reverse();
           showCard(sorted, user);
-        
         } else {
           showCard(allProduct, user);
         }
