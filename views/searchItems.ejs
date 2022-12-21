@@ -1,0 +1,117 @@
+<% include ../views/Partial/header.ejs %>
+<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/links.css" />
+<link rel="stylesheet" href="../stylesheets/store.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+<% include ../views/Partial/loader.ejs %> <% include ../views/Partial/nav.ejs %>
+<% include ../views/Partial/search.ejs %>
+<body>
+  <div id="main">
+    <div class="catgs">
+      <div class="lef">
+        <a class="clicki" onclick="allProduct('all')">All</a> /
+        <a class="clicki" onclick="allProduct('Hoodie')">Hoodie</a> /
+        <a class="clicki" onclick="allProduct('Bottoms')">Bottoms</a> /
+        <a class="clicki" onclick="allProduct('Oversized')">Oversized</a> /
+        <a class="clicki" onclick="allProduct('Sweatshirt')">Sweatshirt</a> /
+        <a class="clicki" onclick="allProduct('Thrifted')">Thrifted</a>
+      </div>
+    </div>
+    <div id="second">
+      <img src="../images/loader.gif" />
+    </div>
+  </div>
+
+  <% include ../views/Partial/links.ejs %>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"
+></script>
+<script>
+  let val = "<%= searchValue%>";
+  const search = () => {
+    allProduct(val, "search");
+    srchclose(1);
+  };
+  window.onload = () => {
+    search();
+  };
+  const showCard = (data, user) => {
+    let clutter = "";
+    if (data.length == 0) {
+      clutter = `<h1 style="font-weight: 400;" >No Product Available Right Now!</h1>`;
+    } else {
+      data.forEach((e) => {
+        let heart = `<i class="ri-heart-3-line"></i>`;
+        if (user != null) {
+          if (user.wishlist.includes(e._id)) {
+            heart = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+          } else if (!user.wishlist.includes(e._id)) {
+            heart = `<i class="ri-heart-3-line"></i>`;
+          } else {
+            heart = `<i class="ri-heart-3-line"></i>`;
+          }
+        }
+
+        clutter += `
+                                  <div class="item">
+                                  <div class="img">
+                                    <div onclick="wishlist(this)" data-user="${user}" data-id="${e._id}" id="heart">${heart}</div>
+                          <a target="_blank" href="/product/${e._id}">
+                          <img
+                            class="scnd"
+                            src="${e.prdctImg[0].secure_url}"
+                            alt="${e.prdctImg[0].public_id}"
+                          />
+  
+                          <img
+                            src="${e.prdctImg[1].secure_url}"
+                            alt="${e.prdctImg[1].public_id}"
+                          />
+                        </a>
+                      </div>
+                      <div class="dets">
+                        <h2>${e.prdctName}</h2>
+                        <h4 class="show">₹ ${e.prdctPrice}</h4>
+                      </div>
+                    </div>
+                      `;
+      });
+    }
+
+    document.querySelector("#second").innerHTML = clutter;
+  };
+
+  const allProduct = (ctrg, sort) => {
+    document.querySelector(
+      "#second"
+    ).innerHTML = `<img src="../images/loader.gif" />`;
+    var settings = {
+      url: `/story/${ctrg}`,
+      method: "GET",
+      cache: true,
+    };
+    $.ajax(settings).done(({ allProduct, user }) => {
+      if (sort === "low") {
+        let sorted = allProduct.sort((a, b) => {
+          return b.prdctPrice - a.prdctPrice;
+        });
+        showCard(sorted, user);
+      } else if (sort === "high") {
+        let sorted = allProduct.sort((a, b) => {
+          return a.prdctPrice - b.prdctPrice;
+        });
+        showCard(sorted, user);
+      } else if (sort === "new") {
+        let sorted = allProduct.reverse();
+        showCard(sorted, user);
+      } else {
+        showCard(allProduct, user);
+      }
+    });
+  };
+
+  // allProduct("all");
+</script>
