@@ -14,6 +14,7 @@ const formidable = require("formidable");
 var crypto = require("crypto");
 const { dirname } = require("path");
 const Order = require("./Order");
+const { reverse } = require("dns/promises");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
 );
@@ -378,6 +379,7 @@ router.get("/cart/delete/:id", isLoggedIn, async (req, res, next) => {
   await user.save();
   res.redirect("back");
 });
+
 router.get("/cart/inc/:id", isLoggedIn, async (req, res, next) => {
   const user = await userModel.findOne({ email: req.user.email }).populate({
     path: "cart",
@@ -643,10 +645,10 @@ router.post("/successOrder", async (req, res, next) => {
   var user = await userModel.findOne({ _id: req.user._id });
 
   let addressDets = user.address.filter((item) => item.id == address);
-  console.log(addressDets);
+  console.log(orderId);
   const order = new Order({
     user: user._id,
-    amount: orderId?.amount,
+    amount: orderId?.amount/100,
 
 
     orderID: orderId?.id || razorpay_order_id, // If orderId comes then only proceed to execute for orderId.id
@@ -661,7 +663,6 @@ router.post("/successOrder", async (req, res, next) => {
 
   user.cart = [];
   try {
-    
     await user.save();
   } catch (error) {
     console.log(error)
@@ -684,25 +685,55 @@ router.post("/successOrder", async (req, res, next) => {
 
 });
 
-router.get("/myorders",isLoggedIn, async (req, res, next) => {
+router.get("/myorders", async (req, res, next) => {
 
-  let order = await userModel.findOne({ _id: req.user._id }).populate({
+  let order = await userModel.findOne({ _id:'6398bd6286c418b23cd5286b' }).populate({
     path: "myorder",
     populate: {
-      path: "items",
-      populate: {
-        path: "product",
-      },
+      path: "items.product",
     },
   })
-  console.log(order)
+  // console.log(order.myorder[0].items[0].product.prdctName )
+ 
 
-  res.render("myorders", {Myorder: order})
-
-
+  res.render("myorders", {Myorder: order.myorder});
 });
 router.get("/custom", async (req, res, next) => {
   res.render("custom");
+});
+router.post("/admin/updateNaming", async (req, res, next) => {
+  const { id, name, price ,desc, sizes } = req.body;
+  sizy = sizes.map((item) => item.toUpperCase().trim())
+  try{
+  const product = await prdctModel.findOne
+  ({ _id: id });
+  product.prdctName = name;
+  product.prdctPrice = price;
+  product.prdctDesc = desc;
+  product.sizes = sizy;  
+  await product.save();
+} catch (error) {
+  console.log(error);
+}
+
+
+  res.redirect("back");
+});
+router.post("/admin/updateFeature", async (req, res, next) => {
+  const { prdctFeatures, id } = req.body;
+
+  try{
+  const product = await prdctModel.findOne
+  ({ _id: id });
+
+  product.prdctFeatures = prdctFeatures;  
+  await product.save();
+} catch (error) {
+  console.log(error);
+}
+
+
+  res.redirect("back");
 });
 router.get("/admin/allProduct", async (req, res, next) => {
   let product = await prdctModel.find();

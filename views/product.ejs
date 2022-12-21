@@ -58,7 +58,28 @@
         </div>
 
         <div class="dets">
-          <form action="/addToCart/<%=product._id%>" method="post">
+          <% if(user && user.role == 'admin'){%>
+            <div onclick="displayForm()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Edit <i  style="cursor: pointer;" class="ri-pencil-line"></i></div><br>
+            
+            
+            <form id="updtname" style="display: none;"  action="/admin/updateNaming" method="post">
+              <div onclick="addsize()"  style="display: inline; cursor: pointer; padding: 5px; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="addsize">Add Size</div>
+                <button style="display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;"  type="submit">Update</button>
+                <input style="width: 90%;" type="hidden" name="id"  value="<%=product._id%>" />
+                <input style="width: 90%;" type="text" name="name" value="<%=product.prdctName%>" />
+                <input style="width: 90%;" type="number" name="price" value="<%=product.prdctPrice%>" />
+                <input style="width: 90%;" type="text" name="desc" value="<%=product.prdctDesc%>" />
+                <!-- <%product.prdctFeatures.forEach((e, i ) => {%>
+                  <input id="finp<%=i%>" style="width: 90%;"  type="text" name="features" value="<%=e%>" /><span onclick="removeInp('finp<%=i%>' ,'fXinp<%=i%>')" id="fXinp<%=i%>" style="padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
+                <%}); %> -->
+                <%product.sizes.forEach((e ,i)=> {%>
+                  <input type="text" style="width: 90%;" id="sinp<%=i%>" name="sizes" value="<%=e%>" /><span onclick="removeInp('sinp<%=i%>','sXinp<%=i%>')" id="sXinp<%=i%>" style=" cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
+                <%}); %>
+         
+              </form>
+              <% }  %>
+          <form id="addkart" action="/addToCart/<%=product._id%>" method="post">
+
             <h1 id="title"><%=product.prdctName%></h1>
             <h4 id="price">₹<%=product.prdctPrice%></h4>
             <input type="hidden" name="price" value="<%=product.prdctPrice%>" />
@@ -66,9 +87,10 @@
             <div class="size">
               <h5>Size</h5>
               <select name="size">
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
+                <%product.sizes.forEach((e)=>{%>
+                  <option><%=e%></option>
+                <%})%>
+              
               </select>
             </div>
             <div class="size">
@@ -99,12 +121,27 @@
         </div>
         <div onscroll="scrolly()" class="body">
           <div class="section" id="bakchodi">
-            <ul>
+            <% if(user && user.role == 'admin'){%>
+            <div onclick="EditFeature()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; height: 5vh; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Edit <i  style="cursor: pointer;" class="ri-pencil-line"></i></div>
+            <% } %>
+            <form style="display: none;" method="post" action="/admin/updateFeature" id="featureInpList" >
+              <div onclick="addFeature()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; height: 5vh; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Add highlight +</div>
+              <button style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; height: 5vh; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" id="edith">Submit </button><br>
+              <input style="width: 90%;" type="hidden" name="id"  value="<%=product._id%>" />
+
+              <ul  id="ulFeature"  >
+                <%product.prdctFeatures.forEach((e ,i)=> { %>
+                  <input  style="width: 80vw;" placeholder="add feature" id="HighInp<%=i%>" name="prdctFeatures" value="<%=e%>" /><span onclick="removeInp('HighInp<%=i%>','HighXinp<%=i%>')" id="HighXinp<%=i%>" style="cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
+                  <% }) %>
+                </ul>
+              </form>
+            <ul id="featureList"  >
               <%product.prdctFeatures.forEach(e => { %>
               <li><%=e%></li>
             
               <% }) %>
             </ul>
+
           </div>
 
           <div class="section" id="sizeChart">
@@ -172,9 +209,9 @@
             </h6>
           </div>
 
-          <% if(user && user.email === e.commentOwner.email){%>
+          <% if(user && user.email === e.commentOwner.email || user.role == 'admin'){%>
           <a href="/removecomment/<%=product._id%>/<%= e._id%>" id="del"
-            ><i class="ri-delete-bin-4-fill"></i></a>
+            > <i style="cursor: pointer;" class="ri-delete-bin-4-fill"></i></a>
           <%} %>
         </div>
 
@@ -276,6 +313,52 @@
         }
         await axios.get(`/addToWish/${that.dataset.id}`);
       }
+    };
+    var flagi =0
+    const displayForm = () => {
+      if(flagi == 0){
+        document.getElementById("updtname").style.display = "block";
+        document.getElementById("addkart").style.display = "none";
+        flagi = 1
+      }else{
+      document.getElementById("updtname").style.display = "none";
+      document.getElementById("addkart").style.display = "block";
+      flagi = 0
+      }
+    };
+    const removeInp = (that ,cross) => {
+      
+      document.getElementById(that).remove();
+      document.getElementById(cross).remove();
+      
+
+    };
+    var featureFlag = 0;
+    const EditFeature = ()=>{
+      if(featureFlag == 0){
+        document.getElementById("featureInpList").style.display = "block";
+        document.getElementById("featureList").style.display = "none";
+        featureFlag = 1;
+      }else{
+        document.getElementById("featureInpList").style.display = "none";
+        document.getElementById("featureList").style.display = "block";
+        featureFlag = 0;
+      }
+    }
+    var indi = 1;
+    const addsize = () => {
+      console.log("clicked")
+      let html =  ` <input type="text" style="width: 90%;" id="addsinp${indi}" name="sizes" placeholder="Add Size"  /><span onclick="removeInp('addsinp${indi}','addsXinp${indi}')" id="addsXinp${indi}" style="padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>`
+      document.getElementById("updtname").insertAdjacentHTML("beforeend",html);
+      indi++;
+    };
+
+    var featureIndex = 1;
+    const addFeature = () => {
+      console.log("clicked")
+      let html  = `<input  style="width: 80vw;" placeholder="add feature" id="HighAddInp${featureIndex}" name="prdctFeatures"  /><span onclick="removeInp('HighAddInp${featureIndex}','HighAddXinp${featureIndex}')" id="HighAddXinp${featureIndex}" style="cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>`
+      document.getElementById("ulFeature").insertAdjacentHTML("beforeend",html);
+      indi++;
     };
 
    

@@ -45,16 +45,18 @@
           </div>
         </div>
         <div class="item">
-          <!-- <%=Myorder %> -->
-          <% if(Myorder.length>0){%> <% Myorder.forEach(e => {%>
+          <% if(Myorder){%> <% Myorder.forEach(lo => {%>
+            <div style="background-color: rgb(200, 200, 200); " id="containn">
 
+         
+            <% lo.items.forEach((e)=>{ %>
+            
           <div class="itm txtanim">
-            <a id="delete" href="/cart/delete/<%=e._id%>"
-              ><div><i style="cursor: pointer" class="ri-close-line"></i></div
-            ></a>
+           
             <div class="lside">
-              <!-- <img src="<%= e.items.prdctImg[0] %> " alt="" /> -->
-              <!-- <h2 class="pname"><%= e.items.prdctName %></h2> -->
+          
+              <a  href="/product/<%= e.product._id %>"><img style="cursor: pointer;" src="<%= e.product.prdctImg[0].secure_url %>" alt="<%= e.product.prdctImg[0].public_id %>" /></a>
+              <h2 class="pname"><%= e.product.prdctName %></h2>
             </div>
             <div class="side">
               <div class="sec">
@@ -62,32 +64,40 @@
               </div>
 
               <div class="sec">
-                <a href="/cart/dec/<%= e._id %>"
-                  ><i class="ri-indeterminate-circle-line"></i
-                ></a>
-                <h3><%= e.quantity %></h3>
-                <a href="/cart/inc/<%= e._id %>">
-                  <i class="ri-add-circle-line"></i
-                ></a>
+                
+                <h3 style="font-weight: 500;" ><%= e.quantity %></h3>
+                
               </div>
-              <div class="sec">₹<%= e.amount %></div>
-              <div class="sec"><%= e.status %></div>
-              <div class="sec"><%= payment.type  %> </div>
+              <div class="sec">₹<%= e.Amt %></div>
+              <div class="sec"><%= lo.status %></div>
+              <div class="sec"><%= lo.payment.typy  %> </div>
             </div>
+            <h5 style="position: absolute; left: 10%; bottom: 1%;" >OrderID  :  <%= lo.orderID  %></h5>
+            <% if(lo.payment.typy == 'Online'){ %>
+             <h5 style="position: absolute; left: 40%; bottom: 1%;" > PaymentID  :  <%=lo.payment.PaymentID %> </h5>
+             <% } %>
           </div>
+          
+          <% }); %>
+        </div>
 
-          <% }); %> <%}else{%>
+          <% }); %>
+          
+          <%}else{%>
           <h1 id="empty">You Haven't Ordered Anything <span style="opacity: .7;" > 🥺</span></h1>
           <%} %>
         </div>
       </div>
 
-      <div></div>
+      <div>
+
+    </div>
     </div>
    
   </div>
   
   <% include ../views/Partial/footer.ejs %>
+
   <script
     src="https://code.jquery.com/jquery-3.6.1.min.js"
     integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
