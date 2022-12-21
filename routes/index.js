@@ -160,63 +160,65 @@ router.post("/comment/:id", async (req, res, next) => {
 });
 
 router.post("/admin/productUpload", async (req, res, next) => {
-  try{
-  const form = formidable({ multiples: true });
+  try {
+    const form = formidable({ multiples: true });
 
-  form.parse(req, async (err, fields, files) => {
-    const {
-      prdctCtrg,
-      prdctName,
-      prdctFeatures,
-      prdctDesc,
-      prdctPrice,
-      size,
-      // prdctVideo,
-    } = fields;
-    // const { secure_url } = await cloudinary.v2.uploader.upload(
-    //   files.thumbnail.filepath,
-    //   { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
-    // );
-    let sizes = size.map((e)=>(e.toUpperCase()))
-    console.log(size)
-    // const thumbnail = secure_url;
-    var allImg = [];
-    for (let i = 0; i < files.prdctImg.length; i++) {
-      try {
-        
-        const { secure_url , public_id } = await cloudinary.v2.uploader.upload(
-          files.prdctImg[i].filepath,
-          { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
-        );
-        allImg.push({secure_url , public_id});
-      } catch (error) {
-          console.log(error)
-      }
-    }
-    try {
-      
-      await prdctModel.create({
+    form.parse(req, async (err, fields, files) => {
+      const {
         prdctCtrg,
         prdctName,
         prdctFeatures,
         prdctDesc,
         prdctPrice,
-        sizes,
+        size,
         // prdctVideo,
-        // thumbnail: thumbnail,
-        prdctImg: allImg,
-      });
-    } catch (error) {
-      console.log(error)
-    }
+      } = fields;
+      // const { secure_url } = await cloudinary.v2.uploader.upload(
+      //   files.thumbnail.filepath,
+      //   { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
+      // );
+      let sizes = size.map((e) => e.toUpperCase());
+      console.log(size);
+      // const thumbnail = secure_url;
+      var allImg = [];
+      for (let i = 0; i < files.prdctImg.length; i++) {
+        try {
+          const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+            files.prdctImg[i].filepath,
+            {
+              folder: `product/${prdctName}`,
+              fetch_format: "webp",
+              quality: "30",
+            }
+          );
+          allImg.push({ secure_url, public_id });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      try {
+        await prdctModel.create({
+          prdctCtrg,
+          prdctName,
+          prdctFeatures,
+          prdctDesc,
+          prdctPrice,
+          sizes,
+          // prdctVideo,
+          // thumbnail: thumbnail,
+          prdctImg: allImg,
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
-    res.redirect("/store");
-    // res.status(200).json(newProduct);
-  });
-}catch(err){
-  console.log(err)
-  res.redirect("/error");
-}
+      res.redirect("/store");
+      // res.status(200).json(newProduct);
+    });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/error");
+  }
 });
 
 router.get("/cart", isLoggedIn, async (req, res, next) => {
@@ -410,7 +412,7 @@ router.get("/cart/dec/:id", isLoggedIn, async (req, res, next) => {
 
   if (user.cart[productIndex].quantity > 1) {
     user.cart[productIndex].quantity -= 1;
-  } 
+  }
   await user.save();
   res.redirect("back");
 });
@@ -602,8 +604,6 @@ router.post("/api/payment/verify", async (req, res) => {
 });
 
 router.post("/successOrder", async (req, res, next) => {
-
-
   const {
     razorpay_order_id,
     razorpay_payment_id,
@@ -630,7 +630,7 @@ router.post("/successOrder", async (req, res, next) => {
   //     }
   //   ]
   // })
-  console.log(req.body)
+  console.log(req.body);
   if (typy == "COD") {
     var payment = {
       typy,
@@ -648,8 +648,7 @@ router.post("/successOrder", async (req, res, next) => {
   console.log(orderId);
   const order = new Order({
     user: user._id,
-    amount: orderId?.amount/100,
-
+    amount: orderId?.amount / 100,
 
     orderID: orderId?.id || razorpay_order_id, // If orderId comes then only proceed to execute for orderId.id
     payment,
@@ -665,82 +664,79 @@ router.post("/successOrder", async (req, res, next) => {
   try {
     await user.save();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
   user.myorder.push(order._id);
-  try {    
+  try {
     await user.save();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-  try {    
+  try {
     var createdOrder = await order.save();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 
   console.log(createdOrder);
   res.status(200).json({ msg: "success", createdOrder });
-
-
 });
 
 router.get("/myorders", async (req, res, next) => {
-
-  let order = await userModel.findOne({ _id:'6398bd6286c418b23cd5286b' }).populate({
-    path: "myorder",
-    populate: {
-      path: "items.product",
-    },
-  })
+  let order = await userModel
+    .findOne({ _id: "6398bd6286c418b23cd5286b" })
+    .populate({
+      path: "myorder",
+      populate: {
+        path: "items.product",
+      },
+    });
   // console.log(order.myorder[0].items[0].product.prdctName )
- 
 
-  res.render("myorders", {Myorder: order.myorder});
+  res.render("myorders", { Myorder: order.myorder });
 });
 router.get("/custom", async (req, res, next) => {
   res.render("custom");
 });
 router.post("/admin/updateNaming", async (req, res, next) => {
-  const { id, name, price ,desc, sizes } = req.body;
-  sizy = sizes.map((item) => item.toUpperCase().trim())
-  try{
-  const product = await prdctModel.findOne
-  ({ _id: id });
-  product.prdctName = name;
-  product.prdctPrice = price;
-  product.prdctDesc = desc;
-  product.sizes = sizy;  
-  await product.save();
-} catch (error) {
-  console.log(error);
-}
-
+  const { id, name, price, desc, sizes } = req.body;
+  sizy = sizes.map((item) => item.toUpperCase().trim());
+  try {
+    const product = await prdctModel.findOne({ _id: id });
+    product.prdctName = name;
+    product.prdctPrice = price;
+    product.prdctDesc = desc;
+    product.sizes = sizy;
+    await product.save();
+  } catch (error) {
+    console.log(error);
+  }
 
   res.redirect("back");
 });
 router.post("/admin/updateFeature", async (req, res, next) => {
   const { prdctFeatures, id } = req.body;
 
-  try{
-  const product = await prdctModel.findOne
-  ({ _id: id });
+  try {
+    const product = await prdctModel.findOne({ _id: id });
 
-  product.prdctFeatures = prdctFeatures;  
-  await product.save();
-} catch (error) {
-  console.log(error);
-}
-
+    product.prdctFeatures = prdctFeatures;
+    await product.save();
+  } catch (error) {
+    console.log(error);
+  }
 
   res.redirect("back");
 });
 router.get("/admin/allProduct", async (req, res, next) => {
   let product = await prdctModel.find();
-  console.log(product)
-  res.render("allProduct", { product});
+  console.log(product);
+  res.render("allProduct", { product });
 });
 
+router.get("/renderSearchPage/", (req, res) => {
+  res.render("searchItems", { searchValue: req.query.searchValue });
+});
 
 router.get("*", async (req, res, next) => {
   res.render("error");
