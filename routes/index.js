@@ -4,7 +4,6 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const userModel = require("./users");
 const prdctModel = require("./product");
-// const Order = require("./Order");
 const path = require("path");
 const Razorpay = require("razorpay");
 const { v4: uuidv4 } = require("uuid");
@@ -103,8 +102,11 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
   });
 });
-router.get("/", (req, res, next) => {
-  res.render("index", { title: "Express" });
+router.get("/", async (req, res, next) => {
+  const user = req.user;
+  const product = await prdctModel.find({}).sort({_id:-1}).limit(6)
+  console.log(product)
+  res.render("index",{product,user});
 });
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -177,16 +179,18 @@ router.post("/admin/productUpload", async (req, res, next) => {
     //   files.thumbnail.filepath,
     //   { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
     // );
-    let sizes = size.map((e)=>(e.toUpperCase()))
+    let sizes = (size.length>1 )?size.map((e)=>(e.toUpperCase())): size.toUpperCase()
     console.log(size)
     // const thumbnail = secure_url;
     var allImg = [];
+    let newPrctName = prdctName.split(" ")[0]
+    console.log(newPrctName)
     for (let i = 0; i < files.prdctImg.length; i++) {
       try {
         
         const { secure_url , public_id } = await cloudinary.v2.uploader.upload(
           files.prdctImg[i].filepath,
-          { folder: `product/${prdctName}`, fetch_format: "webp", quality: "30" }
+          { folder: `product/${newPrctName}`, fetch_format: "webp", quality: "30" }
         );
         allImg.push({secure_url , public_id});
       } catch (error) {
@@ -736,9 +740,9 @@ router.post("/admin/updateFeature", async (req, res, next) => {
   res.redirect("back");
 });
 router.get("/admin/allProduct", async (req, res, next) => {
-  let product = await prdctModel.find();
-  console.log(product)
-  res.render("allProduct", { product});
+  let order = await Order.find().sort({ _id: -1 });
+  console.log(order)
+  res.render("allOrders", { order});
 });
 
 

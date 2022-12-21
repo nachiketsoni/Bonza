@@ -79,13 +79,17 @@
 #second .item .dets{
   width: 100%;
   padding: 1vmax;
+
 }
 #second .item h2{
+
   display: flex;
   /* padding: 0 .2vmax; */
   align-items: center;
   justify-content:space-between;
   font-weight: 500;
+  position: relative;
+ 
   font-size: 20px;
 }
 #second .item  #heart {
@@ -112,6 +116,7 @@
   /* padding-left: 1vmax; */
   font-weight: 400;
   cursor: pointer;
+  
 }
 
 #second .item .img img{
@@ -154,7 +159,9 @@
   }
   #second .item .dets{
     width: 40vw;
-   
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   #second .item h4{

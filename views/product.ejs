@@ -276,7 +276,7 @@
             </a>
           </div>
           <div class="dets">
-            <h2><%=e.prdctName%></h2>
+            <h2 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" ><%=e.prdctName%></h2>
             <h4 class="show">₹ <%=e.prdctPrice%></h4>
           </div>
         </div>
@@ -314,6 +314,7 @@
         await axios.get(`/addToWish/${that.dataset.id}`);
       }
     };
+   
     var flagi =0
     const displayForm = () => {
       if(flagi == 0){

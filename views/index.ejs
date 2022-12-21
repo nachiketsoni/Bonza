@@ -32,145 +32,44 @@
       </div>
     </div>
     <div id="second">
-      <a href="/prod•   Working with Outside Data Sources and APIuct/">
+      <% product.forEach(e => {%>
         <div class="item">
           <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
+            <div
+              onclick="wishlist(this)"
+              data-user="<%=user%>"
+              data-id="<%=e._id%>"
+              id="heart"
+            >
+              <% if(user){ %>
+                <% if(user.wishlist.includes(e._id)){%>
+                  <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>
+                <%} else if (!user.wishlist.includes(e._id)) {%>
+                      <i class="ri-heart-line"></i>
+                <%}%>
+              <%}else{%>
+                      <i class="ri-heart-line"></i>
+                <%}%>
+            
+            </div>
+            <a target="_blank" href="/product/<%=e._id%>">
+              <img class="scnd" src="<%=e.prdctImg[0].secure_url%>" alt="<%=e.prdctImg[0].public_id%>" />
 
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2021/12/3-850x850.jpg"
-              alt=""
-            />
+              <img  src="<%=e.prdctImg[1].secure_url%>" alt="<%=e.prdctImg[1].public_id%>" />
+            </a>
           </div>
           <div class="dets">
-            <h2>
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-
-              Secret Character
-            </h2>
-            <h4 class="show">$49.99</h4>
+            
+  
+  
+  
+            <h2 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" ><%=e.prdctName%></h2>
+            <h4 class="show">₹ <%=e.prdctPrice%></h4>
           </div>
         </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
 
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Green-Dragon-1-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
 
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Game-Over-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Emulator-1-850x850.jpg"
-              alt=""
-            />
-
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
-
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Emulator-1-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
-      <a href="/product/">
-        <div class="item">
-          <div class="img">
-            <img
-              class="scnd"
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Glitch-1-850x850.jpg"
-              alt=""
-            />
-
-            <img
-              src="https://tokyoarkade.com/wp-content/uploads/2020/12/Otaku-1-850x850.jpg"
-              alt=""
-            />
-          </div>
-          <div class="dets">
-            <h2>
-              Secret Character
-              <div id="heart"><i class="ri-heart-3-line"></i></div>
-            </h2>
-            <h4 class="show">$49.99</h4>
-          </div>
-        </div>
-      </a>
+      <% }); %>
     </div>
     <div id="third">
       <div class="left">
