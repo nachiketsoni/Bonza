@@ -626,6 +626,7 @@ router.get("/thankyou", async (req, res, next) => {
 });
 
 router.get("/alluser/:email", async (req, res, next) => {
+
   const user = await userModel.findOne({ email: req.params.email }).populate({
     path: "cart",
     populate: {
@@ -633,6 +634,8 @@ router.get("/alluser/:email", async (req, res, next) => {
     },
   });
   res.json(user);
+  
+
 });
 router.post("/create/orderId", function (req, res, next) {
   var options = {
@@ -683,7 +686,7 @@ router.post("/api/payment/verify", async (req, res) => {
 
 router.post("/successOrder", async (req, res, next) => {
 
-
+  
   const {
     razorpay_order_id,
     razorpay_payment_id,
