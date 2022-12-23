@@ -36,7 +36,10 @@
               src="<%= user.pfp.url %>"
               alt="<%= user.pfp.public_id %>"
             /><span class="changepfpbtn" style="cursor: pointer !important"
-              ><form
+              >
+              <% if (!admin){ %> 
+              
+              <form
                 class="changepfpbtn"
                 enctype="multipart/form-data"
                 method="post"
@@ -71,9 +74,19 @@
                 /><i
                   style="color: white; cursor: pointer !important"
                   class="ri-pencil-line changepfpbtn"
-                ></i></form></span
-            ><span class="font-weight-bold"><%= user.name %> </span>
+                ></i>
+              </form></span
+              
+              >
+              <% }%> 
+              <span class="font-weight-bold"><%= user.name %> </span>
+            
+            
           </div>
+          <% if(user.role == 'admin' ){ %>
+
+            <a style="background-color: black; color: white; padding: 10px; border-radius: 10px; text-decoration:none;" href="/admin"> Go To Admin Dashboard -></a>
+         <% }  %> 
         </div>
         <div class="col-md-5 border-right">
           <form action="/update" method="post" class="p-3 py-5">
@@ -155,9 +168,10 @@
                 />
               </div>
             </div>
+            <% if (!admin){%>
 
-            <div class="mt-5 text-center">
-              <button
+              <div class="mt-5 text-center">
+                <button
                 onclick="btnClick(this)"
                 class="btn btn-primary profile-button"
                 type="button"
@@ -167,8 +181,9 @@
               &nbsp;&nbsp;
               <a href="/logout" class="btn btn-danger profile-button">
                 Logout</a
-              >
-            </div>
+                >
+              </div>
+              <% } %> 
           </form>
         </div>
       </div>

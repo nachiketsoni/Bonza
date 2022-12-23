@@ -54,7 +54,12 @@ passport.use(
     }
   )
 );
-
+function isAdmin(req, res, next) {
+  if ( req.user.role == "admin") {
+    return next();
+  }
+  res.redirect("/");
+}
 router.get(
   "/google/auth",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -108,8 +113,12 @@ router.get("/logout", (req, res) => {
 });
 router.get("/", async (req, res, next) => {
 try {
-  const user = req.user;
   const product = await prdctModel.find({}).sort({_id:-1}).limit(6)
+  if (req.user) {
+    var user = await userModel.findOne({ email: req.user.email })
+  } else {
+    var user = null;
+  }
   console.log(product)
   res.render("index",{product,user});
 } catch (err) {
@@ -177,7 +186,7 @@ router.post("/comment/:id", async (req, res, next) => {
   }
 });
 
-router.post("/admin/productUpload", async (req, res, next) => {
+router.post("/admin/productUpload",isLoggedIn,isAdmin, async (req, res, next) => {
   try {
     const form = formidable({ multiples: true });
 
@@ -199,7 +208,7 @@ router.post("/admin/productUpload", async (req, res, next) => {
     console.log(size)
     // const thumbnail = secure_url;
     var allImg = [];
-    let newPrctName = prdctName.split(" ")[0]
+    let newPrctName = (prdctName.split(" ")[0]+prdctCtrg).toString().toLowerCase()
     console.log(newPrctName)
     for (let i = 0; i < files.prdctImg.length; i++) {
       try {
@@ -210,8 +219,9 @@ router.post("/admin/productUpload", async (req, res, next) => {
         );
         allImg.push({secure_url , public_id});
       } catch (error) {
-          console.log(error)
+        console.log(error)
       }
+    }
       try {
         await prdctModel.create({
           prdctCtrg,
@@ -227,7 +237,6 @@ router.post("/admin/productUpload", async (req, res, next) => {
       } catch (error) {
         console.log(error);
       }
-    }
       res.redirect("/store");
       // res.status(200).json(newProduct);
     });
@@ -284,12 +293,16 @@ router.get("/store", async (req, res, next) => {
     res.render("store", { allProduct });
   }
 });
-router.get("/story/:ctrg", async (req, res, next) => {
+router.get("/story/:type/:ctrg", async (req, res, next) => {
  try {
   let allProduct = null;
-  if (req.params.ctrg == "all") {
+  if (req.params.type == "all") {
     allProduct = await prdctModel.find();
-  } else {
+  } else if (req.params.type == "ctrg") {
+    allProduct = await prdctModel.find({
+      prdctCtrg: { $regex: req.params.ctrg, $options: "i" },
+    });
+  }else if (req.params.type == "search") {
     allProduct = await prdctModel.find({
       $or: [
         { prdctCtrg: { $regex: req.params.ctrg, $options: "i" } },
@@ -298,6 +311,10 @@ router.get("/story/:ctrg", async (req, res, next) => {
         { prdctFeatures: { $regex: req.params.ctrg, $options: "i" } },
         { prdctPrice: { $regex: req.params.ctrg, $options: "i" } },
       ],
+    });
+  }else{
+    allProduct = await prdctModel.find({
+      prdctName: { $regex: req.params.ctrg, $options: "i" },
     });
   }
   if (req.user) {
@@ -312,11 +329,14 @@ router.get("/story/:ctrg", async (req, res, next) => {
   console.log(err)
  }
 });
-router.get("/admin", (req, res, next) => {
+router.get("/admin",isLoggedIn,isAdmin, (req, res, next) => {
   res.render("admin");
 });
 router.get("/about", (req, res, next) => {
   res.render("about");
+});
+router.get("/custom", (req, res, next) => {
+  res.render("custom");
 });
 router.get("/loggedinUser", isLoggedIn, async (req, res, next) => {
   try {
@@ -352,7 +372,7 @@ router.get("/profile", isLoggedIn, async (req, res, next) => {
   try {
     const user = await userModel.findOne({ email: req.user.email });
 
-  res.render("profile", { user });
+  res.render("profile", { user ,admin:false});
   } catch (err) {
     console.log(err)
   }
@@ -587,8 +607,9 @@ router.post("/forgot", function (req, res) {
   userModel.findOne({ email: req.body.email }).then(function (founduser) {
     if (founduser !== null) {
       founduser.secret = sec;
-      founduser.expiry = Date.now() + 15 * 1000;
+      founduser.expiry = Date.now() + 3 * 100000;
       founduser.save().then(function () {
+
         var routeaddress = `http://localhost:4000/forgot/${founduser._id}/${sec}`;
         sendMail(req.body.email, routeaddress).then(function () {
           res.send("Check your email");
@@ -600,19 +621,23 @@ router.post("/forgot", function (req, res) {
 
 router.get("/forgot/:id/:secret", function (req, res) {
   userModel.findOne({ _id: req.params.id }).then(function (founduser) {
+    console.log(Date.now() , Number(founduser.expiry) )
+    console.log(founduser.secret , req.params.secret )
     if (
+    
       founduser.secret === req.params.secret &&
-      Date.now() < founduser.expiry
-    ) {
+      Date.now()< Number(founduser.expiry)
+    ){
       res.render("newpassword", {
         founduser,
         pagename: "New Password",
         loggedin: false,
       });
-    } else {
-      res.send("link expired");
+    
+  } else {
+      res.status(404).send("Link Expired");
     }
-  });
+});
 });
 
 router.post("/newpassword/:email", function (req, res) {
@@ -645,7 +670,7 @@ router.get("/alluser/:email", async (req, res, next) => {
   
 
 });
-router.post("/create/orderId", function (req, res, next) {
+router.post("/create/orderId",isLoggedIn, function (req, res, next) {
   var options = {
     amount: req.body.amount, // amount in the smallest currency unit
     currency: "INR",
@@ -661,7 +686,7 @@ router.post("/create/orderId", function (req, res, next) {
   });
 });
 
-router.post("/api/payment/verify", async (req, res) => {
+router.post("/api/payment/verify",isLoggedIn, async (req, res) => {
   try {
     const {
       response: { razorpay_order_id, razorpay_payment_id, razorpay_signature },
@@ -692,7 +717,7 @@ router.post("/api/payment/verify", async (req, res) => {
   }
 });
 
-router.post("/successOrder", async (req, res, next) => {
+router.post("/successOrder",isLoggedIn, async (req, res, next) => {
 
 
   const {
@@ -705,6 +730,8 @@ router.post("/successOrder", async (req, res, next) => {
     instruction,
     typy,
   } = req.body;
+  console.log(req.body);
+
   // instance.invoices.create({
   //   type: "invoice",
   //   date: Date.now(),
@@ -721,7 +748,6 @@ router.post("/successOrder", async (req, res, next) => {
   //     }
   //   ]
   // })
-  console.log(req.body);
   if (typy == "COD") {
     var payment = {
       typy,
@@ -733,14 +759,16 @@ router.post("/successOrder", async (req, res, next) => {
       PaymentID: razorpay_payment_id,
     };
   }
-  var user = await userModel.findOne({ _id: req.user._id });
-
+  var user = await userModel.findOne({ _id: req.user._id }).populate({
+    path: "cart.product",
+  });
+  let orderlength = await Order.find().countDocuments();
+  let orderNum = orderlength+=1 ;
   let addressDets = user.address.filter((item) => item.id == address);
-  console.log(orderId);
-  const order = new Order({
+  var order = new Order({
+    orderNum,
     user: user._id,
     amount: orderId?.amount / 100,
-
     orderID: orderId?.id || razorpay_order_id, // If orderId comes then only proceed to execute for orderId.id
     payment,
     Email,
@@ -751,26 +779,32 @@ router.post("/successOrder", async (req, res, next) => {
     items: user.cart,
   });
 
+
+
+    var createdOrder =  await order.save();
+   
+    for (let i = 0; i < user.cart.length; i++) {
+      user.cart[i].product.sell+=1 
+      user.cart[i].product.stock-=1
+      await user.cart[i].product.save()
+    }
+
   user.cart = [];
   try {
     await user.save();
   } catch (error) {
     console.log(error);
   }
-  user.myorder.push(order._id);
+  user.myorder.push(createdOrder._id);
   try {
     await user.save();
   } catch (error) {
     console.log(error);
   }
-  try {
-    var createdOrder = await order.save();
-  } catch (error) {
-    console.log(error);
-  }
+ console.log(createdOrder)
 
-  console.log(createdOrder);
-  res.status(200).json({ msg: "success", createdOrder });
+
+  res.redirect("/myorders");
 
 
 });
@@ -782,22 +816,30 @@ router.get("/myorders",isLoggedIn, async (req, res, next) => {
     populate: {
       path: "items.product",
     },
+   
+
+   
   })
   // console.log(order.myorder[0].items[0].product.prdctName )
-
+  // res.status(200).json(order.myorder);
   res.render("myorders", { Myorder: order.myorder });
 });
-router.get("/custom", async (req, res, next) => {
-  res.render("custom");
-});
-router.post("/admin/updateNaming", async (req, res, next) => {
-  const { id, name, price, desc, sizes } = req.body;
-  sizy = sizes.map((item) => item.toUpperCase().trim());
+
+router.post("/admin/updateNaming",isLoggedIn,isAdmin, async (req, res, next) => {
+  const { id, name, price, desc, sizes,Ctrg ,stock } = req.body;
+  if (sizes.length == 1) {
+    sizy = sizes.toUpperCase().trim();
+  }else{
+    sizy = sizes.map((item) => item.toUpperCase().trim());
+
+  }
   try {
     const product = await prdctModel.findOne({ _id: id });
     product.prdctName = name;
     product.prdctPrice = price;
     product.prdctDesc = desc;
+    product.prdctCtrg = Ctrg;
+    product.stock = stock;
     product.sizes = sizy;
     await product.save();
   } catch (error) {
@@ -806,7 +848,7 @@ router.post("/admin/updateNaming", async (req, res, next) => {
 
   res.redirect("back");
 });
-router.post("/admin/updateFeature", async (req, res, next) => {
+router.post("/admin/updateFeature",isLoggedIn,isAdmin, async (req, res, next) => {
   const { prdctFeatures, id } = req.body;
 
   try {
@@ -820,8 +862,13 @@ router.post("/admin/updateFeature", async (req, res, next) => {
 
   res.redirect("back");
 });
-router.get("/admin/allProduct", async (req, res, next) => {
-  let order = await Order.find().sort({ _id: -1 });
+router.get("/admin/allOrders",isLoggedIn,isAdmin, async (req, res, next) => {
+  let order = await Order.find().sort({ _id: -1 }).populate({
+    path: "items.product",
+  }).populate({
+    path: "user",
+  });
+
   console.log(order);
   res.render("adminDashboardOrder", { order });
 });
@@ -834,11 +881,68 @@ router.get("/admin/allUsers", async (req, res, next) => {
 router.get("/renderSearchPage/", (req, res) => {
   res.render("searchItems", { searchValue: req.query.searchValue });
 });
-
-router.get("/adminDashboardOrders", (req, res) => {
-  res.render("adminDashboardOrder");
+router.get("/thrifted", async(req, res) => {
+  let thrifted = await prdctModel.find({ prdctCtrg: "Thrifted" });
+  if (req.user) {
+    var user = await userModel.findOne({ email: req.user.email })
+  } else {
+    var user = null;
+  }
+  res.render("Thriifted", { thrifted,user });
+});
+router.get("/oversized",async (req, res) => {
+  let oversized =await prdctModel.find({ prdctCtrg: "Oversized" });
+  if (req.user) {
+    var user = await userModel.findOne({ email: req.user.email })
+  } else {
+    var user = null;
+  }
+  res.render("Oversized", { oversized,user });
+});
+router.get("/sweatshirt", async(req, res) => {
+  let sweatshirt = await prdctModel.find({ prdctCtrg: "Sweatshirt" });
+  if (req.user) {
+    var user = await userModel.findOne({ email: req.user.email })
+  } else {
+    var user = null;
+  }
+  res.render("Sweatshirt", { sweatshirt,user });
+});
+router.get("/hoodies",async (req, res) => {
+  let hoodie = await prdctModel.find({ prdctCtrg: "Hoodie" });
+  if (req.user) {
+    var user = await userModel.findOne({ email: req.user.email })
+  } else {
+    var user = null;
+  }
+  res.render("Hoodie", { hoodie,user });
+});
+router.get("/admin/user/:id",isLoggedIn, async (req, res) => {
+  let user = await  userModel.findOne({ _id: req.params.id });
+  console.log(user);
+  res.render("profile", { user , admin: true });
+});
+router.post("/admin/order/statusUpdate",isLoggedIn,async (req, res) => {
+  const { id, status } = req.body;
+  console.log(req.body)
+  const order = await Order.findOne({ _id : id })
+  order.status = status;
+  let changedstatus  = await order.save();
+  console.log(changedstatus)
+  res.status(200).json({ message: "success" });
 });
 
+router.get("/changef", async (req, res, next) => {
+  let user = await userModel.findOne({ _id : '63a45d9135d891d09a8f47b5'}).populate({
+    path: "cart.product",
+  });
+  user.cart.forEach((item) => {
+    item.product.sell+=1 
+    item.product.stock-=1
+    item.product.save()
+  });
+  res.json({  message: "success" });
+});
 router.get("*", async (req, res, next) => {
   res.render("error");
 });

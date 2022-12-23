@@ -35,7 +35,7 @@
           would you like your
           <span class="txtanim">order to Delivered ?</span>
         </h1>
-        <form action="/successOrder"  method="post">
+        <form>
           <h2
             id="addAdrs"
             class="txtanim"
@@ -144,7 +144,7 @@
           </div> 
           <% if(user.address.length>0){%>
 
-            <button id="COD" >
+            <button type="button" id="COD" >
               <h3>Cash On Delivery</h3>
             </button>
             <small style="margin-left:  50%; transform: translateX(-50%);">OR</small>
@@ -196,7 +196,7 @@
       var finalAmt = Number(
         document.getElementById("finalAmt").textContent.split(".").join("")
       );
-      $(document).ready(function () {
+       $(document).ready(function () {
         var settings = {
           url: "/create/orderId",
           method: "POST",
@@ -217,10 +217,13 @@
           $("#rzp-button1").show();
         });
       });
-
-      document.getElementById("rzp-button1").onclick = function (e) {
+      
+      document.getElementById("rzp-button1").onclick = async function (e) {
         e.preventDefault();
-
+        if (document.getElementById("email").value === "" || document.getElementById("phnNum").value === "" || document.getElementById("Address").value === "") {
+          Swal.fire("Please Fill All The Details", "Something Went Wrong", "failed");
+        }
+        else{
         var options = {
           key: "rzp_test_BkPWeFB0YcGvWJ", // Enter the Key ID generated from the Dashboard
           amount: finalAmt, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -267,7 +270,7 @@
                   $.ajax(opt).done((response)=>{
                     console.log(response)
                  
-                    window.location.href = `/thankyou?data=${response._id}`
+                    window.location.href = `/myorders`
                     
                  
                   })
@@ -314,15 +317,23 @@
 
         });
         rzp1.open();
+      }
       };
-
-      document.querySelector("#COD").addEventListener("click",()=>{
-          try{
+      document.querySelector("#COD").addEventListener("click",async(e)=>{
+        e.preventDefault();
+        if (document.getElementById("email").value === "" || document.getElementById("phnNum").value === "" || document.getElementById("Address").value === "") {
+          Swal.fire("Please Fill All The Details", "Something Went Wrong", "failed");
+        }
+        else{
+        try{
+          
+                
                 Swal.fire("Payment Successful!", "Thankyou For Shopping", "success");
                 const Email = document.getElementById("email").value 
                 const phnNum = document.getElementById("phnNum").value 
                 const address = document.getElementById("Address").value
                 const instruction = document.getElementById("instruction").value 
+                console.log({ orderId,Email,phnNum,address,instruction ,typy:"COD" })
                 const opt ={
                   url: "/successOrder",
                   method: "POST",
@@ -333,22 +344,21 @@
                 }
                 
 
-                  $.ajax(opt).done((response)=>{
+                  $.ajax(opt).done(async(response)=>{
                     console.log(response)
-                  
-                    // window.location.href = `/thankyou?data=${response._id}`
+                    window.location.href = `/myorders`
                     
                  
                   })
               } 
               catch(err) {
-                alert("Payment Failed");
                 Swal.fire("Payment Failed", "Something Went Wrong", "failed");
 
               }
            
-        
-      })
+            }
+      
+          })
 
     </script>
     <script>

@@ -1,27 +1,25 @@
 (function onMobile(){
           if(window.innerWidth < 600){
-            document.querySelector(".catg").innerHTML=`<a href="/NewArrivals"><div class="sec">New Arrivals</div> </a>
+            document.querySelector(".catg").innerHTML=`<a href="/newArrival"><div class="sec">New Arrivals</div> </a>
                 <a href="/store"><div class="sec">Store</div> </a>
-                <a href="/tshirt"><div class="sec">T-Shirts</div></a>
-                <a href=""><div class="sec">Bottoms</div></a>
-                <a href=""><div class="sec">Sweatshirt</div> </a>
-                <a href=""><div class="sec">Hoodies</div> </a>
+                <a href="/oversized"><div class="sec"> Oversized T-Shirts</div></a>
+                <a href="/thrifted"><div class="sec">Thrifted</div> </a>
+                <a href="/sweatshirt"><div class="sec">Sweatshirt</div> </a>
+                <a href="/Hoodies"><div class="sec">Hoodies</div> </a>
                 <a href="/custom"><div class="sec">Customisation</div> </a>
                 <a href="/myorders"><div class="sec">My Orders</div> </a>
-                <a href=""><div class="sec">Suggestions</div></a>
                 <a href="/about"><div class="sec">About Us</div></a>
                 `
           }
           else{
             document.querySelector(".catg").innerHTML=`
-                <a href=""><div class="sec">New Arrivals</div> </a>
-                <a href=""><div class="sec">T-Shirts</div></a>
-                <a href=""><div class="sec">Bottoms</div></a>
-                <a href=""><div class="sec">Sweatshirt</div> </a>
-                <a href=""><div class="sec">Hoodies</div> </a>
+                <a href="/newArrival"><div class="sec">New Arrivals</div> </a>
+                <a href="/oversized"><div class="sec">Oversized T-Shirts</div></a>
+                <a href="/thrifted"><div class="sec">Thrifted</div></a>
+                <a href="/sweatshirt"><div class="sec">Sweatshirt</div> </a>
+                <a href="/hoodies"><div class="sec">Hoodies</div> </a>
                 <a href="/custom"><div class="sec">Customisation</div> </a>
                 <a href="/myorders"><div class="sec">My Orders</div> </a>
-                <a href=""><div class="sec">Suggestions</div></a>
                 <a href="/about"><div class="sec">About Us</div></a>
                 
                 `

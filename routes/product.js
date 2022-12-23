@@ -9,6 +9,8 @@ const productSchema = new mongoose.Schema({
   prdctVideo: String,
   thumbnail: Object,
   prdctImg: Array,
+  sell:{type:Number,default:0,required:true},
+  stock:{type:Number,default:0,required:true},
   sizes: Array,
   prdctReview: [{
      comment:{type:String},

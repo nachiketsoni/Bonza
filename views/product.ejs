@@ -67,7 +67,16 @@
                 <button style="display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;"  type="submit">Update</button>
                 <input style="width: 90%;" type="hidden" name="id"  value="<%=product._id%>" />
                 <input style="width: 90%;" type="text" name="name" value="<%=product.prdctName%>" />
+                <select name="Ctrg" >
+                  <option style="display: none;" selected value="<%=product.prdctCtrg%>"><%=product.prdctCtrg%></option>
+                  <option value="Hoodie">Hoodie</option>
+                  <option value="Oversized">Oversized Tshirt</option>
+                  <option value="Sweatshirt">Sweatshirt</option>
+                  <option value="Thrifted">Thrifted</option>
+                  <option value="LimitedEdition">Limited Edition</option>
+                </select>
                 <input style="width: 90%;" type="number" name="price" value="<%=product.prdctPrice%>" />
+                <input style="width: 90%;" type="number" name="stock" value="<%=product.stock%>" />
                 <input style="width: 90%;" type="text" name="desc" value="<%=product.prdctDesc%>" />
                 <!-- <%product.prdctFeatures.forEach((e, i ) => {%>
                   <input id="finp<%=i%>" style="width: 90%;"  type="text" name="features" value="<%=e%>" /><span onclick="removeInp('finp<%=i%>' ,'fXinp<%=i%>')" id="fXinp<%=i%>" style="padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>

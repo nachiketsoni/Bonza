@@ -1,129 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    #main {
-      height: 100%;
-      width: 100%;
-      font-family: Gilroy;
-      padding: 1vmax;
-    }
-    #allOrders {
-      width: 100%;
-    }
 
-    .imageContainer {
-      height: 9vmax;
-      width: 7vmax;
-    }
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-    .orderCard {
-      padding: 2vmax;
-      justify-content: space-between;
-      display: flex;
-      background-color: rgb(227, 227, 227);
-      align-items: center;
-      margin-bottom: 1.5vmax;
-    }
-    .left {
-      display: flex;
+<% include ../views/Partial/header.ejs %>
 
-      align-items: center;
-    }
-    .text {
-      margin-left: 1vmax;
-    }
-    .center {
-      margin-left: 3vmax;
-    }
-    .id {
-      display: flex;
-      margin-top: 1vmax;
-    }
-    .right {
-      width: 35%;
-    }
-    .text {
-      margin-left: 1.5vmax;
-    }
-  </style>
-  <body>
-    <div id="main">
-      <div class="allOrders">
-        <div class="orderCard">
-          <div class="left">
-            <div class="imageContainer">
-              <img
-                src="https://images.unsplash.com/photo-1649355020062-a004b4b51106?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
-                alt=""
-              />
+<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/links.css" />
+<link rel="stylesheet" href="../stylesheets/cart.css" />
+<link
+  href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+<style>
+  .left{
+    width: 100%;
+    overflow: auto;
+  }
+ 
+</style>
+<body>
+  <% include ../views/Partial/loader.ejs %> 
+  <% include ../views/Partial/search.ejs %>
+   <div id="main">
+    <div class="left">
+      <a style="cursor: pointer" href="/">
+        <i class="ri-arrow-left-s-line"></i> Back to Homepage</a
+      >
+      <h1 class="txtanim">All Orders</h1>
+      <div class="box">
+        <div class="ctrg txtanim">
+          <h4 id="t">Item</h4>
+          <div class="side">
+            <div class="sec">
+              <h4>Size</h4>
             </div>
-            <div class="text">
-              <h3>bonz lolo</h3>
-              <h5>223</h5>
+
+            <div class="sec">
+              <h4>Qty</h4>
             </div>
-          </div>
-          <div class="center">
-            <h3>Delivery Address</h3>
-            <h4>phone number : 1234567890,012039487</h4>
-            <div class="id">
-              <h5>orderId : kflsdjlsjdklaksdjflsj</h5>
-              <h5 style="margin-left: 2vmax">
-                paymentId : kdlfksdjlfksdlksjljl
-              </h5>
+            <div class="sec">
+              <h4>Price</h4>
             </div>
-          </div>
-          <div class="right">
-            <h3>
-              124,slidfl lfasiejladjfl,flskjdflksjdfksl,dajflsdifjlkjl bhopal
-            </h3>
           </div>
         </div>
-        <div class="orderCard">
-          <div class="left">
-            <div class="imageContainer">
-              <img
-                src="https://images.unsplash.com/photo-1649355020062-a004b4b51106?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
-                alt=""
-              />
+        <div style="height: auto;" class="item">
+          <% if(order){%> 
+            <% order.forEach(lo => {%>
+      
+            <div style="background-color: rgba(161, 161, 161, 0.152);margin-bottom: 2vmax; border-radius: 10px;"  id="containn">
+
+
+              <div id="OrderDetails">
+                <div style="padding: 1vmax;" class="txtanim">
+                  <h4 style="font-size: 2vmax; font-weight: 300;">Order Details </h4>
+                  <div style="margin-top: 10px;" >
+                    <div  >
+                      <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order Owner Name :  &nbsp;&nbsp;&nbsp;   <a style="cursor: pointer; text-decoration: underline !important;" href="/admin/user/<%=lo.user._id%>">  <%= lo.user.name %></a></h4>
+                      <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order ID : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <%= lo.orderID %></h4>
+                      <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order Date :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;     <%= lo.createdAt %></h4>
+                      <% if( lo.payment.PaymentID != "Cash On Delivery" ){%>
+
+                        <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;"  >Payment ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <%= lo.payment.PaymentID %></h4>
+                        <%} %> 
+                        <h4 style="  margin-top: 7px; font-size: 1.3vmax; font-weight: 400;"  >Payment Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;  <%= lo.payment.typy %></h4>
+                      <h4 style=" white-space: nowrap;  margin-top: 7px; font-size: 1.3vmax; font-weight: 400;"  >Order Status :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 217, 0);" >
+                        <div   style="display: inline;" >
+                         <select   name="status" > 
+                          <option style="display: none;" selected value="<%= lo.status.toUpperCase() %>"> <%= lo.status.toUpperCase() %></option> 
+                          <option  value="PLACED">PLACED </option> 
+                          <option  value="SHIPPED">SHIPPED </option> 
+                          <option  value="OUT FOR DELIVERY">OUT FOR DELIVERY </option> 
+                          <option  value="DELIVERED">DELIVERED </option> 
+                        </select> <button type="button" onclick="ChangeStatus(this, '<%= lo._id  %>' )" style="padding: .7vw;border-radius:5px; border:1px solid grey ; cursor: pointer;" >Change</button>
+                      </div> </span></h4>
+                      </div>
+
+                   
+                  </div>
+                </div>
+              </div>
+                <% lo.items.forEach((e)=>{ %>
+                
+                    <div class="itm txtanim">
+                      
+                      <div  class="lside">
+                        <a  href="/product/<%= e.product._id %>"><img style="cursor: pointer;" src="<%= e.product.prdctImg[0].secure_url %>" alt="<%= e.product.prdctImg[0].public_id %>" /></a>
+                          <h2 class="pname"><%= e.product.prdctName %></h2>
+
+                      </div>
+                      <div class="side">
+                        <div class="sec">
+                          <h4><%= e.size %></h4>
+                        </div>
+
+                        <div class="sec">
+                          
+                          <h3 style="font-weight: 500;" ><%= e.quantity %></h3>
+                          
+                        </div>
+                        <div class="sec">₹<%= e.Amt %></div>
+                      </div>
+                     
+                    </div>
+              
+                <% }); %> 
+                <h4 style=" margin-bottom: 1vmax; position: relative; margin-left: 78%; font-size: 1.3vw; font-weight: 400;">CGST &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <span > ₹<%= (lo.amount*0.025).toFixed(2) %></span></h4>
+                <h4 style=" margin-bottom: 1vmax; position: relative; margin-left: 78%; font-size: 1.3vw; font-weight: 400;">SGST &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <span > ₹<%= (lo.amount*0.025).toFixed(2)  %></span></h4>
+                <h4 style=" margin-bottom: 1vmax; position: relative; margin-left: 78%; font-size: 2vw; font-weight: 400;">TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="border-top: 2px solid black;" > ₹<%= lo.amount %></span></h4>
+                    
             </div>
-            <div class="text">
-              <h3>bonz lolo</h3>
-              <h5>223</h5>
-            </div>
-          </div>
-          <div class="center">
-            <h3>Delivery Address</h3>
-            <h4>phone number : 1234567890,012039487</h4>
-            <div class="id">
-              <h5>orderId : kflsdjlsjdklaksdjflsj</h5>
-              <h5 style="margin-left: 2vmax">
-                paymentId : kdlfksdjlfksdlksjljl
-              </h5>
-            </div>
-          </div>
-          <div class="right">
-            <h3>
-              124,slidfl lfasiejladjfl,flskjdflksjdfksl,dajflsdifjlkjl bhopal
-            </h3>
-          </div>
+
+            <% }); %>
+          
+          <%}else{%>
+          <h1 id="empty">You Haven't Ordered Anything <span style="opacity: .7;" > 🥺</span></h1>
+          <%} %>
         </div>
       </div>
+
+      <div>
+
     </div>
-  </body>
-</html>
+    </div>
+   
+  </div>
+  
+  <% include ../views/Partial/footer.ejs %>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"
+  ></script>
+
+  <script src="../javascripts/nav.js"></script>
+
+  <script>
+
+    const ChangeStatus = (e, id )=>{
+     
+        var status = e.parentElement.children[0].value
+      console.log(status)
+      $.ajax({
+        url: '/admin/order/statusUpdate',
+        type: 'POST',
+        data: {id, status},
+        success: function (data) {
+          console.log(data)
+          if(data.message == 'success'){
+            alert('Status Changed')
+          }
+        },
+        error: function (err) {
+          alert('Status Not Changed')
+
+          console.log(err)
+        },
+      })
+     
+    }   
+  </script>
+</body>
+

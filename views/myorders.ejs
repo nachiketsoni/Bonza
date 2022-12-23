@@ -11,7 +11,9 @@
 <style>
   .left{
     width: 100%;
+    overflow: auto;
   }
+ 
 </style>
 <body>
   <% include ../views/Partial/loader.ejs %> 
@@ -44,44 +46,47 @@
             </div>
           </div>
         </div>
-        <div class="item">
-          <% if(Myorder){%> <% Myorder.forEach(lo => {%>
-            <div style="background-color: rgba(161, 161, 161, 0.152); margin-top: 1vmax;"  id="containn">
-
-         
-            <% lo.items.forEach((e)=>{ %>
-            
-          <div class="itm txtanim">
-           
-            <div class="lside">
-          
-              <a  href="/product/<%= e.product._id %>"><img style="cursor: pointer;" src="<%= e.product.prdctImg[0].secure_url %>" alt="<%= e.product.prdctImg[0].public_id %>" /></a>
-              <h2 class="pname"><%= e.product.prdctName %></h2>
-            </div>
-            <div class="side">
-              <div class="sec">
-                <h4><%= e.size %></h4>
-              </div>
-
-              <div class="sec">
+        <div style="height: auto;" class="item">
+          <% if(Myorder){%> 
+            <% Myorder.forEach(lo => {%>
+      
+            <div style="background-color: rgba(161, 161, 161, 0.152);margin-bottom: 2vmax; border-radius: 10px;"  id="containn">
+              
+                <% lo.items.forEach((e)=>{ %>
                 
-                <h3 style="font-weight: 500;" ><%= e.quantity %></h3>
-                
-              </div>
-              <div class="sec">₹<%= e.Amt %></div>
-              <div class="sec"><%= lo.status %></div>
-              <div class="sec"><%= lo.payment.typy  %> </div>
-            </div>
-            <h5 style="position: absolute; left: 10%; bottom: 1%;" >OrderID  :  <%= lo.orderID  %></h5>
-            <% if(lo.payment.typy == 'Online'){ %>
-             <h5 style="position: absolute; left: 40%; bottom: 1%;" > PaymentID  :  <%=lo.payment.PaymentID %> </h5>
-             <% } %>
-          </div>
-          
-          <% }); %>
-        </div>
+                    <div class="itm txtanim">
+                    
+                      <div  class="lside">
+                        <a  href="/product/<%= e.product._id %>"><img style="cursor: pointer;" src="<%= e.product.prdctImg[0].secure_url %>" alt="<%= e.product.prdctImg[0].public_id %>" /></a>
+                        <div style="display: flex;flex-direction: column;" id="nam">
+                          <h2 class="pname"><%= e.product.prdctName %></h2>
 
-          <% }); %>
+                        </div>
+                      </div>
+                      <div class="side">
+                        <div class="sec">
+                          <h4><%= e.size %></h4>
+                        </div>
+
+                        <div class="sec">
+                          
+                          <h3 style="font-weight: 500;" ><%= e.quantity %></h3>
+                          
+                        </div>
+                        <div class="sec">₹<%= e.Amt %></div>
+                        <div style="color: rgb(2, 207, 2);" class="sec"><%= lo.status %></div>
+                        <div class="sec"><%= lo.payment.typy  %> </div>
+                      </div>
+                      <h5 style="position: absolute; left: 10%; bottom: 1%;" >OrderID  :  <%= lo.orderID  %></h5>
+                      <% if(lo.payment.typy == 'Online'){ %>
+                      <h5 style="position: absolute; left: 40%; bottom: 1%;" > PaymentID  :  <%=lo.payment.PaymentID %> </h5>
+                      <% } %>
+                    </div>
+              
+                <% }); %>
+            </div>
+
+            <% }); %>
           
           <%}else{%>
           <h1 id="empty">You Haven't Ordered Anything <span style="opacity: .7;" > 🥺</span></h1>

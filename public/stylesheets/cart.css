@@ -86,7 +86,8 @@ a {
 
 .item {
   width: 100%;
-  overflow-y: auto;
+  height:61vh ;
+  overflow: auto;
   display: flex;
   flex-direction: column;
 
@@ -114,7 +115,7 @@ a {
 .itm {
   width: 100%;
   min-height: 8vmax;
-
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

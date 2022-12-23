@@ -12,26 +12,27 @@
   <div id="main">
     <div class="catgs">
       <div class="lef">
-        <a class="clicki" onclick="allProduct('all')">All</a> /
-        <a class="clicki" onclick="allProduct('Hoodie')">Hoodie</a> /
-        <a class="clicki" onclick="allProduct('Bottoms')">Bottoms</a> /
-        <a class="clicki" onclick="allProduct('Oversized')">Oversized</a> /
-        <a class="clicki" onclick="allProduct('Sweatshirt')">Sweatshirt</a> /
-        <a class="clicki" onclick="allProduct('Thrifted')">Thrifted</a>
+        <a class="clicki" onclick="allProduct('all','all')">All</a> /
+        <a class="clicki" onclick="allProduct('Hoodie','crtg')">Hoodie</a> /
+        <a class="clicki" onclick="allProduct('Oversized','ctrg')">Oversized</a> /
+        <a class="clicki" onclick="allProduct('Sweatshirt','ctrg')">Sweatshirt</a> /
+        <a class="clicki" onclick="allProduct('Thrifted','ctrg')">Thrifted</a> /
+        <a class="clicki" onclick="allProduct('LimitedEdition','ctrg')">Limited Edition</a> 
+
       </div>
       <div class="rig">
         <a class="clicki"
-          ><span class="clicki"
+          ><span class="clicki" 
             >Sort <img class="clicki" src="../images/sort.png" alt=""
           /></span>
           <div id="sort">
-            <div onclick="allProduct('all','new')" class="options clicki">
+            <div onclick="allProduct('all','all','new')" class="options clicki">
               What's New
             </div>
-            <div onclick="allProduct('all','high')" class="options clicki">
+            <div onclick="allProduct('all','all','high')" class="options clicki">
               Price : Low to High<i class="ri-sort-asc"></i>
             </div>
-            <div onclick="allProduct('all','low')" class="options clicki">
+            <div onclick="allProduct('all','all','low')" class="options clicki">
               Price : High to Low<i class="ri-sort-desc"></i>
             </div></div
         ></a>
@@ -110,12 +111,12 @@
       }
     };
 
-    const allProduct = (ctrg, sort) => {
+    const allProduct = (ctrg,type, sort) => {
       document.querySelector(
         "#second"
       ).innerHTML = `<img src="../images/loader.gif" />`;
       var settings = {
-        url: `/story/${ctrg}`,
+        url: `/story/${type}/${ctrg}`,
         method: "GET",
         cache: true,
       };
@@ -139,7 +140,7 @@
       });
     };
 
-    allProduct("all");
+    allProduct("all", "all");
   </script>
 
   <script src="../javascripts/nav.js"></script>

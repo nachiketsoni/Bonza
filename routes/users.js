@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 const findOrCreate = require("mongoose-findorcreate");
-
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URL);
 
 const userSchema = new mongoose.Schema({
