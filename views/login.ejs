@@ -35,7 +35,7 @@
         </div>
         <div class="user signupBx">
           <div class="formBx">
-            <form id="formSub" action="/register" method="POST">
+            <form id="formSub" onsubmit="return checkPassword(this)" action="/register" method="POST">
               <h2>Create an account</h2>
               <input class="inp" required style="cursor: text;" type="text" name="name" placeholder="Name" />
               <input class="inp" required style="cursor: text;" type="number" name="number" placeholder="Contact No." />
@@ -45,7 +45,7 @@
                             <option value="Female">Female</option>
                             <option value="Others">Others</option>
                 </select>
-              <input class="inp" id="fp" required style="cursor: text;"  type="password" placeholder="Create Password" />
+              <input class="inp" id="fp" required style="cursor: text;"  type="password" name="password1" placeholder="Create Password" />
               <input class="inp" id="sp" required style="cursor: text;" type="password" name="password" placeholder="Confirm Password" />
               <button class="inp">Sign Up</button>
               <p class="signup">
@@ -66,9 +66,7 @@
 
 
   <script>
-    var p1 = document.getElementById('fp').value;
-    var p2 = document.getElementById('sp').value;
-    const form = document.getElementById('formSub');
+  
     // form.addEventListener('submit', (e) => {
     //   console.log(p1, p2);
     //   e.preventDefault();
@@ -83,6 +81,25 @@
     //   }
     // })
    
+    function checkPassword(form) {
+                password1 = form.password1.value;
+                password = form.password.value;
+  
+                if (password1 == '')
+                    alert ("Please enter Password");
+                      
+                else if (password == '')
+                    alert ("Please enter confirm password");
+                      
+                else if (password1 != password) {
+                    alert ("\nPassword did not match: Please try again...")
+                    return false;
+                }
+  
+                else{
+                    return true;
+                }
+            }
     const toggleForm = (e) => {
   const container = document.querySelector('.container');
   container.classList.toggle('active');
