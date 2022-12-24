@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@adminjs/express": "^5.0.1",
-    "admin-bro": "^4.0.1",
     "adminjs": "^6.7.2",
     "cloudinary": "^1.32.0",
     "cookie-parser": "~1.4.4",
