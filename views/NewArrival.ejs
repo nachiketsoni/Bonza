@@ -1,99 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <% include ../views/Partial/header.ejs %>
-<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
-  <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
-  <link rel="stylesheet" href="../stylesheets/wishlist.css">
-  <% include ../views/Partial/loader.ejs %>
+    <link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+    <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+    <link rel="stylesheet" href="../stylesheets/wishlist.css" />
+    <% include ../views/Partial/loader.ejs %>
 
-<div id="main">
-          <% include ../views/Partial/nav.ejs %> 
-          <h1>New Arrivals</h1>
-          <hr>
-          <div id="second">
-            <% NewArrival.forEach(e => {%>
-              <div class="item">
-                <div class="img">
-                  <div
-                    onclick="wishlist(this)"
-                    data-user="<%=user%>"
-                    data-id="<%=e._id%>"
-                    id="heart"
-                  >
-                    <% if(user){ %>
-                      <% if(user.wishlist.includes(e._id)){%>
-                        <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>
-                      <%} else if (!user.wishlist.includes(e._id)) {%>
-                            <i class="ri-heart-line"></i>
-                      <%}%>
-                    <%}else{%>
-                            <i class="ri-heart-line"></i>
-                      <%}%>
-                  
-                  </div>
-                  <a target="_blank" href="/product/<%=e._id%>">
-                    <img class="scnd" src="<%=e.prdctImg[0].secure_url%>" alt="<%=e.prdctImg[0].public_id%>" />
-      
-                    <img  src="<%=e.prdctImg[1].secure_url%>" alt="<%=e.prdctImg[1].public_id%>" />
-                  </a>
-                </div>
-                <div class="dets">
-                  <h2 style="text-overflow: ellipsis; font-weight: 500; white-space: nowrap;overflow: hidden;" ><%=e.prdctName%></h2>
-                  <h4 class="show">₹ <%=e.prdctPrice%></h4>
-                </div>
-              </div>
-      
-      
-            <% }); %>
+    <div id="main">
+      <% include ../views/Partial/nav.ejs %> <% include
+      ../views/Partial/search.ejs %>
+      <h1>New Arrivals</h1>
+      <hr />
+      <div id="second">
+        <% NewArrival.forEach(e => {%>
+        <div class="item">
+          <div class="img">
+            <div
+              onclick="wishlist(this)"
+              data-user="<%=user%>"
+              data-id="<%=e._id%>"
+              id="heart"
+            >
+              <% if(user){ %> <% if(user.wishlist.includes(e._id)){%>
+              <lottie-player
+                src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"
+                background="transparent"
+                speed="1"
+                autoplay
+              ></lottie-player>
+              <%} else if (!user.wishlist.includes(e._id)) {%>
+              <i class="ri-heart-line"></i>
+              <%}%> <%}else{%>
+              <i class="ri-heart-line"></i>
+              <%}%>
+            </div>
+            <a target="_blank" href="/product/<%=e._id%>">
+              <img
+                class="scnd"
+                src="<%=e.prdctImg[0].secure_url%>"
+                alt="<%=e.prdctImg[0].public_id%>"
+              />
+
+              <img
+                src="<%=e.prdctImg[1].secure_url%>"
+                alt="<%=e.prdctImg[1].public_id%>"
+              />
+            </a>
           </div>
-</div> 
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../javascripts/nav.js"></script>
-<script>
+          <div class="dets">
+            <h2
+              style="
+                text-overflow: ellipsis;
+                font-weight: 500;
+                white-space: nowrap;
+                overflow: hidden;
+              "
+            >
+              <%=e.prdctName%>
+            </h2>
+            <h4 class="show">₹ <%=e.prdctPrice%></h4>
+          </div>
+        </div>
+
+        <% }); %>
+      </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../javascripts/nav.js"></script>
+    <script>
       const wishlist = async (that) => {
-      if (that.dataset.user == "") {
-        window.location.href = "/login";
-      } else {
-        try {
-          console.log(that.dataset.user)
-          let done =  await axios.get(`/addToWish/${that.dataset.id}`);
-          console.log(done)
-      
-        } catch (error) {
-          console.log(error)
-        }
-        if (that.innerHTML == `<i class="ri-heart-3-line"></i>`) {
-          Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Added to Wishlist',
-  showConfirmButton: false,
-  timer: 500
-})
-          that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+        if (that.dataset.user == "") {
+          window.location.href = "/login";
         } else {
-          Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Removed From Wishlist',
-  showConfirmButton: false,
-  timer: 500
-})
-          that.innerHTML = `<i class="ri-heart-3-line"></i>`;
+          try {
+            console.log(that.dataset.user);
+            let done = await axios.get(`/addToWish/${that.dataset.id}`);
+            console.log(done);
+          } catch (error) {
+            console.log(error);
+          }
+          if (that.innerHTML == `<i class="ri-heart-3-line"></i>`) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Added to Wishlist",
+              showConfirmButton: false,
+              timer: 500,
+            });
+            that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+          } else {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Removed From Wishlist",
+              showConfirmButton: false,
+              timer: 500,
+            });
+            that.innerHTML = `<i class="ri-heart-3-line"></i>`;
+          }
         }
-      }
-    };
-   
-</script>
+      };
+    </script>
 
-<% include ../views/Partial/footer.ejs %> 
-
-</body>
+    <% include ../views/Partial/footer.ejs %>
+  </body>
 </html>
