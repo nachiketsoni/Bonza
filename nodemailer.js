@@ -1,23 +1,24 @@
 const nodemailer = require("nodemailer");
-async function sendMail(receiver,text ){ 
-  try{
+async function sendMail(receiver, text, html) {
+  try {
     const transport = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       host: process.env.DOMAIN,
       port: 465,
       auth: {
         user: process.env.MAILUSER,
-        pass: process.env.MAILPASS ,
-      }
-    })
+        pass: process.env.MAILPASS,
+      },
+    });
 
     const mailOpts = {
-      
-      from:process.env.MAILUSER ,
+      from: process.env.MAILUSER,
       to: receiver,
       subject: "Forget Details",
       text: "That was Easy",
-      html: `
+      html:
+        html ||
+        `
       <hr>
       <b><ol><li>This is a system generated mail. Please do not reply to this email ID. If you have a query or need any clarification you may: </li>
 <li> Call our 24-hour Customer Care or</li>
@@ -36,18 +37,16 @@ Warm Regards, <br>
 Customer Care <br>
 Bonza pvt ltd <br>
 
-      `
-    }
+      `,
+    };
 
     const result = await transport.sendMail(mailOpts);
     console.log(result);
     return result;
-  } 
-  catch(err){
+  } catch (err) {
     console.log(err);
     return err;
   }
 }
-
 
 module.exports = sendMail;

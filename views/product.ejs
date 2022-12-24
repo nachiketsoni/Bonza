@@ -90,7 +90,9 @@
           <form id="addkart" action="/addToCart/<%=product._id%>" method="post">
 
             <h1 id="title"><%=product.prdctName%></h1>
-            <h4 id="price">₹<%=product.prdctPrice%></h4>
+            <div style="background-color: red;color: white; padding: 5px; text-align: center; max-width: 7vmax; font-size: 1vmax; border-radius: 5px;" ><%=Number((((Number(product.MRP-product.prdctPrice))/product.MRP)*100).toFixed(1))  %>% OFF </div> 
+            <h4 style=" font-size: 1vmax; text-decoration: line-through !important; "  id="price">₹<%=product.MRP%> </h4>
+            <h4 style="font-size: 2vmax;" id="price">₹<%=product.prdctPrice%></h4>
             <input type="hidden" name="price" value="<%=product.prdctPrice%>" />
             <p id="descp"><%=product.prdctDesc%></p>
             <div class="size">
@@ -106,9 +108,15 @@
               <h5>Quantity</h5>
               <input name="quantity" type="number" min="1" value="1" />
             </div>
+            <% if (product.stock == 0) {%>
+              <button id="btn" disabled>
+                <h5>Out of Stock</h5>
+              </button>
+            <%} else {%>
             <button id="btn">
               <h5>Add to Cart</h5>
             </button>
+            <%}%>
           </form>
           <div class="size">
             <a href="https://web.whatsapp.com/"
@@ -286,7 +294,7 @@
           </div>
           <div class="dets">
             <h2 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" ><%=e.prdctName%></h2>
-            <h4 class="show">₹ <%=e.prdctPrice%></h4>
+            <h4 style="margin-top: 1vmax;" class="show">₹ <%=e.prdctPrice%></h4>
           </div>
         </div>
 

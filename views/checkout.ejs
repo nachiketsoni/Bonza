@@ -122,21 +122,31 @@
             <%} %>
           </div>
           <div class="cats txtanim2">
-            <h2>Tax</h2>
+            <h2>CGST</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹14.99</h2>
+            <h2>₹<%= (subtotal*0.025).toFixed(2) %></h2>
             <%}else{%>
-            <h2>₹00.00</h2>
+            <h2>₹0</h2>
             <%} %>
           </div>
+          <div class="cats txtanim2">
+            <h2>SGST</h2>
+
+            <% if(user.cart.length>0){%>
+            <h2>₹<%= (subtotal*0.025).toFixed(2) %></h2>
+            <%}else{%>
+            <h2>₹0</h2>
+            <%} %>
+          </div>
+         
         </div>
         <div class="total">
           <div class="cats txtanim2">
             <h2>Total</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹ <span id="finalAmt"> <%=subtotal+65-0.01 %></span></h2>
+            <h2>₹ <span id="finalAmt"> <%=subtotal+((subtotal*0.025).toFixed(2))*2+80  %></span></h2>
             <!-- <h2 >₹ <span id="finalAmt" > 100</span></h2> -->
             <%}else{%>
             <h2>₹00.00</h2>

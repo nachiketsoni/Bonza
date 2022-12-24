@@ -1,29 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
+<% include ../views/Partial/header.ejs %>
 
-    .box{
-        width: 100%;
-        height: 100%;
-        background-color: rgba(161, 161, 161, 0.152);
-        margin-top: 1vmax;
-    }
+<link rel="stylesheet" href="../stylesheets/Partial/nav.css" />
+<link rel="stylesheet" href="../stylesheets/Partial/links.css" />
+<link rel="stylesheet" href="../stylesheets/cart.css" />
+<link
+  href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="../stylesheets/Partial/header.css" />
+<style>
+  .left{
+    width: 100%;
+    overflow: auto;
+  }
+ 
+ 
 </style>
 <body>
-    
-    <div id="main">
-        <h1>All Users</h1>
-        
-        <div class="box">
+  <% include ../views/Partial/loader.ejs %> 
+  <% include ../views/Partial/search.ejs %>
+   <div id="main">
+    <div class="left">
+      <a style="cursor: pointer" href="/">
+        <i class="ri-arrow-left-s-line"></i> Back to Homepage</a
+      >
+      <h1 class="txtanim">All Users</h1>
+      <div class="box">
+        <div class="ctrg txtanim">
+          <h4 id="t">User</h4>
+          <div class="side">
+            <div class="sec">
+              <h4>Orders</h4>
+            </div>
 
+           
+            <div class="sec">
+              <h4>Phone</h4>
+            </div>
+            <div class="sec">
+              <h4>Role</h4>
+             
+            </div>
+            
+          </div>
         </div>
+        <div style="height: auto;" class="item">
+         
+          <%users.forEach((e)=>{%>
+            <div style="background-color: rgba(161, 161, 161, 0.152);margin-bottom: 2vmax; border-radius: 10px;"  id="containn">
+              
+               
+                
+                    <div class="itm txtanim">
+                    
+                      <div  class="lside">
+                        <img style="border-radius: 10px;" src="<%= e.pfp.url  %> " alt="<%= e.pfp.public_id  %>">
+                        <div style="display: flex;flex-direction: column;margin-left: 10px;" id="nam">
+                          <h4 style="font-weight: 400; font-size: 1.5vmax;" >Name : <%= e.name  %> </h4>
+                          <h4 style="font-weight: 400; font-size: 1.5vmax;" >Email : <%= e.email %> </h4>
+                        </div>
+                      </div>
+                      <div class="side">
+                        <div class="sec">
+                          <h4><%= e.myorder.length  %> </h4>
+                        </div>
+                        <div class="sec">
+                          <h4><%= e.number  %> </h4>
+                        </div>
+
+                        <div class="sec">
+                          <form action="/admin/changeRole" method="post">
+                            <input type="hidden" name="id" value="<%= e._id  %>">
+                            <select>
+                              <option style="display: none;" selected value="<%= e.role  %>"><%= e.role  %> </option>
+                              <option value="admin">admin </option>
+                              <option value="user">user</option>
+                            </select><br>
+                            <button style="padding: .3vmax; border-radius: 5px; border: 1px solid grey;">Change</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+              
+            </div>
+          <%})%>
+          
+         
+        </div>
+      </div>
+
+      <div>
 
     </div>
+    </div>
+   
+  </div>
+  
+  <% include ../views/Partial/footer.ejs %>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"
+  ></script>
+
+  <script src="../javascripts/nav.js"></script>
+
+  <script></script>
 </body>
-</html>

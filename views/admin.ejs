@@ -123,7 +123,7 @@
                   <option value="Thrifted">Thrifted</option>
                   <option value="LimitedEdition">Limited Edition</option>
                 </select>
-                <label for="floatingSelect">Category</label>
+                <label for="floatingSelect">*Category</label>
               </div>
              
              
@@ -133,8 +133,30 @@
                   type="text"
                   class="form-control"
                   id="floatingInput"
+                  required
                 />
-                <label for="floatingInput">Product Name</label>
+                <label for="floatingInput">*Product Name</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  name="stock"
+                  type="text"
+                  class="form-control"
+                  id="floatingInput"
+                  required
+                />
+                <label for="floatingInput">*Product Stock</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  name="sell"
+                  type="text"
+                  class="form-control"
+                  id="floatingInput"
+                  required
+
+                />
+                <label for="floatingInput">Number Of Product Sold (optional)</label>
               </div>
               <div class="form-floating mb-3">
                 <input
@@ -143,7 +165,25 @@
                   class="form-control"
                   id="floatingPassword"
                 />
-                <label for="floatingPassword">Product Price</label>
+                <label for="floatingPassword">*Product Price</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  name="mrp"
+                  type="number"
+                  class="form-control"
+                  id="floatingPassword"
+                />
+                <label for="floatingPassword">*MRP</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  name="delivery"
+                  type="number"
+                  class="form-control"
+                  id="floatingPassword"
+                />
+                <label for="floatingPassword">*Delivery Charges</label>
               </div>
               <!-- <div class="form-floating mb-3">
                 <input
@@ -164,7 +204,7 @@
               </div> -->
 
               <div class="mb-3">
-                <small>Images</small>
+                <small>*Images</small>
 
                 <input
                   name="prdctImg"
@@ -172,6 +212,8 @@
                   type="file"
                   id="formFileMultiple"
                   multiple
+                  required
+
                 />
               </div>
 
@@ -182,10 +224,12 @@
                   placeholder="Leave a comment here"
                   id="floatingTextarea"
                   style="height: 100px"
+                  required
+
                 ></textarea>
-                <label for="floatingTextarea">Description</label>
+                <label for="floatingTextarea">*Description</label>
               </div>
-              <label  for="floatingTextarea mt-5 d-flex justify-content-between">Features
+              <label  for="floatingTextarea mt-5 d-flex justify-content-between">*Features
                 <div id="addInp " onclick="addInp('highlight')" class="btn btn-primary  mx-4 mt-2">
                     Add Input
                   </div>
@@ -197,6 +241,8 @@
                       class="form-control"
                       placeholder="Add a highlight here"
                       id="floatingTextarea"
+                  required
+
                     />
                     <div
                       onclick="removeInp(this)"
@@ -206,7 +252,7 @@
                     </div>
                   </div>
                 </div>
-              <label  for="floatingTextarea mt-5 d-flex justify-content-between">Sizes
+              <label  for="floatingTextarea mt-5 d-flex justify-content-between">*Sizes
                 <div id="addInp " onclick="addInp('size')" class="btn btn-primary  mx-4 mt-2">
                     Add Input
                   </div>
@@ -218,6 +264,8 @@
                       class="form-control"
                       placeholder="Write Size here"
                       id="floatingTextarea"
+                  required
+
                     />
                     <div
                       onclick="removeInp(this)"
@@ -247,10 +295,11 @@
         <div  class="d-flex mt-1">
                   <input
                     
-                    name=${jagah==='highlight'?'prdctFeatures':'size'}
+                    name=${jagah=='highlight'?'prdctFeatures':'size'}
                     class="form-control"
-                    placeholder="Write Size here"
+                    placeholder="Write ${jagah=='highlight'?'highlight':'size'} here"
                     id="floatingTextarea"
+                    required
                   />
                   <div
                     onclick="removeInp(this)"

@@ -16,6 +16,7 @@
                 <a href="/newArrival"><div class="sec">New Arrivals</div> </a>
                 <a href="/oversized"><div class="sec">Oversized T-Shirts</div></a>
                 <a href="/thrifted"><div class="sec">Thrifted</div></a>
+                <a href="/LimitedEdition"><div class="sec">Limited Edition</div></a>
                 <a href="/sweatshirt"><div class="sec">Sweatshirt</div> </a>
                 <a href="/hoodies"><div class="sec">Hoodies</div> </a>
                 <a href="/custom"><div class="sec">Customisation</div> </a>

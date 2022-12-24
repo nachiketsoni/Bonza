@@ -3,14 +3,15 @@
 <link rel="stylesheet" href="../stylesheets/Partial/links.css" />
 <link rel="stylesheet" href="../stylesheets/store.css" />
 <link rel="stylesheet" href="../stylesheets/Partial/header.css" />
-<% include ../views/Partial/loader.ejs %> <% include ../views/Partial/nav.ejs %>
-<% include ../views/Partial/search.ejs %>
 <style>
   #second {
     overflow: auto;
   }
 </style>
 <body>
+  <% include ../views/Partial/loader.ejs %>
+  <% include ../views/Partial/search.ejs %>
+  <% include ../views/Partial/nav.ejs %>
   <div id="main">
     <div class="catgs">
       <div class="lef">
@@ -46,6 +47,8 @@
   </div>
 
 </body>
+<script src="../javascripts/nav.js"></script>
+
 <script
   src="https://code.jquery.com/jquery-3.6.1.min.js"
   integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
