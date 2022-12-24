@@ -108,6 +108,8 @@ router.post("/register", async (req, res) => {
       email: req.body.email,
       name: req.body.name,
       number: req.body.number,
+      gender: req.body.gender,
+      
       otp: val, 
     });
     console.log("103");
