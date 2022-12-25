@@ -301,9 +301,10 @@ a{
     padding:2vmax;
     height: auto;
   }
+
   #bakchodi li{
     margin-top: 1vmax;
-    font-size: 1vmax;
+    font-size: 1.5vmax;
   }
   .first .dets >p{
     font-size: 1.6vmax;
@@ -367,7 +368,6 @@ a{
   width:10vh ;
   height: 100%;
   font-size: 2.5vh;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -591,6 +591,10 @@ a{
       width: 40vw;
     }
     #third .item .img{
+      height:40vw;
+      width: 40vw;
+    }
+    #third .item .img img{
       height:40vw;
       width: 40vw;
     }
