@@ -91,6 +91,38 @@ router.post(
 );
 
 router.post("/register", async (req, res) => {
+  console.log("body  >>>>>>.." +  String(req.body.otp).trim() )
+  console.log("sended >>..."+ String(req.body.SendedOtp))
+  if (Number(String(req.body.otp).trim()) == Number(String(req.body.SendedOtp))) {
+
+  try{
+    let user = await userModel.findOne({ email: req.body.email });
+    if (user.email) {
+      res.render("error", { error: "User already exists", message: "User already exists" });
+    }
+  }
+  catch(err){
+  try {
+     let newUserDetails = JSON.parse(req.body.newUser)
+    //  console.log(newUserDetails)
+    var newUser = new userModel(newUserDetails);
+    console.log("newUser >>>"+newUser,"Password >>>>"+ req.body.password)
+    userModel.register(newUser, req.body.password).then(function (u) {
+      passport.authenticate("local")(req, res, () => {
+        res.redirect("/");
+      });
+    });
+  } catch (err) {
+
+    res.render("error", {error:err , message:err.message})
+  }
+}
+  } else {
+    res.render("error", { error: "OTP is incorrect", message: "OTP is incorrect" });
+  }
+});
+
+router.post("/verify",async (req, res) => {
   try{
     let user = await userModel.findOne({ email: req.body.email });
     if (user.email) {
@@ -104,41 +136,22 @@ router.post("/register", async (req, res) => {
     var html = `<h1>OTP</h1><p>${val}</p>`;
     console.log("96");
     sendMail(req.body.email, routeaddress, html);
-    var newUser = new userModel({
+    var newUser = {
       email: req.body.email,
       name: req.body.name,
       number: req.body.number,
       gender: req.body.gender,
-      
-      otp: val, 
-    });
+
+    };
     console.log("103");
-    userModel.register(newUser, req.body.password).then(function (u) {
-      passport.authenticate("local")(req, res, () => {
-        res.redirect("/verify");
-      });
-    });
+   
+    res.render("verify" ,{newUser,password :req.body.password  ,val});
   } catch (err) {
     res.render("error", {error:err , message:err.message})
   }
 }
 });
 
-router.get("/verify", (req, res) => {
-  res.render("verify");
-});
-router.post("/verify", isLoggedIn, (req, res) => {
-  if (req.body.otp == req.user.otp) {
-    // set verified to true
-    userModel
-      .findOneAndUpdate({ email: req.user.email }, { $set: { verified: true } })
-      .then(function (u) {
-        res.redirect("/");
-      });
-  } else {
-    res.redirect("/verify");
-  }
-});
 
 router.get("/logout", (req, res) => {
   req.logout(function (err) {
@@ -311,12 +324,20 @@ router.get("/cart", isLoggedIn, async (req, res, next) => {
       },
     });
     var subtotal = 0;
+    var delivery = 0;
+
     user.cart.forEach(function (data) {
       subtotal += parseInt(data.Amt * data.quantity);
     });
-    // res.json(user)
+    user.cart.forEach(function (product) {
+      delivery += Number(product.product.delivery * product.quantity);
+    });
+    console.log(delivery);
+    if (subtotal+delivery > 2000) {
+      delivery = 0;
+    }
     console.log(user);
-    res.render("cart", { user, subtotal });
+    res.render("cart", { user, subtotal ,delivery});
   } catch (error) {
     console.log(error);
   }
@@ -330,10 +351,18 @@ router.get("/checkout", isLoggedIn, async (req, res, next) => {
       },
     });
     var subtotal = 0;
+    var delivery = 0;
     user.cart.forEach(function (data) {
       subtotal += parseInt(data.Amt * data.quantity);
     });
-    res.render("checkout", { user, subtotal });
+    user.cart.forEach(function (product) {
+      delivery += parseInt(product.product.delivery * product.quantity);
+    });
+    console.log(delivery);
+    if (subtotal+delivery > 2000) {
+      delivery = 0;
+    }
+    res.render("checkout", { user, subtotal ,delivery});
   } catch (error) {
     console.log(error);
   }
@@ -346,7 +375,7 @@ router.get("/store", async (req, res, next) => {
   } catch {
     res.render("store", { allProduct });
   }
-});
+});``
 router.get("/story/:type/:ctrg", async (req, res, next) => {
   try {
     let allProduct = null;
@@ -363,8 +392,7 @@ router.get("/story/:type/:ctrg", async (req, res, next) => {
           { prdctName: { $regex: req.params.ctrg, $options: "i" } },
           { prdctDesc: { $regex: req.params.ctrg, $options: "i" } },
           { prdctFeatures: { $regex: req.params.ctrg, $options: "i" } },
-          { prdctPrice: { $regex: req.params.ctrg, $options: "i" } },
-        ],
+          ],
       });
     } else {
       allProduct = await prdctModel.find({
@@ -384,10 +412,14 @@ router.get("/story/:type/:ctrg", async (req, res, next) => {
   }
 });
 router.get("/admin", isLoggedIn, isAdmin, (req, res, next) => {
-  res.render("admin");
+  res.render("admin" , {user:req.user});
 });
 router.get("/about", (req, res, next) => {
   res.render("about");
+});
+
+router.get("/Support", (req, res, next) => {
+  res.render("help");
 });
 router.get("/custom", (req, res, next) => {
   res.render("custom");
@@ -776,6 +808,7 @@ router.post("/successOrder", isLoggedIn, async (req, res, next) => {
     phnNum,
     address,
     instruction,
+    delivery,
     typy,
   } = req.body;
   console.log(req.body);
@@ -821,6 +854,7 @@ router.post("/successOrder", isLoggedIn, async (req, res, next) => {
     payment,
     Email,
     phnNum,
+    delivery,
     Address: addressDets[0],
     status: "placed",
     DeliveryInstructions: instruction,
@@ -869,7 +903,7 @@ router.post(
   isLoggedIn,
   isAdmin,
   async (req, res, next) => {
-    const { id, name, price, desc, sizes, Ctrg, stock } = req.body;
+    const { id, name, price, desc, sizes, Ctrg, stock,MRP } = req.body;
     if (sizes.length == 1) {
       sizy = sizes.toUpperCase().trim();
     } else {
@@ -881,6 +915,7 @@ router.post(
       product.prdctPrice = price;
       product.prdctDesc = desc;
       product.prdctCtrg = Ctrg;
+      product.MRP =MRP
       product.stock = stock;
       product.sizes = sizy;
       await product.save();
@@ -930,6 +965,7 @@ router.get("/admin/allUsers",isLoggedIn,isAdmin, async (req, res, next) => {
 });
 router.post("/admin/changeRole",isLoggedIn,isAdmin, async (req, res, next) => {
   const { id, role } = req.body;
+  console.log(req.body)
   let users = await userModel.findOne({ _id: id });
   users.role = role;
   await users.save();
@@ -937,7 +973,7 @@ router.post("/admin/changeRole",isLoggedIn,isAdmin, async (req, res, next) => {
 
 });
 
-router.get("/renderSearchPage/", (req, res) => {
+router.get("/renderSearchPage", (req, res) => {
   res.render("searchItems", { searchValue: req.query.searchValue });
 });
 router.get("/thrifted", async (req, res) => {

@@ -89,13 +89,10 @@
           <div class="cats txtanim2">
             <h2>Delivery</h2>
 
-            <% if(user.cart.length>0 && subtotal >2000 ){%>
-            <h2>₹00.00  </h2>
-            <% }else if(user.cart.length>0 && subtotal >2000 ){%>
-            <h2>₹120.00  </h2>
-
-            <%}else{ %>
-            <h2>₹80</h2>
+            <% if(user.cart.length>0 ){%>
+              <h2>₹<span id="delivery" > <%=delivery%></span>.00</h2>
+              <% }else{ %>
+                <h2>₹00.00  </h2>
             <%} %>
           </div>
           <div class="cats txtanim2">
@@ -123,7 +120,7 @@
             <h2>Total</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹ <span id="tlamt"><%=subtotal+((subtotal*0.025).toFixed(2))*2+80 %></span></h2>
+            <h2>₹ <span id="tlamt"><%=subtotal+((subtotal*0.025).toFixed(2))*2+delivery %></span></h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>

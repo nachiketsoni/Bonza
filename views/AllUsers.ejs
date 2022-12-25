@@ -71,7 +71,7 @@
                         <div class="sec">
                           <form action="/admin/changeRole" method="post">
                             <input type="hidden" name="id" value="<%= e._id  %>">
-                            <select>
+                            <select name="role" >
                               <option style="display: none;" selected value="<%= e.role  %>"><%= e.role  %> </option>
                               <option value="admin">admin </option>
                               <option value="user">user</option>

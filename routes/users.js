@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema({
     },
   },
   gender: { type: String, default: "N.A." },
-  number: { type: Number, default: "N.A." },
-  altNumber: { type: Number, default: "N.A." },
+  number: { type: Number,  },
+  altNumber: { type: Number,  },
   dob: { type: String, default: "N.A." },
   secret: String,
   expiry: {

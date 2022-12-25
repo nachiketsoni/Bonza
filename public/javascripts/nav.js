@@ -9,6 +9,8 @@
                 <a href="/custom"><div class="sec">Customisation</div> </a>
                 <a href="/myorders"><div class="sec">My Orders</div> </a>
                 <a href="/about"><div class="sec">About Us</div></a>
+                <a href="/support"><div class="sec">Help & Support</div></a>
+
                 `
           }
           else{
@@ -22,6 +24,7 @@
                 <a href="/custom"><div class="sec">Customisation</div> </a>
                 <a href="/myorders"><div class="sec">My Orders</div> </a>
                 <a href="/about"><div class="sec">About Us</div></a>
+                <a href="/support"><div class="sec">Help & Support</div></a>
                 
                 `
           }

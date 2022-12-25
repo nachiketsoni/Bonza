@@ -1,4 +1,9 @@
 
+   @font-face {
+    font-family: "kob";
+    src: url(../../fonts/KOBE.OTF);
+    font-weight: 500;
+  }
 html,body{
           height: 100%;
           width: 100%;
@@ -13,7 +18,7 @@ html,body{
           font-size: 8vmax;
           font-weight: 100;
           margin: 0 1.5rem;
-          font-family:kobe;
+          font-family:kob;
 }
 #second {
           position: relative;

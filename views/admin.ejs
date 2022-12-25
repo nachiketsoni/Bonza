@@ -59,16 +59,16 @@
       <!-- Sidebar Start -->
       <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-secondary navbar-dark">
-          <a href="index.html" class="navbar-brand mx-4 mb-3">
+          <a href="/" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary">
-              <i class="fa fa-user-edit me-2"></i>Admin Panel
+            Admin Bonza
             </h3>
           </a>
           <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
               <img
                 class="rounded-circle"
-                src="img/user.jpg"
+                src="<%= user.pfp.url  %> "
                 alt=""
                 style="width: 40px; height: 40px"
               />
@@ -77,7 +77,7 @@
               ></div>
             </div>
             <div class="ms-3">
-              <h6 class="mb-0">Jhon Doe</h6>
+              <h6 class="mb-0"><%= user.name  %> </h6>
               <span>Admin</span>
             </div>
           </div>
@@ -100,6 +100,16 @@
 
       <!-- Content Start -->
       <div class="content">
+        <nav
+        class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0"
+      >
+      
+        <a href="#" class="m-1 sidebar-toggler flex-shrink-0">
+          <i class="fa fa-bars"></i>
+        </a>
+        
+        
+      </nav>
        
         <div class="col-sm-12 col-xl-6 mt-1 mx-1">
           <form

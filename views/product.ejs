@@ -61,13 +61,14 @@
           <% if(user && user.role == 'admin'){%>
             <div onclick="displayForm()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Edit <i  style="cursor: pointer;" class="ri-pencil-line"></i></div><br>
             
+            <div style="padding: 5px; background-color: black; color: white; white-space: nowrap;text-align: center; width: 25vh;" >Sold : <%=product.sell%> | Stock : <%=product.stock%></div>
             
             <form id="updtname" style="display: none;"  action="/admin/updateNaming" method="post">
               <div onclick="addsize()"  style="display: inline; cursor: pointer; padding: 5px; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="addsize">Add Size</div>
                 <button style="display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;"  type="submit">Update</button>
-                <input style="width: 90%;" type="hidden" name="id"  value="<%=product._id%>" />
-                <input style="width: 90%;" type="text" name="name" value="<%=product.prdctName%>" />
-                <select name="Ctrg" >
+                <input style="width: 90%;" required type="hidden" name="id"  value="<%=product._id%>" />
+                <input style="width: 90%;" required type="text" name="name" placeholder="Product Name" value="<%=product.prdctName%>" />
+                <select required name="Ctrg" >
                   <option style="display: none;" selected value="<%=product.prdctCtrg%>"><%=product.prdctCtrg%></option>
                   <option value="Hoodie">Hoodie</option>
                   <option value="Oversized">Oversized Tshirt</option>
@@ -75,20 +76,18 @@
                   <option value="Thrifted">Thrifted</option>
                   <option value="LimitedEdition">Limited Edition</option>
                 </select>
-                <input style="width: 90%;" type="number" name="price" value="<%=product.prdctPrice%>" />
-                <input style="width: 90%;" type="number" name="stock" value="<%=product.stock%>" />
-                <input style="width: 90%;" type="text" name="desc" value="<%=product.prdctDesc%>" />
-                <!-- <%product.prdctFeatures.forEach((e, i ) => {%>
-                  <input id="finp<%=i%>" style="width: 90%;"  type="text" name="features" value="<%=e%>" /><span onclick="removeInp('finp<%=i%>' ,'fXinp<%=i%>')" id="fXinp<%=i%>" style="padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
-                <%}); %> -->
+                <input style="width: 90%;" type="number" required placeholder="MRP" name="MRP" value="<%=product.MRP%>" />
+                <input style="width: 90%;" type="number" required placeholder="Discounted Price" name="price" value="<%=product.prdctPrice%>" />
+                <input style="width: 90%;" type="number" required placeholder="Stock" name="stock" value="<%=product.stock%>" />
+                <input style="width: 90%;" type="text" required placeholder="desc" name="desc" value="<%=product.prdctDesc%>" />
+
                 <%product.sizes.forEach((e ,i)=> {%>
-                  <input type="text" style="width: 90%;" id="sinp<%=i%>" name="sizes" value="<%=e%>" /><span onclick="removeInp('sinp<%=i%>','sXinp<%=i%>')" id="sXinp<%=i%>" style=" cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
+                  <input type="text" style="width: 90%;" id="sinp<%=i%>" placeholder="sizes" name="sizes" value="<%=e%>" /><span onclick="removeInp('sinp<%=i%>','sXinp<%=i%>')" id="sXinp<%=i%>" style=" cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
                 <%}); %>
          
               </form>
               <% }  %>
           <form id="addkart" action="/addToCart/<%=product._id%>" method="post">
-
             <h1 id="title"><%=product.prdctName%></h1>
             <div style="background-color: red;color: white; padding: 5px; text-align: center; max-width: 7vmax; font-size: 1vmax; border-radius: 5px;" ><%=Number((((Number(product.MRP-product.prdctPrice))/product.MRP)*100).toFixed(1))  %>% OFF </div> 
             <h4 style=" font-size: 1vmax; text-decoration: line-through !important; "  id="price">₹<%=product.MRP%> </h4>
@@ -109,16 +108,16 @@
               <input name="quantity" type="number" min="1" value="1" />
             </div>
             <% if (product.stock == 0) {%>
-              <button id="btn" disabled>
+              <button style="background-color: red; color: white;" id="btn" disabled>
                 <h5>Out of Stock</h5>
               </button>
             <%} else {%>
             <button id="btn">
-              <h5>Add to Cart</h5>
+              <h5 style="cursor: pointer !important;" >Add to Cart</h5>
             </button>
             <%}%>
           </form>
-          <div class="size">
+          <!-- <div class="size">
             <a href="https://web.whatsapp.com/"
               ><i class="ri-whatsapp-fill"></i></a
             ><a href="https://www.instagram.com/"
@@ -126,7 +125,7 @@
             ><a href="https://www.facebook.com/"
               ><i class="ri-facebook-fill"></i
             ></a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

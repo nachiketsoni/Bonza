@@ -116,7 +116,7 @@
             <h2>Delivery</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹50.00</h2>
+            <h2>₹<span id="delivery" > <%=delivery%></span>.00 </h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>
@@ -146,7 +146,7 @@
             <h2>Total</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹ <span id="finalAmt"> <%=subtotal+((subtotal*0.025).toFixed(2))*2+80  %></span></h2>
+            <h2>₹ <span id="finalAmt"> <%=subtotal+((subtotal*0.025).toFixed(2))*2+delivery  %></span></h2>
             <!-- <h2 >₹ <span id="finalAmt" > 100</span></h2> -->
             <%}else{%>
             <h2>₹00.00</h2>
@@ -201,7 +201,6 @@
     
     <script  >
   
-
       var orderId;
       var finalAmt = Number(
         document.getElementById("finalAmt").textContent.split(".").join("")
@@ -234,6 +233,7 @@
           Swal.fire("Please Fill All The Details", "Something Went Wrong", "failed");
         }
         else{
+     
         var options = {
           key: "rzp_test_BkPWeFB0YcGvWJ", // Enter the Key ID generated from the Dashboard
           amount: finalAmt, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -267,6 +267,7 @@
                 const Email = document.getElementById("email").value 
                 const phnNum = document.getElementById("phnNum").value 
                 const address = document.getElementById("Address").value
+                const delivery = document.getElementById("delivery").textContent
                 const instruction = document.getElementById("instruction").value 
                 const opt ={
                   url: "/successOrder",
@@ -274,7 +275,7 @@
                   headers: {
                   "Content-Type": "application/json",
                   },
-                  data: JSON.stringify({ razorpay_order_id, razorpay_payment_id,orderId,Email,phnNum,address,instruction ,typy:"Online" }),
+                  data: JSON.stringify({ razorpay_order_id, razorpay_payment_id,orderId,Email,phnNum,address,instruction,delivery ,typy:"Online" }),
                 }
 
                   $.ajax(opt).done((response)=>{
@@ -336,25 +337,28 @@
         }
         else{
         try{
-          
+     
+      
                 
-                Swal.fire("Payment Successful!", "Thankyou For Shopping", "success");
                 const Email = document.getElementById("email").value 
                 const phnNum = document.getElementById("phnNum").value 
                 const address = document.getElementById("Address").value
+                const delivery = document.getElementById("delivery").textContent
                 const instruction = document.getElementById("instruction").value 
-                console.log({ orderId,Email,phnNum,address,instruction ,typy:"COD" })
+                console.log({ orderId,Email,phnNum,address,instruction,delivery ,typy:"COD" })
                 const opt ={
                   url: "/successOrder",
                   method: "POST",
                   headers: {
                   "Content-Type": "application/json",
                   },
-                  data: JSON.stringify({ orderId,Email,phnNum,address,instruction ,typy:"COD" }),
+                  data: JSON.stringify({ orderId,Email,phnNum,address,instruction,delivery ,typy:"COD" }),
                 }
                 
 
                   $.ajax(opt).done(async(response)=>{
+                Swal.fire("Payment Successful!", "Thankyou For Shopping", "success");
+
                     console.log(response)
                     window.location.href = `/myorders`
                     

@@ -11,9 +11,9 @@
     <a href="/store">Store</a>
     <a href="/about">About Us</a>
   </div>
-  <a href="">
-    <div class="logo">
-      <img src="../images/logo3.png" alt="" />
+  <a href="/">
+    <div style="cursor: pointer !important;" class="logo">
+      <img style="cursor: pointer !important;" src="../images/logo3.png" alt="" />
       <!-- <img src="../images/bonza.png" alt="" /> -->
     </div>
   </a>
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div onclick="sidebaropen()" class="profile clicki">
-        <img class="pfp clicki" src="../../images/def.jpg" alt="" />
+        <img style="cursor: pointer !important;" class="pfp clicki" src="../../images/def.jpg" alt="" />
       </div>
     </a>
   </div>
@@ -42,14 +42,16 @@
     <div class="sidebar">
       <a href="/login">
         <div class="box">
-          <img class="pfp" src="../images/def.jpg" alt="" />
+          <img style="cursor: pointer !important;"  class="pfp" src="../images/def.jpg" alt="" />
           <h4 id="username">login/signUp</h4>
         </div>
       </a>
-      <div class="catg"></div>
+      <div style="overflow-y: auto;" class="catg"></div>
     </div>
   </div>
 </div>
+<% include
+  ./search.ejs %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"

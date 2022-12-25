@@ -19,6 +19,7 @@ const Order = new mongoose.Schema({
     location: { type: String, required: true },
     id: { type: String, required: true },
   },
+  delivery: {type:Number,required:true},
 
   items: [
     {
