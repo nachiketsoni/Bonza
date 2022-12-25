@@ -13,7 +13,6 @@ const formidable = require("formidable");
 var crypto = require("crypto");
 const { dirname } = require("path");
 const Order = require("./Order");
-const { reverse } = require("dns/promises");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
 );
