@@ -11,7 +11,6 @@ const sendMail = require("../nodemailer.js");
 const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 var crypto = require("crypto");
-const { dirname } = require("path");
 const Order = require("./Order");
 passport.use(
   new localStrategy({ usernameField: "email" }, userModel.authenticate())
@@ -35,8 +34,8 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
-      // callbackURL: "https://bonzaonstreet.herokuapp.com/google/authenticated",
-      callbackURL: "http://localhost:4000/google/authenticated",
+      callbackURL: "https://bonzaaonstreet-app-bwh2m.ondigitalocean.app/google/authenticated",
+      // callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -104,15 +103,19 @@ router.post("/register", async (req, res) => {
   try {
      let newUserDetails = JSON.parse(req.body.newUser)
     //  console.log(newUserDetails)
+    newUserDetails.verified = true;
     var newUser = new userModel(newUserDetails);
     console.log("newUser >>>"+newUser,"Password >>>>"+ req.body.password)
-    userModel.register(newUser, req.body.password).then(function (u) {
-      passport.authenticate("local")(req, res, () => {
+    
+    userModel.register(newUser, req.body.password ).then(function () {
+      passport.authenticate("local")(req, res, function () {
         res.redirect("/");
       });
+      
     });
   } catch (err) {
-
+    
+    // 103.14.124.72
     res.render("error", {error:err , message:err.message})
   }
 }

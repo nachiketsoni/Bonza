@@ -277,6 +277,10 @@
               height:45vw;
               width: 45vw;
             }
+            #second .item .img img{
+              width: 45vw;
+              height: 45vw;
+            }
             #second .item .dets{
               width: 45vw;
              

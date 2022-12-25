@@ -158,6 +158,10 @@
     height:40vw;
     width: 40vw;
   }
+  #second .item .img img{
+    width: 45vw;
+    height: 45vw;
+  }
   #second .item .dets{
     width: 40vw;
     overflow: hidden;
