@@ -156,5 +156,9 @@ html,body{
   #second .item h2{
     font-size: 10px;
   }
+  #second .item #heart{
+    height:2rem;
+    width: 2rem;
+  }
   
 }

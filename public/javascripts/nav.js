@@ -1,7 +1,10 @@
 (function onMobile(){
           if(window.innerWidth < 600){
-            document.querySelector(".catg").innerHTML=`<a href="/newArrival"><div class="sec">New Arrivals</div> </a>
+            document.querySelector(".catg").innerHTML=`
+            <a href="/"><div class="sec">Home</div> </a>
+            <a href="/newArrival"><div class="sec">New Arrivals</div> </a>
                 <a href="/store"><div class="sec">Store</div> </a>
+                <a href="/limitededition"><div class="sec"> Limited Edition</div></a>
                 <a href="/oversized"><div class="sec"> Oversized T-Shirts</div></a>
                 <a href="/thrifted"><div class="sec">Thrifted</div> </a>
                 <a href="/sweatshirt"><div class="sec">Sweatshirt</div> </a>
