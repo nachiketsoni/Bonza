@@ -55,11 +55,11 @@ passport.use(
 );
 function isAdmin(req, res, next) {
     console.log(req.user.role)
-  if (req.user.role == "admin") {
-    return next();
-  }else{
+  if (req.user.role == "user") {
     res.redirect("/");
-
+  }else{
+    
+    return next();
   }
 }
 router.get(
