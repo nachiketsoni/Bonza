@@ -60,6 +60,11 @@
         <div class="dets">
           <% if(user && user.role == 'admin'){%>
             <div onclick="displayForm()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Edit <i  style="cursor: pointer;" class="ri-pencil-line"></i></div><br>
+            <a href="/admin/delete/product/<%= product._id  %>">
+
+              <div style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" id="edith">Delete </div><br>
+
+            </a>
             
             <div style="padding: 5px; background-color: black; color: white; white-space: nowrap;text-align: center; width: 25vh;" >Sold : <%=product.sell%> | Stock : <%=product.stock%></div>
             

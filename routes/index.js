@@ -900,6 +900,19 @@ router.get("/myorders", isLoggedIn, async (req, res, next) => {
   // res.status(200).json(order.myorder);
   res.render("myorders", { Myorder: order.myorder });
 });
+router.get("/admin/delete/product/:id", isLoggedIn, async (req, res, next) => {
+  let product = await prdctModel.findOne({ _id: req.params.id })
+
+  for(let i=0;i<product.prdctImg.length;i++){
+    const imageId = product.prdctImg[i].public_id;
+    await cloudinary.v2.uploader.destroy(imageId);
+  }
+  await prdctModel.deleteOne({ _id: req.params.id });
+
+  // console.log(order.myorder[0].items[0].product.prdctName )
+  res.redirect("/store");
+  // res.status(200).json(order.myorder);
+});
 
 router.post(
   "/admin/updateNaming",
