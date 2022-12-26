@@ -12,9 +12,10 @@ const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 var crypto = require("crypto");
 const Order = require("./Order");
-passport.use(
-  new localStrategy({ usernameField: "email" }, userModel.authenticate())
-);
+// passport.use(
+//   new localStrategy({ usernameField: "email" }, userModel.authenticate())
+// );
+passport.use(userModel.createStrategy());
 
 var instance = new Razorpay({
   key_id: "rzp_test_BkPWeFB0YcGvWJ",
@@ -108,11 +109,20 @@ router.post("/register", async (req, res) => {
     var newUser = new userModel(newUserDetails);
     console.log("newUser >>>"+newUser,"Password >>>>"+ req.body.password)
     
-    userModel.register(newUser, req.body.password ).then(function () {
-      passport.authenticate("local")(req, res, function () {
-        res.redirect("/");
+    userModel.register({newUser,active:true}, req.body.password , function(err, user) {
+      if (err)  throw err; 
+      else{
+        const authenticate = userModel.authenticate();
+        authenticate(newUser.email, req.body.password, function(err, result) {
+          if (err) throw err;
+          else{
+            // res.status(200).json({message:"User registered successfully", result})
+            res.redirect("/")
+          }
       });
-      
+    }
+    
+
     });
   } catch (err) {
     
@@ -282,7 +292,7 @@ router.post("/admin/productUpload",isLoggedIn,isAdmin,
               await cloudinary.v2.uploader.upload(files.prdctImg[i].filepath, {
                 folder: `product/${newPrctName}`,
                 fetch_format: "webp",
-                quality: "30",
+                quality: "70",
               });
             allImg.push({ secure_url, public_id });
           } catch (error) {
