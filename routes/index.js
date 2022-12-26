@@ -282,7 +282,7 @@ router.post("/admin/productUpload",isLoggedIn,isAdmin,
               await cloudinary.v2.uploader.upload(files.prdctImg[i].filepath, {
                 folder: `product/${newPrctName}`,
                 fetch_format: "webp",
-                quality: "10",
+                quality: "30",
               });
             allImg.push({ secure_url, public_id });
           } catch (error) {
@@ -300,7 +300,7 @@ router.post("/admin/productUpload",isLoggedIn,isAdmin,
             stock,
             sell,
             delivery,
-            mrp,
+            MRP:mrp,
             // prdctVideo,
             // thumbnail: thumbnail,
             prdctImg: allImg,
@@ -378,7 +378,7 @@ router.get("/store", async (req, res, next) => {
   } catch {
     res.render("store", { allProduct });
   }
-});``
+});
 router.get("/story/:type/:ctrg", async (req, res, next) => {
   try {
     let allProduct = null;
@@ -641,7 +641,7 @@ router.post("/addressAdd", isLoggedIn, async (req, res, next) => {
       pincode: pincode,
       city: city,
       state: state,
-    };
+    };``
 
     const user = await userModel.findOne({ email: req.user.email });
     user.address.push(address);
@@ -669,7 +669,7 @@ router.post("/changepfp", isLoggedIn, async (req, res, next) => {
         {
           folder: `user/${user.email}`,
           fetch_format: "webp",
-          quality: "50",
+          quality: "30",
         }
       );
       user.pfp = { public_id, url: secure_url };
@@ -919,6 +919,7 @@ router.post(
       product.prdctDesc = desc;
       product.prdctCtrg = Ctrg;
       product.MRP =MRP
+      product.sell =sell
       product.stock = stock;
       product.sizes = sizy;
       await product.save();
