@@ -47,9 +47,9 @@
           </div>
           <div class="imgs">
             <%product.prdctImg.forEach((e)=>{%>
-              <a href="<%=e.secure_url%>" data-lightbox="mygallery">
-                <img src="<%=e.secure_url%>" alt="<%=e.public_id%>" />
-              </a>
+            <a href="<%=e.secure_url%>" data-lightbox="mygallery">
+              <img src="<%=e.secure_url%>" alt="<%=e.public_id%>" />
+            </a>
             <%})%>
           </div>
           <div onclick="slide(`right`)" class="slidebtn">
@@ -59,54 +59,220 @@
 
         <div class="dets">
           <% if(user && user.role == 'admin'){%>
-            <div onclick="displayForm()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Edit <i  style="cursor: pointer;" class="ri-pencil-line"></i></div><br>
-            <a href="/admin/delete/product/<%= product._id  %>">
+          <div
+            onclick="displayForm()"
+            style="
+              display: inline;
+              padding: 5px;
+              cursor: pointer;
+              width: 10vmax;
+              text-align: center;
+              background-color: black;
+              border-radius: 10px;
+              color: white;
+            "
+            id="edith"
+          >
+            Edit <i style="cursor: pointer" class="ri-pencil-line"></i>
+          </div>
+          <br />
+          <a href="/admin/delete/product/<%= product._id  %>">
+            <div
+              style="
+                display: inline;
+                padding: 5px;
+                cursor: pointer;
+                width: 10vmax;
+                text-align: center;
+                background-color: rgb(255, 0, 0);
+                border-radius: 10px;
+                color: white;
+              "
+              id="edith"
+            >
+              Delete
+            </div>
+            <br />
+          </a>
 
-              <div style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" id="edith">Delete </div><br>
+          <div
+            style="
+              padding: 5px;
+              background-color: black;
+              color: white;
+              white-space: nowrap;
+              text-align: center;
+              width: 25vh;
+            "
+          >
+            Sold : <%=product.sell%> | Stock : <%=product.stock%>
+          </div>
 
-            </a>
-            
-            <div style="padding: 5px; background-color: black; color: white; white-space: nowrap;text-align: center; width: 25vh;" >Sold : <%=product.sell%> | Stock : <%=product.stock%></div>
-            
-            <form id="updtname" style="display: none;"  action="/admin/updateNaming" method="post">
-              <div onclick="addsize()"  style="display: inline; cursor: pointer; padding: 5px; width: 10vmax; text-align: center; background-color: black; border-radius: 10px;color: white;" id="addsize">Add Size</div>
-                <button style="display: inline; padding: 5px;cursor: pointer; width: 10vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;"  type="submit">Update</button>
-                <input style="width: 90%;" required type="hidden" name="id"  value="<%=product._id%>" />
-                <input style="width: 90%;" required type="text" name="name" placeholder="Product Name" value="<%=product.prdctName%>" />
-                <select required name="Ctrg" >
-                  <option style="display: none;" selected value="<%=product.prdctCtrg%>"><%=product.prdctCtrg%></option>
-                  <option value="Hoodie">Hoodie</option>
-                  <option value="Oversized">Oversized Tshirt</option>
-                  <option value="Sweatshirt">Sweatshirt</option>
-                  <option value="Thrifted">Thrifted</option>
-                  <option value="LimitedEdition">Limited Edition</option>
-                </select>
-                <input style="width: 90%;" type="number" required placeholder="Number Of product Sold" name="sell" value="<%=product.sell%>" />
-                <input style="width: 90%;" type="number" required placeholder="MRP" name="MRP" value="<%=product.MRP%>" />
-                <input style="width: 90%;" type="number" required placeholder="Discounted Price" name="price" value="<%=product.prdctPrice%>" />
-                <input style="width: 90%;" type="number" required placeholder="Stock" name="stock" value="<%=product.stock%>" />
-                <input style="width: 90%;" type="text" required placeholder="desc" name="desc" value="<%=product.prdctDesc%>" />
+          <form
+            id="updtname"
+            style="display: none"
+            action="/admin/updateNaming"
+            method="post"
+          >
+            <div
+              onclick="addsize()"
+              style="
+                display: inline;
+                cursor: pointer;
+                padding: 5px;
+                width: 10vmax;
+                text-align: center;
+                background-color: black;
+                border-radius: 10px;
+                color: white;
+              "
+              id="addsize"
+            >
+              Add Size
+            </div>
+            <button
+              style="
+                display: inline;
+                padding: 5px;
+                cursor: pointer;
+                width: 10vmax;
+                text-align: center;
+                background-color: rgb(255, 0, 0);
+                border-radius: 10px;
+                color: white;
+              "
+              type="submit"
+            >
+              Update
+            </button>
+            <input
+              style="width: 90%"
+              required
+              type="hidden"
+              name="id"
+              value="<%=product._id%>"
+            />
+            <input
+              style="width: 90%"
+              required
+              type="text"
+              name="name"
+              placeholder="Product Name"
+              value="<%=product.prdctName%>"
+            />
+            <select required name="Ctrg">
+              <option
+                style="display: none"
+                selected
+                value="<%=product.prdctCtrg%>"
+              >
+                <%=product.prdctCtrg%>
+              </option>
+              <option value="Hoodie">Hoodie</option>
+              <option value="Oversized">Oversized Tshirt</option>
+              <option value="Sweatshirt">Sweatshirt</option>
+              <option value="Thrifted">Thrifted</option>
+              <option value="LimitedEdition">Limited Edition</option>
+            </select>
+            <input
+              style="width: 90%"
+              type="number"
+              required
+              placeholder="Number Of product Sold"
+              name="sell"
+              value="<%=product.sell%>"
+            />
+            <input
+              style="width: 90%"
+              type="number"
+              required
+              placeholder="MRP"
+              name="MRP"
+              value="<%=product.MRP%>"
+            />
+            <input
+              style="width: 90%"
+              type="number"
+              required
+              placeholder="Discounted Price"
+              name="price"
+              value="<%=product.prdctPrice%>"
+            />
+            <input
+              style="width: 90%"
+              type="number"
+              required
+              placeholder="Stock"
+              name="stock"
+              value="<%=product.stock%>"
+            />
+            <input
+              style="width: 90%"
+              type="text"
+              required
+              placeholder="desc"
+              name="desc"
+              value="<%=product.prdctDesc%>"
+            />
 
-                <%product.sizes.forEach((e ,i)=> {%>
-                  <input type="text" style="width: 90%;" id="sinp<%=i%>" placeholder="sizes" name="sizes" value="<%=e%>" /><span onclick="removeInp('sinp<%=i%>','sXinp<%=i%>')" id="sXinp<%=i%>" style=" cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
-                <%}); %>
-         
-              </form>
-              <% }  %>
+            <%product.sizes.forEach((e ,i)=> {%>
+            <input
+              type="text"
+              style="width: 90%"
+              id="sinp<%=i%>"
+              placeholder="sizes"
+              name="sizes"
+              value="<%=e%>"
+            /><span
+              onclick="removeInp('sinp<%=i%>','sXinp<%=i%>')"
+              id="sXinp<%=i%>"
+              style="
+                cursor: pointer;
+                padding: 5px;
+                width: 5vmax;
+                text-align: center;
+                background-color: rgb(255, 0, 0);
+                border-radius: 10px;
+                color: white;
+              "
+              >X</span
+            ><br />
+            <%}); %>
+          </form>
+          <% } %>
           <form id="addkart" action="/addToCart/<%=product._id%>" method="post">
             <h1 id="title"><%=product.prdctName%></h1>
-            <div style="background-color: red;color: white; padding: 5px; text-align: center; max-width: 7vmax; font-size: 1vmax; border-radius: 5px;" ><%=Number((((Number(product.MRP-product.prdctPrice))/product.MRP)*100).toFixed(1))  %>% OFF </div> 
-            <h4 style=" font-size: 1vmax; text-decoration: line-through !important; "  id="price">₹<%=product.MRP%> </h4>
-            <h4 style="font-size: 2vmax;" id="price">₹<%=product.prdctPrice%></h4>
+            <div
+              style="
+                background-color: red;
+                color: white;
+                padding: 5px;
+                text-align: center;
+                max-width: 7vmax;
+                font-size: 1vmax;
+                border-radius: 5px;
+              "
+            >
+              <%=Number((((Number(product.MRP-product.prdctPrice))/product.MRP)*100).toFixed(1))
+              %>% OFF
+            </div>
+            <h4
+              style="font-size: 1vmax; text-decoration: line-through !important"
+              id="price"
+            >
+              ₹<%=product.MRP%>
+            </h4>
+            <h4 style="font-size: 2vmax" id="price">
+              ₹<%=product.prdctPrice%>
+            </h4>
             <input type="hidden" name="price" value="<%=product.prdctPrice%>" />
             <p id="descp"><%=product.prdctDesc%></p>
             <div class="size">
               <h5>Size</h5>
               <select name="size">
                 <%product.sizes.forEach((e)=>{%>
-                  <option><%=e%></option>
+                <option><%=e%></option>
                 <%})%>
-              
               </select>
             </div>
             <div class="size">
@@ -114,12 +280,16 @@
               <input name="quantity" type="number" min="1" value="1" />
             </div>
             <% if (product.stock == 0) {%>
-              <button style="background-color: red; color: white;" id="btn" disabled>
-                <h5>Out of Stock</h5>
-              </button>
+            <button
+              style="background-color: red; color: white"
+              id="btn"
+              disabled
+            >
+              <h5>Out of Stock</h5>
+            </button>
             <%} else {%>
             <button id="btn">
-              <h5 style="cursor: pointer !important;" >Add to Cart</h5>
+              <h5 style="cursor: pointer !important">Add to Cart</h5>
             </button>
             <%}%>
           </form>
@@ -144,69 +314,119 @@
         <div onscroll="scrolly()" class="body">
           <div class="section" id="bakchodi">
             <% if(user && user.role == 'admin'){%>
-            <div onclick="EditFeature()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; height: 5vh; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Edit <i  style="cursor: pointer;" class="ri-pencil-line"></i></div>
+            <div
+              onclick="EditFeature()"
+              style="
+                display: inline;
+                padding: 5px;
+                cursor: pointer;
+                width: 10vmax;
+                height: 5vh;
+                text-align: center;
+                background-color: black;
+                border-radius: 10px;
+                color: white;
+              "
+              id="edith"
+            >
+              Edit <i style="cursor: pointer" class="ri-pencil-line"></i>
+            </div>
             <% } %>
-            <form style="display: none;" method="post" action="/admin/updateFeature" id="featureInpList" >
-              <div onclick="addFeature()" style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; height: 5vh; text-align: center; background-color: black; border-radius: 10px;color: white;" id="edith">Add highlight +</div>
-              <button style=" display: inline; padding: 5px;cursor: pointer; width: 10vmax; height: 5vh; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" id="edith">Submit </button><br>
-              <input style="width: 90%;" type="hidden" name="id"  value="<%=product._id%>" />
+            <form
+              style="display: none"
+              method="post"
+              action="/admin/updateFeature"
+              id="featureInpList"
+            >
+              <div
+                onclick="addFeature()"
+                style="
+                  display: inline;
+                  padding: 5px;
+                  cursor: pointer;
+                  width: 10vmax;
+                  height: 5vh;
+                  text-align: center;
+                  background-color: black;
+                  border-radius: 10px;
+                  color: white;
+                "
+                id="edith"
+              >
+                Add highlight +
+              </div>
+              <button
+                style="
+                  display: inline;
+                  padding: 5px;
+                  cursor: pointer;
+                  width: 10vmax;
+                  height: 5vh;
+                  text-align: center;
+                  background-color: rgb(255, 0, 0);
+                  border-radius: 10px;
+                  color: white;
+                "
+                id="edith"
+              >
+                Submit</button
+              ><br />
+              <input
+                style="width: 90%"
+                type="hidden"
+                name="id"
+                value="<%=product._id%>"
+              />
 
-              <ul  id="ulFeature"  >
+              <ul id="ulFeature">
                 <%product.prdctFeatures.forEach((e ,i)=> { %>
-                  <input  style="width: 80vw;" placeholder="add feature" id="HighInp<%=i%>" name="prdctFeatures" value="<%=e%>" /><span onclick="removeInp('HighInp<%=i%>','HighXinp<%=i%>')" id="HighXinp<%=i%>" style="cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>
-                  <% }) %>
-                </ul>
-              </form>
-            <ul id="featureList"  >
+                <input
+                  style="width: 80vw"
+                  placeholder="add feature"
+                  id="HighInp<%=i%>"
+                  name="prdctFeatures"
+                  value="<%=e%>"
+                /><span
+                  onclick="removeInp('HighInp<%=i%>','HighXinp<%=i%>')"
+                  id="HighXinp<%=i%>"
+                  style="
+                    cursor: pointer;
+                    padding: 5px;
+                    width: 5vmax;
+                    text-align: center;
+                    background-color: rgb(255, 0, 0);
+                    border-radius: 10px;
+                    color: white;
+                  "
+                  >X</span
+                ><br />
+                <% }) %>
+              </ul>
+            </form>
+            <ul id="featureList">
               <%product.prdctFeatures.forEach(e => { %>
               <li><%=e%></li>
-            
+
               <% }) %>
             </ul>
-
           </div>
 
-          <div class="section" id="sizeChart">
-            <h2>Size Chart</h2>
-            <div class="cover">
-              <div class="cat">
-                <h3>Size Guide</h3>
-                <h4>Chest Size</h4>
-                <h4>Waist Size</h4>
-                <h4>Hips Size</h4>
-              </div>
-              <div class="s">
-                <h3>S</h3>
-                <h4>34</h4>
-                <h4>34</h4>
-                <h4>34</h4>
-              </div>
-              <div class="s">
-                <h3>M</h3>
-                <h4>34</h4>
-                <h4>34</h4>
-                <h4>34</h4>
-              </div>
-              <div class="s">
-                <h3>L</h3>
-                <h4>34</h4>
-                <h4>34</h4>
-                <h4>34</h4>
-              </div>
-              <div class="s">
-                <h3>XL</h3>
-                <h4>34</h4>
-                <h4>34</h4>
-                <h4>34</h4>
-              </div>
-            </div>
+          <div  class="section" id="sizeChart">
+            <% if(product.prdctCtrg == "Hoodie" || product.prdctCtrg == "Sweatshirt" ){%> 
+            <img src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672240906/default/WhatsApp_Image_2022-12-28_at_18.01.04_hcyzjk.jpg" />
+            <%}else if(product.prdctCtrg == "Oversized"){%>
+            <img src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672242890/default/WhatsApp_Image_2022-12-28_at_18.01.03_mvkss3.jpg" />
+            <%}else{%>
+              <h2  > No Size Chart Available For This Product</h2>
+            <%}%>
+
           </div>
         </div>
       </div>
     </div>
     <!-- <div id="vid">
       https://www.youtube.com/watch?v=WNeLUngb-Xg&list=RDMMWNeLUngb-Xg&start_radio=1 -->
-      <!-- <a target="_blank" href="<%=product.prdctVideo%>">
+    <!-- <a target="_blank" href="<%=product.prdctVideo%>">
         <img
           style="cursor: pointer"
           src="<%=product.thumbnail%>"
@@ -231,9 +451,11 @@
             </h6>
           </div>
 
-          <% if(user && user.email === e.commentOwner.email || user.role == 'admin'){%>
-          <a href="/removecomment/<%=product._id%>/<%= e._id%>" id="del"
-            > <i style="cursor: pointer;" class="ri-delete-bin-4-fill"></i></a>
+          <% if(user && user.email === e.commentOwner.email || user.role ==
+          'admin'){%>
+          <a href="/removecomment/<%=product._id%>/<%= e._id%>" id="del">
+            <i style="cursor: pointer" class="ri-delete-bin-4-fill"></i
+          ></a>
           <%} %>
         </div>
 
@@ -272,37 +494,53 @@
     <h1 id="rel">Related product</h1>
     <div id="third">
       <% related.forEach(e => {%>
-        <div class="item">
-          <div class="img">
-            <div
-              onclick="wishlist(this)"
-              data-user="<%=user%>"
-              data-id="<%=e._id%>"
-              id="heart"
-            >
-              <% if(user){ %>
-                <% if(user.wishlist.includes(e._id)){%>
-                  <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>
-                <%} else if (!user.wishlist.includes(e._id)) {%>
-                      <i class="ri-heart-line"></i>
-                <%}%>
-              <%}else{%>
-                      <i class="ri-heart-line"></i>
-                <%}%>
-            
-            </div>
-            <a target="_blank" href="/product/<%=e._id%>">
-              <img class="scnd" src="<%=e.prdctImg[0].secure_url%>" alt="<%=e.prdctImg[0].public_id%>" />
+      <div class="item">
+        <div class="img">
+          <div
+            onclick="wishlist(this)"
+            data-user="<%=user%>"
+            data-id="<%=e._id%>"
+            id="heart"
+          >
+            <% if(user){ %> <% if(user.wishlist.includes(e._id)){%>
+            <lottie-player
+              src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json"
+              background="transparent"
+              speed="1"
+              autoplay
+            ></lottie-player>
+            <%} else if (!user.wishlist.includes(e._id)) {%>
+            <i class="ri-heart-line"></i>
+            <%}%> <%}else{%>
+            <i class="ri-heart-line"></i>
+            <%}%>
+          </div>
+          <a target="_blank" href="/product/<%=e._id%>">
+            <img
+              class="scnd"
+              src="<%=e.prdctImg[0].secure_url%>"
+              alt="<%=e.prdctImg[0].public_id%>"
+            />
 
-              <img  src="<%=e.prdctImg[1].secure_url%>" alt="<%=e.prdctImg[1].public_id%>" />
-            </a>
-          </div>
-          <div class="dets">
-            <h2 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" ><%=e.prdctName%></h2>
-            <h4 style="margin-top: 1vmax;" class="show">₹ <%=e.prdctPrice%></h4>
-          </div>
+            <img
+              src="<%=e.prdctImg[1].secure_url%>"
+              alt="<%=e.prdctImg[1].public_id%>"
+            />
+          </a>
         </div>
-
+        <div class="dets">
+          <h2
+            style="
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            "
+          >
+            <%=e.prdctName%>
+          </h2>
+          <h4 style="margin-top: 1vmax" class="show">₹ <%=e.prdctPrice%></h4>
+        </div>
+      </div>
 
       <% }); %>
     </div>
@@ -336,55 +574,53 @@
         await axios.get(`/addToWish/${that.dataset.id}`);
       }
     };
-   
-    var flagi =0
+
+    var flagi = 0;
     const displayForm = () => {
-      if(flagi == 0){
+      if (flagi == 0) {
         document.getElementById("updtname").style.display = "block";
         document.getElementById("addkart").style.display = "none";
-        flagi = 1
-      }else{
-      document.getElementById("updtname").style.display = "none";
-      document.getElementById("addkart").style.display = "block";
-      flagi = 0
+        flagi = 1;
+      } else {
+        document.getElementById("updtname").style.display = "none";
+        document.getElementById("addkart").style.display = "block";
+        flagi = 0;
       }
     };
-    const removeInp = (that ,cross) => {
-      
+    const removeInp = (that, cross) => {
       document.getElementById(that).remove();
       document.getElementById(cross).remove();
-      
-
     };
     var featureFlag = 0;
-    const EditFeature = ()=>{
-      if(featureFlag == 0){
+    const EditFeature = () => {
+      if (featureFlag == 0) {
         document.getElementById("featureInpList").style.display = "block";
         document.getElementById("featureList").style.display = "none";
         featureFlag = 1;
-      }else{
+      } else {
         document.getElementById("featureInpList").style.display = "none";
         document.getElementById("featureList").style.display = "block";
         featureFlag = 0;
       }
-    }
+    };
     var indi = 1;
     const addsize = () => {
-      console.log("clicked")
-      let html =  ` <input type="text" style="width: 90%;" id="addsinp${indi}" name="sizes" placeholder="Add Size"  /><span onclick="removeInp('addsinp${indi}','addsXinp${indi}')" id="addsXinp${indi}" style="padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>`
-      document.getElementById("updtname").insertAdjacentHTML("beforeend",html);
+      console.log("clicked");
+      let html = ` <input type="text" style="width: 90%;" id="addsinp${indi}" name="sizes" placeholder="Add Size"  /><span onclick="removeInp('addsinp${indi}','addsXinp${indi}')" id="addsXinp${indi}" style="padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>`;
+      document.getElementById("updtname").insertAdjacentHTML("beforeend", html);
       indi++;
     };
 
     var featureIndex = 1;
     const addFeature = () => {
-      console.log("clicked")
-      let html  = `<input  style="width: 80vw;" placeholder="add feature" id="HighAddInp${featureIndex}" name="prdctFeatures"  /><span onclick="removeInp('HighAddInp${featureIndex}','HighAddXinp${featureIndex}')" id="HighAddXinp${featureIndex}" style="cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>`
-      document.getElementById("ulFeature").insertAdjacentHTML("beforeend",html);
+      console.log("clicked");
+      let html = `<input  style="width: 80vw;" placeholder="add feature" id="HighAddInp${featureIndex}" name="prdctFeatures"  /><span onclick="removeInp('HighAddInp${featureIndex}','HighAddXinp${featureIndex}')" id="HighAddXinp${featureIndex}" style="cursor: pointer; padding: 5px; width: 5vmax; text-align: center; background-color: rgb(255, 0, 0); border-radius: 10px;color: white;" >X</span><br>`;
+      document
+        .getElementById("ulFeature")
+        .insertAdjacentHTML("beforeend", html);
       indi++;
     };
 
-   
     function openBody(elem, e) {
       var pos = e * document.querySelector(".body").offsetWidth;
       // console.log(e*document.querySelector(".body").offsetWidth, e);

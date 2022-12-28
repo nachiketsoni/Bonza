@@ -907,7 +907,6 @@ router.get("/myorders", isLoggedIn, async (req, res, next) => {
       path: "items.product",
     },
   });
-  // console.log(order.myorder[0].items[0].product.prdctName )
   // res.status(200).json(order.myorder);
   res.render("myorders", { Myorder: order.myorder });
 });
