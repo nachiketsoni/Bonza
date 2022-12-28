@@ -18,8 +18,8 @@ passport.use(
 passport.use(userModel.createStrategy());
 
 var instance = new Razorpay({
-  key_id: "rzp_live_idPZmyXzhAjT80",
-  key_secret: "qos7jqb81VOOnDXux0jDfktA",
+  key_id: process.env.RZP_KEY,
+  key_secret: process.env.RZP_SECRET,
 });
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -709,7 +709,7 @@ router.post("/forgot", function (req, res) {
       founduser.secret = sec;
       founduser.expiry = Date.now() + 3 * 100000;
       founduser.save().then(function () {
-        var routeaddress = `http://localhost:4000/forgot/${founduser._id}/${sec}`;
+        var routeaddress = `http://${process.env.DOMAIN}/forgot/${founduser._id}/${sec}`;
         sendMail(req.body.email, routeaddress).then(function () {
           res.send("Check your email");
         });
@@ -790,7 +790,7 @@ router.post("/api/payment/verify", isLoggedIn, async (req, res) => {
     let body = razorpay_order_id + "|" + razorpay_payment_id;
 
     var expectedSignature = crypto
-      .createHmac("sha256", "qos7jqb81VOOnDXux0jDfktA")
+      .createHmac("sha256", p)
       .update(body.toString())
       .digest("hex");
     console.log("sig >> " + expectedSignature);
