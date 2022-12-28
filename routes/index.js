@@ -709,7 +709,7 @@ router.post("/forgot", function (req, res) {
       founduser.secret = sec;
       founduser.expiry = Date.now() + 3 * 100000;
       founduser.save().then(function () {
-        var routeaddress = `http://${process.env.DOMAIN}/forgot/${founduser._id}/${sec}`;
+        var routeaddress = `${process.env.DOMAIN}/forgot/${founduser._id}/${sec}`;
         sendMail(req.body.email, routeaddress).then(function () {
           res.send("Check your email");
         });
@@ -930,7 +930,7 @@ router.post(
   isLoggedIn,
   isAdmin,
   async (req, res, next) => {
-    const { id, name, price, desc, sizes, Ctrg, stock,MRP } = req.body;
+    const { id, name, price, desc, sizes, Ctrg, stock,MRP,sell } = req.body;
     if (sizes.length == 1) {
       sizy = sizes.toUpperCase().trim();
     } else {
