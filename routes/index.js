@@ -18,8 +18,8 @@ passport.use(
 passport.use(userModel.createStrategy());
 
 var instance = new Razorpay({
-  key_id: "rzp_test_BkPWeFB0YcGvWJ",
-  key_secret: "TNkLevqWrFFS2YXrf4kACVnq",
+  key_id: "rzp_live_idPZmyXzhAjT80",
+  key_secret: "qos7jqb81VOOnDXux0jDfktA",
 });
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -38,7 +38,7 @@ passport.use(
       callbackURL: "https://bonzaaonstreet-app-bwh2m.ondigitalocean.app/google/authenticated",
       callbackURL: "http://bonzaonstreet.com/google/authenticated",
       callbackURL: "http://www.bonzaonstreet.com/google/authenticated",
-      callbackURL: "http://localhost:4000/google/authenticated",
+      // callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -790,7 +790,7 @@ router.post("/api/payment/verify", isLoggedIn, async (req, res) => {
     let body = razorpay_order_id + "|" + razorpay_payment_id;
 
     var expectedSignature = crypto
-      .createHmac("sha256", "TNkLevqWrFFS2YXrf4kACVnq")
+      .createHmac("sha256", "qos7jqb81VOOnDXux0jDfktA")
       .update(body.toString())
       .digest("hex");
     console.log("sig >> " + expectedSignature);
