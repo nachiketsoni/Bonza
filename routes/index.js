@@ -12,9 +12,9 @@ const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 var crypto = require("crypto");
 const Order = require("./Order");
-// passport.use(
-//   new localStrategy({ usernameField: "email" }, userModel.authenticate())
-// );
+passport.use(
+  new localStrategy({ usernameField: "email",usernameQueryFields:['email'] }, userModel.authenticate())
+);
 passport.use(userModel.createStrategy());
 
 var instance = new Razorpay({
@@ -36,7 +36,9 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
       callbackURL: "https://bonzaaonstreet-app-bwh2m.ondigitalocean.app/google/authenticated",
-      // callbackURL: "http://localhost:4000/google/authenticated",
+      callbackURL: "http://bonzaonstreet.com/google/authenticated",
+      callbackURL: "http://www.bonzaonstreet.com/google/authenticated",
+      callbackURL: "http://localhost:4000/google/authenticated",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
@@ -82,19 +84,22 @@ router.get("/login", checkLoggedIn, (req, res, next) => {
 });
 router.post(
   "/login",
-  checkLoggedIn,
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  }),
-  (req, res, next) => {}
+  checkLoggedIn,(req, res, next) => {
+  // login user 
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.render("error", { error: info.message, message: info.message });
+    req.login(user, (err) => {
+      if (err) return next(err);
+      res.redirect("/");
+    });
+  })(req, res, next);
+}
 );
 
+
+
 router.post("/register", async (req, res) => {
-  console.log("body  >>>>>>.." +  String(req.body.otp).trim() )
-  console.log("sended >>..."+ String(req.body.SendedOtp))
-  if (Number(String(req.body.otp).trim()) == Number(String(req.body.SendedOtp))) {
-
   try{
     let user = await userModel.findOne({ email: req.body.email });
     if (user.email) {
@@ -103,66 +108,62 @@ router.post("/register", async (req, res) => {
   }
   catch(err){
   try {
-     let newUserDetails = JSON.parse(req.body.newUser)
-    //  console.log(newUserDetails)
-    newUserDetails.verified = true;
-    var newUser = new userModel(newUserDetails);
-    console.log("newUser >>>"+newUser,"Password >>>>"+ req.body.password)
     
-    userModel.register({newUser,active:true}, req.body.password , function(err, user) {
-      if (err)  throw err; 
-      else{
-        const authenticate = userModel.authenticate();
-        authenticate(newUser.email, req.body.password, function(err, result) {
-          if (err) throw err;
-          else{
-            // res.status(200).json({message:"User registered successfully", result})
-            res.redirect("/")
-          }
-      });
-    }
-    
-
-    });
-  } catch (err) {
-    
-    // 103.14.124.72
-    res.render("error", {error:err , message:err.message})
-  }
-}
-  } else {
-    res.render("error", { error: "OTP is incorrect", message: "OTP is incorrect" });
-  }
-});
-
-router.post("/verify",async (req, res) => {
-  try{
-    let user = await userModel.findOne({ email: req.body.email });
-    if (user.email) {
-      res.render("error", { error: "User already exists", message: "User already exists" });
-    }
-  }
-  catch(err){
-  try {
-    var val = Math.floor(1000 + Math.random() * 9000);
-    var routeaddress = `Your OTP is ${val}`;
-    var html = `<h1>OTP</h1><p>${val}</p>`;
-    console.log("96");
-    sendMail(req.body.email, routeaddress, html);
-    var newUser = {
+    var newUser = new userModel({
       email: req.body.email,
       name: req.body.name,
       number: req.body.number,
       gender: req.body.gender,
 
-    };
-    console.log("103");
-   
-    res.render("verify" ,{newUser,password :req.body.password  ,val});
+    });
+    // register user
+
+    const user = await userModel.register(newUser, req.body.password);
+
+    // login user
+    req.login(user, (err) => {
+      if (err) return next(err);
+      res.redirect("/");
+    });
+
+    
   } catch (err) {
     res.render("error", {error:err , message:err.message})
   }
 }
+});
+
+router.get("/verify", async (req, res) => {
+
+  try {
+    var val = Math.floor(1000 + Math.random() * 9000);
+    req.user.otp = val;
+    await req.user.save();
+    var routeaddress = `Your OTP is ${val}`;
+    var html = `<h1>OTP</h1><p>${val}</p>`;
+    sendMail(req.user.email, routeaddress, html);
+
+    res.render("verify" );
+  } catch (err) {
+    res.render("error", {error:err , message:err.message})
+  }
+
+});
+
+router.post("/CheckVerify",async (req, res) => {
+ 
+  try {
+    if(req.body.otp == req.user.otp){
+      req.user.verified = true;
+      await req.user.save();
+      res.redirect("/");
+    }else{
+      res.render("error", { error: "OTP is incorrect", message: "OTP is incorrect " });
+    }
+  } catch (err) {
+    res.render("error", {error:err , message:err.message})
+  }
+
 });
 
 
@@ -191,9 +192,9 @@ router.get("/", async (req, res, next) => {
 });
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
-    if (req.user.verified) {
-      return next();
-    }
+    
+    return next();
+
   } else {
     res.redirect("/login");
   }

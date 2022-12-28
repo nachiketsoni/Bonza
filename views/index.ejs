@@ -227,6 +227,19 @@
       const r = document.querySelector("#thevideo");
       r.remove();
     }
+    const wishlist = async (that) => {
+      if (that.dataset.user == null) {
+        window.location.href = "/login";
+      } else {
+        if (that.innerHTML == `<i class="ri-heart-3-line"></i>`) {
+          that.innerHTML = `<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_4VYPxJ.json" background="transparent" speed="1" autoplay ></lottie-player>`;
+        } else {
+          that.innerHTML = `<i class="ri-heart-3-line"></i>`;
+        }
+        await axios.get(`/addToWish/${that.dataset.id}`);
+      }
+    };
+
   </script>
   <% include ../views/Partial/footer.ejs %>
 </body>

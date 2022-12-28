@@ -263,7 +263,8 @@ form .address{
     
     #main{
         flex-direction: column;
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     .left{
         width: 100%;
@@ -307,6 +308,16 @@ form .address{
         padding: 2vmax 5vmax;
         font-size: 1.8vmax;
     }
+    #addAdrs{
+        font-size: 1.8vmax;
+        padding: 1vmax 2vmax;
+        width: 20vmax;
+    }
+    #Address{
+        font-size: 1.8vmax;
+        padding: 1vmax 2vmax;
+        width: 100%;
+    }
     .center form input{
         height: 8vmax;
         font-size: 1.9vmax;
@@ -320,7 +331,7 @@ form .address{
         position: relative;
         width: 100%;
         /* height: auto; */
-        min-height: 40vmax;
+        min-height: 60vmax;
       }
     
       .right h1 {

@@ -7,10 +7,8 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="/register" method="post">
-        <input type="hidden" name="newUser" value="<%= JSON.stringify(newUser)  %> " />
-        <input type="hidden" name="SendedOtp" value="<%= val  %> " />
-        <input type="hidden" name="password" value="<%= password  %> " />
+    <form action="/CheckVerify" method="post">
+       
       <input type="text" name="otp" placeholder="Enter OTP" />
       <input type="submit" value="Verify" />
     </form>

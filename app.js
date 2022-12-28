@@ -28,8 +28,8 @@ app.use(expressSession({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(function(user, done) {done(null, user);});
-passport.deserializeUser(function(user, done) {done(null, user);});
+passport.serializeUser(usersRouter.serializeUser());
+passport.deserializeUser(usersRouter.deserializeUser());
 
 
 app.use(logger('dev'));
