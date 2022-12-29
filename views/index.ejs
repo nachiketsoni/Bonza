@@ -11,6 +11,15 @@
 
     <div id="first">
     
+      <a href="/store">
+        <div class="cntr">
+          <img
+            src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672321306/default/png_20221223_180349_0000_vwxfez.webp"
+            alt=""
+          />
+        </div>
+
+      </a>
       <a href="/oversize">
         <div class="cntr">
           <img
@@ -127,10 +136,11 @@
           The other collection is made handcrafted with a precision cut and hand
           sewn.
         </div>
-        <a id="playvid"
-          ><h1>Play Video</h1>
+        <a  id="playvid"
+          ><h1  >Play Video</h1>
           <span>
             <lottie-player
+                onclick="openVideo()"
               id="icon"
               src="https://assets2.lottiefiles.com/packages/lf20_9abbz8gz.json"
               background="transparent"
@@ -208,13 +218,14 @@
         show[i].textContent = txt[i];
       });
     });
-    document.querySelector("#icon").addEventListener("click", () => {
+    const openVideo = () => {
       document.querySelector("#konhaiham").innerHTML += `<div id="thevideo">
           <i id="close" onclick="gayab()" class="ri-close-circle-fill"></i>
           
-          <iframe id="video" src="https://www.youtube.com/embed/RQTgJRwMdKQ?enablejsapi=1&html5=1&rel=0&amp;autoplay=1""  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0" allowfullscreen></iframe>
+          <iframe id="video" src="https://res.cloudinary.com/bonzaonstreet/video/upload/v1672321375/default/adi_sir_vid_final_qsfhze.mp4?autoplay=1"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0" allowfullscreen></iframe>
         </div>`;
-    });
+    }
+    // document.querySelector("#icon").addEventListener("click",openVideo);
     function gayab() {
       const r = document.querySelector("#thevideo");
       r.remove();
