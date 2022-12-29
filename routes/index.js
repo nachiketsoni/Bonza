@@ -351,7 +351,11 @@ router.get("/cart", isLoggedIn, async (req, res, next) => {
       delivery = 0;
     }
     console.log(user);
-    res.render("cart", { user, subtotal ,delivery});
+    let cgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
+    let sgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
+    let total = Number((subtotal +delivery + cgst + sgst).toFixed(2));
+
+    res.render("cart", { user, subtotal ,delivery ,cgst,sgst, total});
   } catch (error) {
     console.log(error);
   }
@@ -376,7 +380,10 @@ router.get("/checkout", isLoggedIn, async (req, res, next) => {
     if (subtotal+delivery > 2000) {
       delivery = 0;
     }
-    res.render("checkout", { user, subtotal ,delivery});
+    let cgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
+    let sgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
+    let total = Number((subtotal +delivery + cgst + sgst).toFixed(2));
+    res.render("checkout", { user, subtotal ,delivery ,cgst,sgst, total});
   } catch (error) {
     console.log(error);
   }
@@ -863,6 +870,7 @@ router.post("/successOrder", isLoggedIn, async (req, res, next) => {
   var order = new Order({
     orderNum,
     user: user._id,
+    
     amount: orderId?.amount / 100,
     orderID: orderId?.id || razorpay_order_id, // If orderId comes then only proceed to execute for orderId.id
     payment,
@@ -1072,18 +1080,18 @@ router.post("/admin/order/statusUpdate", isLoggedIn,isAdmin, async (req, res) =>
   res.status(200).json({ message: "success" });
 });
 
-// router.get("/changef", async (req, res, next) => {
-//   let prod = await prdctModel.find();
+router.get("/changef", async (req, res, next) => {
+  let  order = await Order.find()
+  for(let i=0;i<order.length;i++){
+    if( order[i].items.length==0){
+      await Order.deleteOne({_id:order[i]._id})
+      await userModel.deleteOne({_id:order[i].user.myorder._id})
 
-//   prod.forEach(async (item) => {
-//     // item.MRP = 100
-//     item.prdctPrice = Number(item.prdctPrice)-35  ;
-//     await item.save();
-//   });
+    }
 
-
-//   res.json({ message: "success" });
-// });
+  }
+  res.send("done")
+});
 router.get("*", async (req, res, next) => {
   res.render("error");
 });

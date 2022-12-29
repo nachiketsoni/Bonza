@@ -267,6 +267,7 @@
             </h4>
             <input type="hidden" name="price" value="<%=product.prdctPrice%>" />
             <p id="descp"><%=product.prdctDesc%></p>
+            <p><span style="color: rgb(0, 212, 0);" >Free Delivery</span> On Order Above 2000</p>
             <div class="size">
               <h5>Size</h5>
               <select name="size">
@@ -413,10 +414,10 @@
 
           <div  class="section" id="sizeChart">
             <% if(product.prdctCtrg == "Hoodie" || product.prdctCtrg == "Sweatshirt" ){%> 
-            <img src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672240906/default/WhatsApp_Image_2022-12-28_at_18.01.04_hcyzjk.jpg" />
-            <%}else if(product.prdctCtrg == "Oversized"){%>
-            <img src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672242890/default/WhatsApp_Image_2022-12-28_at_18.01.03_mvkss3.jpg" />
-            <%}else{%>
+              <img src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672242890/default/WhatsApp_Image_2022-12-28_at_18.01.03_mvkss3.jpg" />
+              <%}else if(product.prdctCtrg == "Oversized"){%>
+                <img src="https://res.cloudinary.com/bonzaonstreet/image/upload/v1672240906/default/WhatsApp_Image_2022-12-28_at_18.01.04_hcyzjk.jpg" />
+                <%}else{%>
               <h2  > No Size Chart Available For This Product</h2>
             <%}%>
 

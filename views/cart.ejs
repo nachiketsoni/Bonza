@@ -90,7 +90,14 @@
             <h2>Delivery</h2>
 
             <% if(user.cart.length>0 ){%>
-              <h2>₹<span id="delivery" > <%=delivery%></span>.00</h2>
+            <% if(delivery == 0 ){%>
+            
+            <h2><span style="color: rgb(0, 227, 0); font-weight: 400;"  id="delivery" >Free Delivery</span></h2>
+
+            <%}else{%>
+            <h2>₹<span id="delivery" > <%=delivery %></span>.00</h2>
+            <%}%>
+              
               <% }else{ %>
                 <h2>₹00.00  </h2>
             <%} %>
@@ -99,7 +106,7 @@
             <h2>CGST</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹<%= (subtotal*0.025).toFixed(2) %></h2>
+            <h2>₹<%= cgst  %></h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>
@@ -108,7 +115,7 @@
             <h2>SGST</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹<%= (subtotal*0.025).toFixed(2) %></h2>
+            <h2>₹<%= sgst%></h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>
@@ -120,7 +127,7 @@
             <h2>Total</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹ <span id="tlamt"><%=subtotal+((subtotal*0.025).toFixed(2))*2+delivery %></span></h2>
+            <h2>₹ <span id="tlamt"><%=total %></span></h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>

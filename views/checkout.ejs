@@ -13,10 +13,84 @@
       rel="stylesheet"
     />
   </head>
+  <style>
+    * {
+    box-sizing: border-box;
+}
+
+#loadTrans {
+    position: absolute;
+    z-index: 9999999999999;
+    opacity: 0.8;
+    background-color: #000000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+}
+
+.kinetic {
+    position: relative;
+    height: 80px;
+    width: 80px;
+}
+
+.kinetic::after,
+.kinetic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 50px solid transparent;
+    border-bottom-color: white;
+    animation: rotateA 2s linear infinite .5s;
+}
+
+.kinetic::before {
+    transform: rotate(90deg);
+    animation: rotateB 2s linear infinite;
+}
+
+@keyframes rotateA {
+    0%, 25% {
+        transform: rotate(0deg);
+    }
+
+    50%, 75% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateB {
+    0%, 25% {
+        transform: rotate(90deg);
+    }
+
+    50%, 75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(450deg);
+    }
+}
+  </style>
 
   <body>
     <% include ../views/Partial/loader.ejs %> <% include
     ../views/Partial/addaddress.ejs %>
+    <div id="loadTrans">
+      <div class="kinetic"></div>
+    </div>
 
     <div id="main">
       <div class="left">
@@ -116,16 +190,23 @@
             <h2>Delivery</h2>
 
             <% if(user.cart.length>0 ){%>
-              <h2>₹<span id="delivery" > <%=delivery%></span>.00</h2>
-              <% }else{ %>
-                <h2>₹00.00  </h2>
-            <%} %>
+              <% if(delivery == 0 ){%>
+              
+              <h2><span style="color: rgb(0, 227, 0); font-weight: 400;"  id="delivery" >Free Delivery</span></h2>
+  
+              <%}else{%>
+              <h2>₹<span id="delivery" > <%=delivery %></span>.00</h2>
+              <%}%>
+                
+                <% }else{ %>
+                  <h2>₹00.00  </h2>
+              <%} %>
           </div>
           <div class="cats txtanim2">
             <h2>CGST</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹<%= (subtotal*0.025).toFixed(2) %></h2>
+            <h2>₹<%= cgst %></h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>
@@ -134,7 +215,7 @@
             <h2>SGST</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹<%= (subtotal*0.025).toFixed(2) %></h2>
+            <h2>₹<%= sgst %></h2>
             <%}else{%>
             <h2>₹0</h2>
             <%} %>
@@ -146,7 +227,7 @@
             <h2>Total</h2>
 
             <% if(user.cart.length>0){%>
-            <h2>₹ <span id="finalAmt"> <%=subtotal+((subtotal*0.025).toFixed(2))*2+delivery  %></span></h2>
+            <h2>₹ <span id="finalAmt"> <%=total  %></span></h2>
             <!-- <h2 >₹ <span id="finalAmt" > 100</span></h2> -->
             <%}else{%>
             <h2>₹00.00</h2>
@@ -296,7 +377,9 @@
                 // window.location.href = `/thankyou?reference=${razorpay_order_id}`;
               } 
               else {
-                alert("Payment Failed");
+        
+        document.querySelector("#loadTrans").style.display = "none";
+
                 Swal.fire("Payment Failed", "Something Went Wrong", "failed");
 
               }
@@ -325,7 +408,9 @@
           console.log(response.error.reason);
           console.log(response.error.metadata.order_id);
           console.log(response.error.metadata.payment_id);
-          Swal.fire("Payment Failed", "Something Went Wrong", "failed");
+        document.querySelector("#loadTrans").style.display = "none";
+
+          Swal.fire("Payment Failed", "Something Went Wrong , Contact To Us For Support", "failed");
 
         });
         rzp1.open();
@@ -333,8 +418,12 @@
       };
       document.querySelector("#COD").addEventListener("click",async(e)=>{
         e.preventDefault();
+        document.querySelector("#loadTrans").style.display = "flex";
         if (document.getElementById("email").value === "" || document.getElementById("phnNum").value === "" || document.getElementById("Address").value === "") {
+        document.querySelector("#loadTrans").style.display = "none";
+
           Swal.fire("Please Fill All The Details", "Something Went Wrong", "failed");
+
         }
         else{
         try{
@@ -358,6 +447,8 @@
                 
 
                   $.ajax(opt).done(async(response)=>{
+        document.querySelector("#loadTrans").style.display = "none";
+
                 Swal.fire("Payment Successful!", "Thankyou For Shopping", "success");
 
                     console.log(response)
@@ -367,6 +458,8 @@
                   })
               } 
               catch(err) {
+        document.querySelector("#loadTrans").style.display = "none";
+
                 Swal.fire("Payment Failed", "Something Went Wrong", "failed");
 
               }
