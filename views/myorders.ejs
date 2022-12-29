@@ -55,7 +55,7 @@
                 <% lo.items.forEach((e)=>{ %>
                 
                     <div class="itm txtanim">
-                    
+                      
                       <div  class="lside">
                         <a  href="/product/<%= e.product._id %>"><img style="cursor: pointer;" src="<%= e.product.prdctImg[0].secure_url %>" alt="<%= e.product.prdctImg[0].public_id %>" /></a>
                         <div style="display: flex;flex-direction: column;" id="nam">
@@ -77,6 +77,7 @@
                         <div style="color: rgb(2, 207, 2);" class="sec"><%= lo.status %></div>
                         <div class="sec"><%= lo.payment.typy  %> </div>
                       </div>
+                      <h5 style="position: absolute; left: 10%; bottom: 1%;" >Order No  :  <%= lo.orderNum  %></h5>
                       <h5 style="position: absolute; left: 10%; bottom: 1%;" >OrderID  :  <%= lo.orderID  %></h5>
                       <% if(lo.payment.typy == 'Online'){ %>
                       <h5 style="position: absolute; left: 40%; bottom: 1%;" > PaymentID  :  <%=lo.payment.PaymentID %> </h5>

@@ -1,5 +1,5 @@
 body {
-          background: rgb(99, 39, 120)
+          background-color: rgb(0, 0, 0) !important;
       }
       *{
         color: white ;
@@ -7,7 +7,7 @@ body {
       
       .form-control:focus {
           box-shadow: none;
-          border-color: #BA68C8
+          border-color: #000000
       }
       
       .profile-button {
@@ -17,7 +17,7 @@ body {
       }
       
       .profile-button:hover {
-          background: #682773
+          background: #000000
       }
       
       .profile-button:focus {
@@ -70,10 +70,6 @@ body {
             color: white !important;
       }
 
-      body{
-        background-image: url(https://images.fineartamerica.com/images-medium-large-5/jeans-texture-andrew-dernie.jpg);
-        background-size: repeat;
-      }
 
       .container{
         background: rgba( 255, 255, 255, 0.1 ) !important;
