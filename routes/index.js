@@ -342,18 +342,17 @@ router.get("/cart", isLoggedIn, async (req, res, next) => {
 
     user.cart.forEach(function (data) {
       subtotal += parseInt(data.Amt * data.quantity);
+      delivery += Number(data.product.delivery * data.quantity);
     });
-    user.cart.forEach(function (product) {
-      delivery += Number(product.product.delivery * product.quantity);
-    });
+ 
     console.log(delivery);
     if (subtotal+delivery > 2000) {
       delivery = 0;
     }
     console.log(user);
-    let cgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
-    let sgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
-    let total = Number((subtotal +delivery + cgst + sgst).toFixed(2));
+    let cgst = Number(((subtotal + Number(delivery))*0.025).toFixed(2)) ;
+    let sgst = Number(((subtotal + Number(delivery))*0.025).toFixed(2)) ;
+    let total = Number((subtotal +Number(delivery) + cgst + sgst).toFixed(2));
 
     res.render("cart", { user, subtotal ,delivery ,cgst,sgst, total});
   } catch (error) {
@@ -372,17 +371,18 @@ router.get("/checkout", isLoggedIn, async (req, res, next) => {
     var delivery = 0;
     user.cart.forEach(function (data) {
       subtotal += parseInt(data.Amt * data.quantity);
+      delivery += Number(data.product.delivery * data.quantity);
     });
-    user.cart.forEach(function (product) {
-      delivery += parseInt(product.product.delivery * product.quantity);
-    });
+ 
     console.log(delivery);
     if (subtotal+delivery > 2000) {
       delivery = 0;
     }
-    let cgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
-    let sgst = Number(((subtotal + delivery)*0.025).toFixed(2)) ;
-    let total = Number((subtotal +delivery + cgst + sgst).toFixed(2));
+    console.log(user);
+    let cgst = Number(((subtotal + Number(delivery))*0.025).toFixed(2)) ;
+    let sgst = Number(((subtotal + Number(delivery))*0.025).toFixed(2)) ;
+    let total = Number((subtotal +Number(delivery) + cgst + sgst).toFixed(2));
+
     res.render("checkout", { user, subtotal ,delivery ,cgst,sgst, total});
   } catch (error) {
     console.log(error);
