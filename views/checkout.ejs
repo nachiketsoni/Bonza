@@ -350,6 +350,9 @@
                 const phnNum = document.getElementById("phnNum").value 
                 const address = document.getElementById("Address").value
                 const delivery = document.getElementById("delivery").textContent
+                if (delivery == "Free Delivery") {
+                  delivery = 0
+                } 
                 const instruction = document.getElementById("instruction").value 
                 const opt ={
                   url: "/successOrder",
@@ -434,6 +437,9 @@
                 const phnNum = document.getElementById("phnNum").value 
                 const address = document.getElementById("Address").value
                 const delivery = document.getElementById("delivery").textContent
+                if (delivery == "Free Delivery") {
+                  delivery = 0
+                } 
                 const instruction = document.getElementById("instruction").value 
                 console.log({ orderId,Email,phnNum,address,instruction,delivery ,typy:"COD" })
                 const opt ={
