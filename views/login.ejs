@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="../stylesheets/login.css">
   <link rel="stylesheet" href="../stylesheets/Partial/header.css">
   <body>
-  <% include ../views/Partial/loader.ejs %>
 
     <section>
       <div class="container">
@@ -61,25 +60,17 @@
         </div>
       </div>
     </section>
-  </body>
+
 
 
 
   <script>
+    const toggleForm = () => {
+    const container = document.querySelector('.container');
+    container.classList.toggle('active');
+  };
   
-    // form.addEventListener('submit', (e) => {
-    //   console.log(p1, p2);
-    //   e.preventDefault();
-    //   if(p1 == p2){
 
-    //     alert('Password Matched!', p1, p2);
-
-    //     // document.getElementById('formSub').submit();
-    //   }
-    //   else{
-    //     alert('Password does not match!');
-    //   }
-    // })
    
     function checkPassword(form) {
                 password1 = form.password1.value;
@@ -100,11 +91,10 @@
                     return true;
                 }
             }
-    const toggleForm = (e) => {
-  const container = document.querySelector('.container');
-  container.classList.toggle('active');
-};
+    
+    
+
   </script>
        
-
+      </body>
 </html>

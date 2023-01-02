@@ -991,6 +991,7 @@ router.get("/admin/allOrders", isLoggedIn, isAdmin, async (req, res, next) => {
     });
 
   console.log(order);
+  // res.json(order);
   res.render("adminDashboardOrder", { order });
 });
 router.get("/admin/allUsers",isLoggedIn,isAdmin, async (req, res, next) => {
@@ -1081,15 +1082,10 @@ router.post("/admin/order/statusUpdate", isLoggedIn,isAdmin, async (req, res) =>
 });
 
 router.get("/changef", async (req, res, next) => {
-  let  order = await Order.find()
-  for(let i=0;i<order.length;i++){
-    if( order[i].items.length==0){
-      await Order.deleteOne({_id:order[i]._id})
-      await userModel.deleteOne({_id:order[i].user.myorder._id})
-
-    }
-
-  }
+  let products = await prdctModel.findOne({ _id: "63b2920c28665bb80afb6cea" });
+  products._id ="63ae705ad88468f0576dfc9f"
+  await products.save();
+  
   res.send("done")
 });
 router.get("*", async (req, res, next) => {
