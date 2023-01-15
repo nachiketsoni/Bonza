@@ -55,6 +55,7 @@
                     <div  >
                       <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order No. :  &nbsp;&nbsp;&nbsp;   #<%= lo.orderNum  %> </h4>
                       <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order Owner Name :  &nbsp;&nbsp;&nbsp;   <a style="cursor: pointer; text-decoration: underline !important;" href="/admin/user/<%=lo.user._id%>">  <%= lo.user.name %></a></h4>
+                      <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Phone Number : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <%= lo.phnNum %></h4>
                       <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order ID : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <%= lo.orderID %></h4>
                       <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order Address : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <%= lo.Address.location %></h4>
                       <h4 style=" margin-top: 7px; font-size: 1.3vmax; font-weight: 400;" >Order City : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     <%= lo.Address.city %></h4>
